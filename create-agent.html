@@ -260,8 +260,7 @@ textarea{resize:vertical;min-height:130px;line-height:1.55}
       </div>
 
       <div class="panel" style="padding:28px 32px" id="p1">
-        <div class="field"><label class="lbl">Agent name</label><input type="text" id="aname" placeholder="e.g. Nightingale"><div class="hint">Give your agent a name so it's easy to spot on the dashboard.</div></div>
-        <div class="field"><label class="lbl">Role / job title</label><input type="text" id="role" placeholder="e.g. Registered Nurse"></div>
+        <div class="field"><label class="lbl">Role / job title</label><input type="text" id="role" placeholder="e.g. Registered Nurse"><div class="hint">This is how the agent shows up on your Agents list.</div></div>
         <div class="field"><label class="lbl">Job description</label>
           <div class="jd-box"><textarea id="jd" placeholder="Write it yourself, or let the agent draft it from the title."></textarea>
           <button class="btn btn-dark btn-sm jd-gen" id="draft">&#10024; Draft with AI</button></div>
@@ -302,7 +301,7 @@ const AX=(function(){
       company:'Northwind Co',
       bannerMode:1, // 1=single, 2-5 = multiple agents waiting
       agents:[
-        {id:'a1',name:'Nightingale',role:'Registered Nurse',location:'Houston, TX · Remote OK',status:'active',
+        {id:'a1',role:'Registered Nurse',location:'Houston, TX · Remote OK',status:'active',
          jd:'We are seeking compassionate Registered Nurses to deliver patient-centered care, administer treatments, and collaborate with the care team. Full-time, competitive pay, strong benefits.',
          musthaves:['Active RN license','BLS/ACLS certification','1+ year clinical experience'],
          interviewers:['you','emily.chen@northwind.co'],availability:defAvail(),
@@ -315,12 +314,12 @@ const AX=(function(){
            cand('Jonathan Kleve','Registered Nurse','Dallas, TX','11:00 AM - 11:30 AM','upcoming'),
            cand('Rachel Foster','Registered Nurse','Houston, TX','Apr 22, 11:56 AM','interviewed')
          ]},
-        {id:'a2',name:'Atlas',role:'Warehouse Associate',location:'Dallas, TX',status:'sourcing',
+        {id:'a2',role:'Warehouse Associate',location:'Dallas, TX',status:'sourcing',
          jd:'Pick, pack, and ship orders in a fast-paced distribution center. Operate scanners, keep your zone organized, hit daily targets.',
          musthaves:['Able to lift 50 lbs','Available for early shifts','Forklift cert a plus'],
          interviewers:['you'],availability:defAvail(),
          awaiting:0,confirmed:0,interviewed:0,candidates:[]},
-        {id:'a3',name:'Lingo',role:'Bilingual Call Center Rep',location:'Remote (US)',status:'active',
+        {id:'a3',role:'Bilingual Call Center Rep',location:'Remote (US)',status:'active',
          jd:'Handle inbound customer calls in English and Spanish for a healthcare services line. Resolve billing and scheduling questions with empathy.',
          musthaves:['Fluent English + Spanish','Quiet home workspace','Customer service background'],
          interviewers:['you','maria.lopez@northwind.co','david.park@northwind.co'],availability:defAvail(),
@@ -345,7 +344,7 @@ const AX=(function(){
     return `<aside class="sidebar">
       <div class="sb-collapse" onclick="document.querySelector('.app').classList.toggle('collapsed')"><span class="xi xi-close">&times;</span><span class="xi xi-open">&#9776;</span><span class="cl-label">Collapse</span></div>
       <nav class="sb-nav">
-        <a href="index.html" class="${active==='dashboard'?'active':''}"><span class="ic">&#9638;</span><span class="lbl">Dashboard</span></a>
+        <a href="index.html" class="${active==='dashboard'?'active':''}"><span class="ic">&#9638;</span><span class="lbl">Agents</span></a>
         <a href="interviews.html" class="${active==='interviews'?'active':''}"><span class="ic">&#128101;</span><span class="lbl">Interviews</span></a>
         <a href="messaging.html" class="${active==='messaging'?'active':''}"><span class="ic">&#128172;</span><span class="lbl">Messaging</span></a>
       </nav>
@@ -367,9 +366,9 @@ function renderMh(){document.getElementById('mh').innerHTML=mh.map((m,i)=>`<div 
 window.mhEdit=(i,v)=>mh[i]=v; window.mhDel=(i)=>{mh.splice(i,1);if(!mh.length)mh=[''];renderMh();};
 document.getElementById('addMh').onclick=()=>{mh.push('');renderMh();}; renderMh();
 
-const nameEl=document.getElementById('aname'),roleEl=document.getElementById('role'),jdEl=document.getElementById('jd'),to2=document.getElementById('to2');
-function chk(){to2.disabled=!(nameEl.value.trim()&&roleEl.value.trim());}
-nameEl.addEventListener('input',chk);roleEl.addEventListener('input',chk);
+const roleEl=document.getElementById('role'),jdEl=document.getElementById('jd'),to2=document.getElementById('to2');
+function chk(){to2.disabled=!(roleEl.value.trim());}
+roleEl.addEventListener('input',chk);
 
 document.getElementById('draft').onclick=function(){
   const t=roleEl.value.trim().toLowerCase();if(t.length<2){roleEl.focus();return;}
@@ -398,8 +397,7 @@ function renderReview(){
   const days=Object.keys(avail).filter(d=>avail[d].on);
   const m=mh.map(x=>x.trim()).filter(Boolean);
   document.getElementById('review').innerHTML=`
-    <div class="review-row"><div class="k">Agent</div><div class="strong" style="font-size:18px">${E(nameEl.value.trim())}</div></div>
-    <div class="review-row"><div class="k">Role</div>${E(roleEl.value.trim())}</div>
+    <div class="review-row"><div class="k">Role</div><div class="strong" style="font-size:18px">${E(roleEl.value.trim())}</div></div>
     <div class="review-row"><div class="k">Location</div>${E(document.getElementById('loc').value.trim()||'—')}</div>
     <div class="review-row"><div class="k">Description</div>${E(jdEl.value.trim()||'—')}</div>
     <div class="review-row"><div class="k">Must-haves</div>${m.length?'<ul style="margin:4px 0 0;padding-left:18px">'+m.map(x=>'<li>'+E(x)+'</li>').join('')+'</ul>':'—'}</div>
@@ -411,7 +409,7 @@ function renderReview(){
 document.getElementById('launch').onclick=function(){
   this.disabled=true;this.innerHTML='Launching…';
   const id='a'+Date.now().toString(36);
-  AX.add({id,name:nameEl.value.trim(),role:roleEl.value.trim(),location:document.getElementById('loc').value.trim()||'—',status:'sourcing',jd:jdEl.value.trim(),musthaves:mh.map(x=>x.trim()).filter(Boolean),interviewers:interviewers.slice(),availability:avail,awaiting:0,confirmed:0,interviewed:0,candidates:[]});
+  AX.add({id,role:roleEl.value.trim(),location:document.getElementById('loc').value.trim()||'—',status:'sourcing',jd:jdEl.value.trim(),musthaves:mh.map(x=>x.trim()).filter(Boolean),interviewers:interviewers.slice(),availability:avail,awaiting:0,confirmed:0,interviewed:0,candidates:[]});
   setTimeout(()=>{location.href='index.html';},700);
 };
 chk();

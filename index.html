@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JobAgentX — Dashboard</title>
+<title>JobAgentX — Agents</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -292,7 +292,7 @@ const AX=(function(){
       company:'Northwind Co',
       bannerMode:1, // 1=single, 2-5 = multiple agents waiting
       agents:[
-        {id:'a1',name:'Nightingale',role:'Registered Nurse',location:'Houston, TX · Remote OK',status:'active',
+        {id:'a1',role:'Registered Nurse',location:'Houston, TX · Remote OK',status:'active',
          jd:'We are seeking compassionate Registered Nurses to deliver patient-centered care, administer treatments, and collaborate with the care team. Full-time, competitive pay, strong benefits.',
          musthaves:['Active RN license','BLS/ACLS certification','1+ year clinical experience'],
          interviewers:['you','emily.chen@northwind.co'],availability:defAvail(),
@@ -305,12 +305,12 @@ const AX=(function(){
            cand('Jonathan Kleve','Registered Nurse','Dallas, TX','11:00 AM - 11:30 AM','upcoming'),
            cand('Rachel Foster','Registered Nurse','Houston, TX','Apr 22, 11:56 AM','interviewed')
          ]},
-        {id:'a2',name:'Atlas',role:'Warehouse Associate',location:'Dallas, TX',status:'sourcing',
+        {id:'a2',role:'Warehouse Associate',location:'Dallas, TX',status:'sourcing',
          jd:'Pick, pack, and ship orders in a fast-paced distribution center. Operate scanners, keep your zone organized, hit daily targets.',
          musthaves:['Able to lift 50 lbs','Available for early shifts','Forklift cert a plus'],
          interviewers:['you'],availability:defAvail(),
          awaiting:0,confirmed:0,interviewed:0,candidates:[]},
-        {id:'a3',name:'Lingo',role:'Bilingual Call Center Rep',location:'Remote (US)',status:'active',
+        {id:'a3',role:'Bilingual Call Center Rep',location:'Remote (US)',status:'active',
          jd:'Handle inbound customer calls in English and Spanish for a healthcare services line. Resolve billing and scheduling questions with empathy.',
          musthaves:['Fluent English + Spanish','Quiet home workspace','Customer service background'],
          interviewers:['you','maria.lopez@northwind.co','david.park@northwind.co'],availability:defAvail(),
@@ -335,7 +335,7 @@ const AX=(function(){
     return `<aside class="sidebar">
       <div class="sb-collapse" onclick="document.querySelector('.app').classList.toggle('collapsed')"><span class="xi xi-close">&times;</span><span class="xi xi-open">&#9776;</span><span class="cl-label">Collapse</span></div>
       <nav class="sb-nav">
-        <a href="index.html" class="${active==='dashboard'?'active':''}"><span class="ic">&#9638;</span><span class="lbl">Dashboard</span></a>
+        <a href="index.html" class="${active==='dashboard'?'active':''}"><span class="ic">&#9638;</span><span class="lbl">Agents</span></a>
         <a href="interviews.html" class="${active==='interviews'?'active':''}"><span class="ic">&#128101;</span><span class="lbl">Interviews</span></a>
         <a href="messaging.html" class="${active==='messaging'?'active':''}"><span class="ic">&#128172;</span><span class="lbl">Messaging</span></a>
       </nav>
@@ -385,8 +385,7 @@ document.getElementById('rows').innerHTML=s.agents.map(a=>`
       </div>
     </td>
     <td>
-      <div class="strong" style="font-size:15px">${E(a.name)}</div>
-      <div class="sub mt6">${E(a.role)}</div>
+      <div class="strong" style="font-size:15px">${E(a.role)}</div>
       <div class="small mt6">&#128205; ${E(a.location)}</div>
     </td>
     <td>${roomCell(a)}</td>
@@ -404,7 +403,7 @@ function renderBanner(){
     if(!a){box.innerHTML='';return;}
     box.innerHTML=`<div class="banner">
       <div class="clock">&#9719;</div>
-      <div class="bt"><h4>${a.awaiting} candidates are waiting on your response for ${E(a.name)} (${E(a.role)})</h4>
+      <div class="bt"><h4>${a.awaiting} candidates are waiting on your response for ${E(a.role)}</h4>
       <p>Candidates are 87% more likely to show up when you respond within 24 hours.</p></div>
       <a class="btn btn-dark" href="interview-room.html?a=${a.id}">Review candidates &rarr;</a>
     </div>`;
@@ -416,7 +415,7 @@ function renderBanner(){
         <div class="bt"><h4>${total} candidates are waiting on your response across ${list.length} agents</h4>
         <p>Candidates are 87% more likely to show up when you respond within 24 hours.</p></div></div>
       <div class="bm-rows">${list.map(a=>`<div class="bm-row">
-        <div class="l"><b>${E(a.name)}</b> &middot; ${E(a.role)}<div class="d">${E(a.location)}</div></div>
+        <div class="l"><b>${E(a.role)}</b><div class="d">${E(a.location)}</div></div>
         <div class="r"><span class="aw">${a.awaiting} awaiting</span><a href="interview-room.html?a=${a.id}">Review &rarr;</a></div>
       </div>`).join('')}</div>
     </div>`;

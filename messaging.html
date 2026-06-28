@@ -272,7 +272,7 @@ const AX=(function(){
       company:'Northwind Co',
       bannerMode:1, // 1=single, 2-5 = multiple agents waiting
       agents:[
-        {id:'a1',name:'Nightingale',role:'Registered Nurse',location:'Houston, TX · Remote OK',status:'active',
+        {id:'a1',role:'Registered Nurse',location:'Houston, TX · Remote OK',status:'active',
          jd:'We are seeking compassionate Registered Nurses to deliver patient-centered care, administer treatments, and collaborate with the care team. Full-time, competitive pay, strong benefits.',
          musthaves:['Active RN license','BLS/ACLS certification','1+ year clinical experience'],
          interviewers:['you','emily.chen@northwind.co'],availability:defAvail(),
@@ -285,12 +285,12 @@ const AX=(function(){
            cand('Jonathan Kleve','Registered Nurse','Dallas, TX','11:00 AM - 11:30 AM','upcoming'),
            cand('Rachel Foster','Registered Nurse','Houston, TX','Apr 22, 11:56 AM','interviewed')
          ]},
-        {id:'a2',name:'Atlas',role:'Warehouse Associate',location:'Dallas, TX',status:'sourcing',
+        {id:'a2',role:'Warehouse Associate',location:'Dallas, TX',status:'sourcing',
          jd:'Pick, pack, and ship orders in a fast-paced distribution center. Operate scanners, keep your zone organized, hit daily targets.',
          musthaves:['Able to lift 50 lbs','Available for early shifts','Forklift cert a plus'],
          interviewers:['you'],availability:defAvail(),
          awaiting:0,confirmed:0,interviewed:0,candidates:[]},
-        {id:'a3',name:'Lingo',role:'Bilingual Call Center Rep',location:'Remote (US)',status:'active',
+        {id:'a3',role:'Bilingual Call Center Rep',location:'Remote (US)',status:'active',
          jd:'Handle inbound customer calls in English and Spanish for a healthcare services line. Resolve billing and scheduling questions with empathy.',
          musthaves:['Fluent English + Spanish','Quiet home workspace','Customer service background'],
          interviewers:['you','maria.lopez@northwind.co','david.park@northwind.co'],availability:defAvail(),
@@ -315,7 +315,7 @@ const AX=(function(){
     return `<aside class="sidebar">
       <div class="sb-collapse" onclick="document.querySelector('.app').classList.toggle('collapsed')"><span class="xi xi-close">&times;</span><span class="xi xi-open">&#9776;</span><span class="cl-label">Collapse</span></div>
       <nav class="sb-nav">
-        <a href="index.html" class="${active==='dashboard'?'active':''}"><span class="ic">&#9638;</span><span class="lbl">Dashboard</span></a>
+        <a href="index.html" class="${active==='dashboard'?'active':''}"><span class="ic">&#9638;</span><span class="lbl">Agents</span></a>
         <a href="interviews.html" class="${active==='interviews'?'active':''}"><span class="ic">&#128101;</span><span class="lbl">Interviews</span></a>
         <a href="messaging.html" class="${active==='messaging'?'active':''}"><span class="ic">&#128172;</span><span class="lbl">Messaging</span></a>
       </nav>
@@ -331,19 +331,19 @@ document.getElementById('side').innerHTML=AX.sidebar('messaging');
 document.getElementById('top').innerHTML=AX.topbar();
 const E=AX.esc;
 let convos=[
-  {id:'m1',name:'Sofía Ramírez',agent:'Lingo',role:'Bilingual Call Center Rep',time:'Today',msgs:[
+  {id:'m1',name:'Sofía Ramírez',agent:'Bilingual Call Center Rep',role:'Bilingual Call Center Rep',time:'Today',msgs:[
     {f:'me',t:'Hola Sofía — thanks for your interest in the Bilingual Call Center Rep role. Your healthcare background is a strong fit. Are you free for a short interview this week?'},
     {f:'them',t:'Hi! Yes, I’m available — mornings work best for me.'},
     {f:'me',t:'Perfect. Pick any open morning slot in the scheduler and you’re set. Looking forward to it!'}
   ]},
-  {id:'m2',name:'Tamara Williams',agent:'Nightingale',role:'Registered Nurse',time:'Today',msgs:[
+  {id:'m2',name:'Tamara Williams',agent:'Registered Nurse',role:'Registered Nurse',time:'Today',msgs:[
     {f:'me',t:'Hi Tamara — I’d love to move your Registered Nurse application forward. Does Thursday morning work?'},
     {f:'them',t:'Thursday is perfect, thank you!'}
   ]},
-  {id:'m3',name:'Daniel Cho',agent:'Lingo',role:'Bilingual Call Center Rep',time:'Yesterday',msgs:[
+  {id:'m3',name:'Daniel Cho',agent:'Bilingual Call Center Rep',role:'Bilingual Call Center Rep',time:'Yesterday',msgs:[
     {f:'me',t:'Hi Daniel — you’re confirmed for Thursday at 10:00 AM. Talk soon!'}
   ]},
-  {id:'m4',name:'Marcus Johnson',agent:'Nightingale',role:'Registered Nurse',time:'Mon',msgs:[
+  {id:'m4',name:'Marcus Johnson',agent:'Registered Nurse',role:'Registered Nurse',time:'Mon',msgs:[
     {f:'them',t:'Hi, is the position remote-friendly?'},
     {f:'me',t:'Hi Marcus — yes, this role offers remote flexibility. Want me to send interview times?'}
   ]}
@@ -356,7 +356,7 @@ function renderList(){
   document.getElementById('convs').innerHTML=list.map(c=>`
     <div class="conv ${c.id===active?'active':''}" onclick="open_('${c.id}')">
       <div class="top"><span class="nm">${E(c.name)}</span><span class="tm">${E(c.time)}</span></div>
-      <div class="role">${E(c.role)} &middot; ${E(c.agent)}</div>
+      <div class="role">${E(c.role)}</div>
       <div class="pv">${E(c.msgs[c.msgs.length-1].t)}</div>
     </div>`).join('')||'<div class="empty">No conversations.</div>';
 }
@@ -364,7 +364,7 @@ function renderThread(){
   const c=convos.find(x=>x.id===active);
   if(!c){document.getElementById('thread').innerHTML='<div class="empty">Select a conversation.</div>';return;}
   document.getElementById('thread').innerHTML=`
-    <div class="thread-head"><div><div class="strong">${E(c.name)}</div><div class="small">${E(c.role)} &middot; Agent: ${E(c.agent)}</div></div>
+    <div class="thread-head"><div><div class="strong">${E(c.name)}</div><div class="small">${E(c.role)}</div></div>
       <a class="link" href="#" onclick="return rsm()">View resume</a></div>
     <div class="thread-body" id="tb">${c.msgs.map(m=>`<div class="bub ${m.f==='me'?'me':'them'}">${E(m.t)}</div>`).join('')}</div>
     <div class="thread-input"><input type="text" id="mi" placeholder="Write a message…" onkeydown="if(event.key==='Enter')send()"><button class="btn btn-primary btn-sm" onclick="send()">Send</button></div>`;

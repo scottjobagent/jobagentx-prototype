@@ -269,7 +269,7 @@ const AX=(function(){
       company:'Northwind Co',
       bannerMode:1, // 1=single, 2-5 = multiple agents waiting
       agents:[
-        {id:'a1',name:'Nightingale',role:'Registered Nurse',location:'Houston, TX · Remote OK',status:'active',
+        {id:'a1',role:'Registered Nurse',location:'Houston, TX · Remote OK',status:'active',
          jd:'We are seeking compassionate Registered Nurses to deliver patient-centered care, administer treatments, and collaborate with the care team. Full-time, competitive pay, strong benefits.',
          musthaves:['Active RN license','BLS/ACLS certification','1+ year clinical experience'],
          interviewers:['you','emily.chen@northwind.co'],availability:defAvail(),
@@ -282,12 +282,12 @@ const AX=(function(){
            cand('Jonathan Kleve','Registered Nurse','Dallas, TX','11:00 AM - 11:30 AM','upcoming'),
            cand('Rachel Foster','Registered Nurse','Houston, TX','Apr 22, 11:56 AM','interviewed')
          ]},
-        {id:'a2',name:'Atlas',role:'Warehouse Associate',location:'Dallas, TX',status:'sourcing',
+        {id:'a2',role:'Warehouse Associate',location:'Dallas, TX',status:'sourcing',
          jd:'Pick, pack, and ship orders in a fast-paced distribution center. Operate scanners, keep your zone organized, hit daily targets.',
          musthaves:['Able to lift 50 lbs','Available for early shifts','Forklift cert a plus'],
          interviewers:['you'],availability:defAvail(),
          awaiting:0,confirmed:0,interviewed:0,candidates:[]},
-        {id:'a3',name:'Lingo',role:'Bilingual Call Center Rep',location:'Remote (US)',status:'active',
+        {id:'a3',role:'Bilingual Call Center Rep',location:'Remote (US)',status:'active',
          jd:'Handle inbound customer calls in English and Spanish for a healthcare services line. Resolve billing and scheduling questions with empathy.',
          musthaves:['Fluent English + Spanish','Quiet home workspace','Customer service background'],
          interviewers:['you','maria.lopez@northwind.co','david.park@northwind.co'],availability:defAvail(),
@@ -312,7 +312,7 @@ const AX=(function(){
     return `<aside class="sidebar">
       <div class="sb-collapse" onclick="document.querySelector('.app').classList.toggle('collapsed')"><span class="xi xi-close">&times;</span><span class="xi xi-open">&#9776;</span><span class="cl-label">Collapse</span></div>
       <nav class="sb-nav">
-        <a href="index.html" class="${active==='dashboard'?'active':''}"><span class="ic">&#9638;</span><span class="lbl">Dashboard</span></a>
+        <a href="index.html" class="${active==='dashboard'?'active':''}"><span class="ic">&#9638;</span><span class="lbl">Agents</span></a>
         <a href="interviews.html" class="${active==='interviews'?'active':''}"><span class="ic">&#128101;</span><span class="lbl">Interviews</span></a>
         <a href="messaging.html" class="${active==='messaging'?'active':''}"><span class="ic">&#128172;</span><span class="lbl">Messaging</span></a>
       </nav>
@@ -330,7 +330,7 @@ const E=AX.esc;let tab='upcoming',filter='all';
 const s=AX.get();
 function all(){
   let list=[];
-  s.agents.forEach(a=>{if(filter!=='all'&&a.id!==filter)return;(a.candidates||[]).forEach(c=>list.push({...c,agent:a.name,role:c.role}));});
+  s.agents.forEach(a=>{if(filter!=='all'&&a.id!==filter)return;(a.candidates||[]).forEach(c=>list.push({...c,agent:a.role,role:c.role}));});
   return list;
 }
 function bucket(st){const m={upcoming:'upcoming',pending:'awaiting',past:'interviewed'};return all().filter(c=>c.status===m[st]);}
@@ -344,11 +344,11 @@ function render(){
   const tbl=document.getElementById('tbl');
   if(!rows.length){tbl.innerHTML=`<div class="empty">You don't have ${tab} interviews. ${tab==='upcoming'?'All scheduled interviews will show up here.':''}</div>`;return;}
   if(tab==='pending'){
-    tbl.innerHTML=`<table><thead><tr><th>Name</th><th>Agent</th><th>Role</th><th>Requested time</th><th style="width:320px">Action</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${nameCell(x)}</td><td>${E(x.agent)}</td><td>${E(x.role)}</td><td>${E(x.time)} PDT</td><td><div class="row2" style="gap:8px;max-width:310px"><button class="btn btn-accept btn-xs">Accept</button><button class="btn btn-line btn-xs">Reschedule</button><button class="btn btn-line btn-xs">Decline</button></div></td></tr>`).join('')}</tbody></table>`;
+    tbl.innerHTML=`<table><thead><tr><th>Name</th><th>Role</th><th>Requested time</th><th style="width:320px">Action</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${nameCell(x)}</td><td>${E(x.role)}</td><td>${E(x.time)} PDT</td><td><div class="row2" style="gap:8px;max-width:310px"><button class="btn btn-accept btn-xs">Accept</button><button class="btn btn-line btn-xs">Reschedule</button><button class="btn btn-line btn-xs">Decline</button></div></td></tr>`).join('')}</tbody></table>`;
   }else if(tab==='upcoming'){
-    tbl.innerHTML=`<table><thead><tr><th>Name</th><th>Agent</th><th>Role</th><th>Interview time</th><th style="width:250px">Action</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${nameCell(x)}</td><td>${E(x.agent)}</td><td>${E(x.role)}</td><td>${E(x.time)} PDT</td><td><div class="row2" style="gap:8px;max-width:240px"><button class="btn btn-line btn-xs">Reschedule</button><button class="btn btn-line btn-xs">Cancel</button></div></td></tr>`).join('')}</tbody></table>`;
+    tbl.innerHTML=`<table><thead><tr><th>Name</th><th>Role</th><th>Interview time</th><th style="width:250px">Action</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${nameCell(x)}</td><td>${E(x.role)}</td><td>${E(x.time)} PDT</td><td><div class="row2" style="gap:8px;max-width:240px"><button class="btn btn-line btn-xs">Reschedule</button><button class="btn btn-line btn-xs">Cancel</button></div></td></tr>`).join('')}</tbody></table>`;
   }else{
-    tbl.innerHTML=`<table><thead><tr><th>Name</th><th>Agent</th><th>Role</th><th>Interview</th><th>Feedback</th><th style="width:150px">Action</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${nameCell(x)}</td><td>${E(x.agent)}</td><td>${E(x.role)}</td><td>${E(x.time)} PDT</td><td><span class="chip ${x.feedback==='Yes'?'active':'sourcing'}"><span class="dot"></span>${E(x.feedback||'Review')}</span></td><td><a class="link" href="messaging.html">Follow up</a></td></tr>`).join('')}</tbody></table>`;
+    tbl.innerHTML=`<table><thead><tr><th>Name</th><th>Role</th><th>Interview</th><th>Feedback</th><th style="width:150px">Action</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${nameCell(x)}</td><td>${E(x.role)}</td><td>${E(x.time)} PDT</td><td><span class="chip ${x.feedback==='Yes'?'active':'sourcing'}"><span class="dot"></span>${E(x.feedback||'Review')}</span></td><td><a class="link" href="messaging.html">Follow up</a></td></tr>`).join('')}</tbody></table>`;
   }
 }
 window.go=function(t){tab=t;render();};
@@ -357,7 +357,7 @@ window.rsm=function(){alert('Resume preview is mocked in this prototype.');retur
 document.getElementById('agentFilter').onclick=function(){
   const ids=['all',...s.agents.map(a=>a.id)];
   const i=ids.indexOf(filter);filter=ids[(i+1)%ids.length];
-  const label=filter==='all'?'All agents':AX.agent(filter).name;
+  const label=filter==='all'?'All agents':AX.agent(filter).role;
   this.innerHTML=E(label)+' <span class="ca">&#9662;</span>';render();
 };
 render();

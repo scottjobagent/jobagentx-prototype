@@ -274,7 +274,7 @@ const AX=(function(){
       company:'Northwind Co',
       bannerMode:1, // 1=single, 2-5 = multiple agents waiting
       agents:[
-        {id:'a1',name:'Nightingale',role:'Registered Nurse',location:'Houston, TX · Remote OK',status:'active',
+        {id:'a1',role:'Registered Nurse',location:'Houston, TX · Remote OK',status:'active',
          jd:'We are seeking compassionate Registered Nurses to deliver patient-centered care, administer treatments, and collaborate with the care team. Full-time, competitive pay, strong benefits.',
          musthaves:['Active RN license','BLS/ACLS certification','1+ year clinical experience'],
          interviewers:['you','emily.chen@northwind.co'],availability:defAvail(),
@@ -287,12 +287,12 @@ const AX=(function(){
            cand('Jonathan Kleve','Registered Nurse','Dallas, TX','11:00 AM - 11:30 AM','upcoming'),
            cand('Rachel Foster','Registered Nurse','Houston, TX','Apr 22, 11:56 AM','interviewed')
          ]},
-        {id:'a2',name:'Atlas',role:'Warehouse Associate',location:'Dallas, TX',status:'sourcing',
+        {id:'a2',role:'Warehouse Associate',location:'Dallas, TX',status:'sourcing',
          jd:'Pick, pack, and ship orders in a fast-paced distribution center. Operate scanners, keep your zone organized, hit daily targets.',
          musthaves:['Able to lift 50 lbs','Available for early shifts','Forklift cert a plus'],
          interviewers:['you'],availability:defAvail(),
          awaiting:0,confirmed:0,interviewed:0,candidates:[]},
-        {id:'a3',name:'Lingo',role:'Bilingual Call Center Rep',location:'Remote (US)',status:'active',
+        {id:'a3',role:'Bilingual Call Center Rep',location:'Remote (US)',status:'active',
          jd:'Handle inbound customer calls in English and Spanish for a healthcare services line. Resolve billing and scheduling questions with empathy.',
          musthaves:['Fluent English + Spanish','Quiet home workspace','Customer service background'],
          interviewers:['you','maria.lopez@northwind.co','david.park@northwind.co'],availability:defAvail(),
@@ -317,7 +317,7 @@ const AX=(function(){
     return `<aside class="sidebar">
       <div class="sb-collapse" onclick="document.querySelector('.app').classList.toggle('collapsed')"><span class="xi xi-close">&times;</span><span class="xi xi-open">&#9776;</span><span class="cl-label">Collapse</span></div>
       <nav class="sb-nav">
-        <a href="index.html" class="${active==='dashboard'?'active':''}"><span class="ic">&#9638;</span><span class="lbl">Dashboard</span></a>
+        <a href="index.html" class="${active==='dashboard'?'active':''}"><span class="ic">&#9638;</span><span class="lbl">Agents</span></a>
         <a href="interviews.html" class="${active==='interviews'?'active':''}"><span class="ic">&#128101;</span><span class="lbl">Interviews</span></a>
         <a href="messaging.html" class="${active==='messaging'?'active':''}"><span class="ic">&#128172;</span><span class="lbl">Messaging</span></a>
       </nav>
@@ -346,8 +346,8 @@ function render(){
   document.getElementById('body').innerHTML=`
     <div class="room-head">
       <div>
-        <h1>${E(a.name)} ${chip}</h1>
-        <div class="room-meta"><span>${E(a.role)}</span><span>&middot;</span><span>&#128205; ${E(a.location)}</span></div>
+        <h1>${E(a.role)} ${chip}</h1>
+        <div class="room-meta"><span>&#128205; ${E(a.location)}</span></div>
       </div>
       <button class="btn btn-ghost" onclick="openIv()">&#43; Add interviewers</button>
     </div>
