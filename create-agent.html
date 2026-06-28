@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JobAgentX — Create Agent</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>JobAgentX — Create an Agent</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -239,6 +240,46 @@ textarea{resize:vertical;min-height:130px;line-height:1.55}
 .app.collapsed .sb-nav a{justify-content:center;padding:14px 0;gap:0}
 .app.collapsed .sb-nav .lbl{display:none}
 
+/* ===== Create Agent setup flow (matches JobFairX setup-flow-v3) ===== */
+.setup-wrap{max-width:780px}
+.setup-h1{font-size:36px;font-weight:700;color:var(--text);margin:8px 0 40px;line-height:1.15}
+.req{color:#991b1b;margin-left:3px}
+.setup-q{font-size:16px;font-weight:700;color:var(--text);margin:0 0 16px}
+.setup-divider{border:none;border-top:1px solid var(--line);margin:34px 0}
+.setup-field{margin-bottom:30px}
+.setup-label{display:block;font-size:16px;font-weight:700;color:var(--text);margin-bottom:8px}
+.setup-hint{font-size:14px;color:var(--muted);margin:0 0 8px}
+.setup-input{width:100%;font-family:inherit;font-size:16px;color:var(--text);background:#fff;border:2px solid #a8a8a8;border-radius:10px;padding:14px 20px;outline:none;transition:border-color .12s}
+.setup-input::placeholder{color:#9a9a9a}
+.setup-input:focus{border-color:var(--blue)}
+.setup-selectwrap{position:relative}
+.setup-selectwrap .chev{position:absolute;right:18px;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--muted);font-size:13px}
+select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cursor:pointer}
+/* radio options */
+.opt{display:flex;align-items:flex-start;gap:13px;padding:9px 0;cursor:pointer}
+.opt input[type=radio]{appearance:none;-webkit-appearance:none;width:20px;height:20px;border:2px solid #a8a8a8;border-radius:50%;margin:1px 0 0;flex:0 0 20px;cursor:pointer;position:relative}
+.opt input[type=radio]:checked{border-color:var(--blue)}
+.opt input[type=radio]:checked:after{content:'';position:absolute;width:10px;height:10px;border-radius:50%;background:var(--blue);left:3px;top:3px}
+.opt .ot{font-size:16px;color:var(--text)}
+.save-badge{display:inline-block;background:#e8f5e9;color:#2d7a2d;font-size:12px;font-weight:700;border-radius:4px;padding:3px 9px;margin-top:6px}
+/* combobox */
+.combo{position:relative}
+.combo-list{position:absolute;left:0;right:0;top:calc(100% + 4px);background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:0 12px 30px -12px rgba(0,0,0,.25);z-index:20;max-height:260px;overflow-y:auto;display:none}
+.combo-list.show{display:block}
+.combo-list .ci{padding:11px 18px;font-size:15px;cursor:pointer}
+.combo-list .ci:hover,.combo-list .ci.active{background:var(--th-bg)}
+/* previous-agent template list */
+.tmpl-list{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+.tmpl{border:2px solid var(--line);border-radius:10px;padding:14px 18px;cursor:pointer;transition:.12s}
+.tmpl:hover{border-color:#a8a8a8}
+.tmpl.sel{border-color:var(--blue);background:#f5f8ff}
+.tmpl .tt{font-weight:700;font-size:15px}
+.tmpl .ts{font-size:13px;color:var(--muted);margin-top:2px}
+.err{color:#991b1b;font-size:13.5px;margin-top:8px;display:none}
+.err.show{display:block}
+.btn-lg{padding:14px 32px;font-size:16px}
+.setup-foot{display:flex;justify-content:flex-end;margin-top:36px}
+
 </style>
 </head>
 <body>
@@ -246,50 +287,91 @@ textarea{resize:vertical;min-height:130px;line-height:1.55}
   <div id="side"></div>
   <main class="main">
     <div id="top"></div>
-    <div class="wrap" style="max-width:780px">
-      <a class="back" href="index.html">&larr; Dashboard</a>
-      <h1>Create Agent</h1>
-      <div class="sub mt6" style="margin-bottom:22px">One agent runs one role end to end — sources candidates and books interviews for your team.</div>
+    <div class="wrap setup-wrap">
+      <a class="back" href="index.html">&larr; Agents</a>
+      <h1 class="setup-h1">Create an Agent</h1>
 
-      <div class="wiz-steps">
-        <div class="wiz-step active" id="w1"><span class="n">1</span>The role</div>
-        <div class="wiz-sep"></div>
-        <div class="wiz-step" id="w2"><span class="n">2</span>Availability &amp; team</div>
-        <div class="wiz-sep"></div>
-        <div class="wiz-step" id="w3"><span class="n">3</span>Review &amp; launch</div>
+      <!-- source -->
+      <div class="setup-q">How would you like to create your agent?<span class="req">*</span></div>
+      <label class="opt"><input type="radio" name="src" value="previous" onclick="setSrc('previous')">
+        <span class="ot">Use a previous agent as a template<br><span class="save-badge">Save time</span></span></label>
+      <label class="opt"><input type="radio" name="src" value="new" checked onclick="setSrc('new')">
+        <span class="ot">Create a brand new agent</span></label>
+
+      <div id="tmplWrap" style="display:none;margin-top:10px">
+        <div class="tmpl-list" id="tmplList"></div>
+        <div class="err" id="tmplErr">Please select an agent to use as a template.</div>
       </div>
 
-      <div class="panel" style="padding:28px 32px" id="p1">
-        <div class="field"><label class="lbl">Role / job title</label><input type="text" id="role" placeholder="e.g. Registered Nurse"><div class="hint">This is how the agent shows up on your Agents list.</div></div>
-        <div class="field"><label class="lbl">Job description</label>
-          <div class="jd-box"><textarea id="jd" placeholder="Write it yourself, or let the agent draft it from the title."></textarea>
-          <button class="btn btn-dark btn-sm jd-gen" id="draft">&#10024; Draft with AI</button></div>
-          <div class="hint">Fully editable — adjust before you launch.</div>
+      <hr class="setup-divider">
+
+      <!-- job title -->
+      <div class="setup-field">
+        <label class="setup-label">Job title<span class="req">*</span></label>
+        <div class="combo">
+          <input class="setup-input" type="text" id="jobTitle" autocomplete="off" placeholder="" oninput="filterTitles(this.value)" onfocus="filterTitles(this.value)">
+          <div class="combo-list" id="titleList"></div>
         </div>
-        <div class="field"><label class="lbl">Location</label><input type="text" id="loc" placeholder="e.g. Houston, TX — or Remote (US)"></div>
-        <div class="field"><label class="lbl">Must-have qualifications</label><div class="mh" id="mh"></div><span class="addlink" id="addMh">&#65291; Add qualification</span></div>
-        <div class="wiz-foot"><a class="btn btn-ghost" href="index.html">Cancel</a><button class="btn btn-primary" id="to2" disabled>Continue &rarr;</button></div>
+        <div class="err" id="titleErr">Add a job title.</div>
       </div>
 
-      <div class="panel" style="padding:28px 32px;display:none" id="p2">
-        <label class="lbl">Interview availability</label>
-        <div class="hint" style="margin:0 0 12px">Candidates self-schedule inside these windows.</div>
-        <div class="avail" id="avail"></div>
-        <div class="field" style="margin-top:24px"><label class="lbl">Interviewers</label>
-          <div class="hint" style="margin:0 0 10px">Your team conducts the interviews. Add as many as you need — no limit.</div>
-          <div class="ivchips" id="ivchips"></div>
-          <div class="row2"><input type="text" id="ivEmail" placeholder="interviewer@company.com"><button class="btn btn-dark btn-sm" onclick="addIv()">Add</button></div>
+      <!-- location type -->
+      <div class="setup-field">
+        <label class="setup-label">Job location type<span class="req">*</span></label>
+        <div class="setup-selectwrap">
+          <select class="setup-input" id="locType" onchange="onLocType()">
+            <option value="inperson">In person</option>
+            <option value="remote">Fully remote: no on-site work required</option>
+            <option value="hybrid">Hybrid: some on-site work required</option>
+            <option value="road">On the road</option>
+          </select>
+          <span class="chev">&#9662;</span>
         </div>
-        <div class="wiz-foot"><button class="btn btn-ghost" id="back1">&larr; Back</button><button class="btn btn-primary" id="to3">Continue &rarr;</button></div>
       </div>
 
-      <div class="panel" style="padding:28px 32px;display:none" id="p3">
-        <div id="review"></div>
-        <div class="wiz-foot"><button class="btn btn-ghost" id="back2">&larr; Back</button><button class="btn btn-primary" id="launch">&#9654; Launch Agent</button></div>
+      <!-- conditional: in person / hybrid -->
+      <div class="setup-field" id="fLoc">
+        <label class="setup-label">What is the job location?<span class="req">*</span></label>
+        <div class="setup-hint">Enter a street address or ZIP code</div>
+        <input class="setup-input" type="text" id="jobLoc">
+        <div class="err" id="locErr">Add a job location.</div>
+      </div>
+
+      <!-- conditional: remote -->
+      <div id="fRemote" style="display:none">
+        <div class="setup-field">
+          <label class="setup-label">Are employees required to reside in a specific location?</label>
+          <label class="opt"><input type="radio" name="reside" value="yes" onclick="toggleReside(true)"><span class="ot">Yes</span></label>
+          <label class="opt"><input type="radio" name="reside" value="no" checked onclick="toggleReside(false)"><span class="ot">No</span></label>
+        </div>
+        <div class="setup-field" id="fReside" style="display:none">
+          <label class="setup-label">In what location must employees reside?<span class="req">*</span></label>
+          <input class="setup-input" type="text" id="resideLoc">
+          <div class="err" id="resideErr">Add a location.</div>
+        </div>
+      </div>
+
+      <!-- conditional: on the road -->
+      <div id="fRoad" style="display:none">
+        <div class="setup-field">
+          <label class="setup-label">Does this job have a consistent starting location?</label>
+          <label class="opt"><input type="radio" name="start" value="yes" onclick="toggleStart(true)"><span class="ot">Yes</span></label>
+          <label class="opt"><input type="radio" name="start" value="no" checked onclick="toggleStart(false)"><span class="ot">No</span></label>
+        </div>
+        <div class="setup-field" id="fStart" style="display:none">
+          <label class="setup-label">Enter the street address of the starting location<span class="req">*</span></label>
+          <input class="setup-input" type="text" id="startLoc">
+          <div class="err" id="startErr">Add an address.</div>
+        </div>
+      </div>
+
+      <div class="setup-foot">
+        <button class="btn btn-primary btn-lg" id="continue" onclick="onContinue()">Continue &rarr;</button>
       </div>
     </div>
   </main>
 </div>
+
 <script>
 /* JobAgentX — shared mock data + helpers (sessionStorage) */
 const AX=(function(){
@@ -359,60 +441,78 @@ const AX=(function(){
 document.getElementById('side').innerHTML=AX.sidebar('dashboard');
 document.getElementById('top').innerHTML=AX.topbar();
 const E=AX.esc;
-const DRAFTS={'nurse':'We are seeking compassionate Registered Nurses to deliver patient-centered care, administer treatments, and collaborate with the care team. Full-time, competitive pay, strong benefits.','warehouse':'Pick, pack, and ship orders in a fast-paced distribution center. Operate scanners, keep your zone organized, and hit daily throughput targets.','call center':'Handle inbound customer calls with empathy and accuracy. Resolve billing and scheduling questions and keep customer satisfaction high.','driver':'Run daily delivery routes safely and on time. Load and unload, follow the manifest, and give every customer a friendly handoff.'};
-let mh=['',''], avail=AX.defAvail(), interviewers=['you'];
+const TITLES=['Registered Nurse','Sales Associate','Full Stack Developer','Customer Service Representative','Marketing Manager','Data Analyst','Project Manager','Accountant','Graphic Designer','Human Resources Coordinator','Warehouse Associate','Bilingual Call Center Rep','Medical Assistant'];
+let src='new', tmplId=null;
 
-function renderMh(){document.getElementById('mh').innerHTML=mh.map((m,i)=>`<div class="mh-item"><input type="text" value="${E(m)}" placeholder="e.g. Active RN license" oninput="mhEdit(${i},this.value)">${mh.length>1?`<span class="x" onclick="mhDel(${i})">&times;</span>`:''}</div>`).join('');}
-window.mhEdit=(i,v)=>mh[i]=v; window.mhDel=(i)=>{mh.splice(i,1);if(!mh.length)mh=[''];renderMh();};
-document.getElementById('addMh').onclick=()=>{mh.push('');renderMh();}; renderMh();
-
-const roleEl=document.getElementById('role'),jdEl=document.getElementById('jd'),to2=document.getElementById('to2');
-function chk(){to2.disabled=!(roleEl.value.trim());}
-roleEl.addEventListener('input',chk);
-
-document.getElementById('draft').onclick=function(){
-  const t=roleEl.value.trim().toLowerCase();if(t.length<2){roleEl.focus();return;}
-  const box=document.querySelector('.jd-box');jdEl.value='';jdEl.disabled=true;this.disabled=true;
-  const ov=document.createElement('div');ov.className='drafting';ov.innerHTML='<span style="width:14px;height:14px;border:2px solid #bcd;border-top-color:var(--blue);border-radius:50%;display:inline-block;animation:spin .8s linear infinite"></span> Drafting a description for &ldquo;'+E(roleEl.value.trim())+'&rdquo;…';
-  const st=document.createElement('style');st.textContent='@keyframes spin{to{transform:rotate(360deg)}}';document.head.appendChild(st);
-  box.appendChild(ov);
-  setTimeout(()=>{const k=Object.keys(DRAFTS).find(k=>t.includes(k));jdEl.disabled=false;jdEl.value=k?DRAFTS[k]:`We're hiring a ${roleEl.value.trim()} to join our team. You'll own the day-to-day of this role and bring reliability and care to everything you do. We'll train the right person on the specifics.`;ov.remove();document.getElementById('draft').disabled=false;},1400);
-};
-
-function renderAvail(){document.getElementById('avail').innerHTML=Object.keys(avail).map(d=>{const x=avail[d];return `<div class="day ${x.on?'':'off'}" id="row-${d}"><label class="toggle"><input type="checkbox" ${x.on?'checked':''} onchange="tg('${d}',this.checked)"><span class="tk"></span></label><span class="dn">${d}</span><div class="times"><input type="time" value="${x.start}" onchange="tm('${d}','start',this.value)"><span class="muted">to</span><input type="time" value="${x.end}" onchange="tm('${d}','end',this.value)"></div></div>`;}).join('');}
-window.tg=(d,o)=>{avail[d].on=o;document.getElementById('row-'+d).className='day '+(o?'':'off');};
-window.tm=(d,k,v)=>avail[d][k]=v;
-function renderIv(){document.getElementById('ivchips').innerHTML=interviewers.map((iv,i)=>`<div class="ivchip">${iv==='you'?'demo@jobfairx.com <span class="owner">(you)</span>':E(iv)}${iv!=='you'?`<span class="x" onclick="rmIv(${i})">&times;</span>`:''}</div>`).join('');}
-window.addIv=function(){const v=document.getElementById('ivEmail').value.trim();if(!/.+@.+\..+/.test(v))return;interviewers.push(v);document.getElementById('ivEmail').value='';renderIv();};
-window.rmIv=function(i){interviewers.splice(i,1);renderIv();};
-renderIv();
-
-function show(n){[1,2,3].forEach(i=>document.getElementById('p'+i).style.display=i===n?'block':'none');document.getElementById('w1').className='wiz-step '+(n>1?'done':(n===1?'active':''));document.getElementById('w2').className='wiz-step '+(n>2?'done':(n===2?'active':''));document.getElementById('w3').className='wiz-step '+(n===3?'active':'');window.scrollTo(0,0);}
-to2.onclick=()=>{renderAvail();show(2);};
-document.getElementById('back1').onclick=()=>show(1);
-document.getElementById('to3').onclick=()=>{renderReview();show(3);};
-document.getElementById('back2').onclick=()=>show(2);
-
-function renderReview(){
-  const days=Object.keys(avail).filter(d=>avail[d].on);
-  const m=mh.map(x=>x.trim()).filter(Boolean);
-  document.getElementById('review').innerHTML=`
-    <div class="review-row"><div class="k">Role</div><div class="strong" style="font-size:18px">${E(roleEl.value.trim())}</div></div>
-    <div class="review-row"><div class="k">Location</div>${E(document.getElementById('loc').value.trim()||'—')}</div>
-    <div class="review-row"><div class="k">Description</div>${E(jdEl.value.trim()||'—')}</div>
-    <div class="review-row"><div class="k">Must-haves</div>${m.length?'<ul style="margin:4px 0 0;padding-left:18px">'+m.map(x=>'<li>'+E(x)+'</li>').join('')+'</ul>':'—'}</div>
-    <div class="review-row"><div class="k">Interview windows</div>${days.length?days.map(d=>`<span class="tag">${d} ${avail[d].start}–${avail[d].end}</span>`).join(''):'<span style="color:var(--amber)">No days selected</span>'}</div>
-    <div class="review-row"><div class="k">Interviewers</div>${interviewers.map(iv=>`<span class="tag">${iv==='you'?'You':E(iv)}</span>`).join('')}</div>
-    <div class="review-row"><div class="k">What happens next</div><span class="muted">On launch, this agent starts sourcing immediately. Matched candidates request interviews, and your team accepts and conducts them inside your windows.</span></div>`;
+/* source toggle */
+window.setSrc=function(v){src=v;document.getElementById('tmplWrap').style.display=(v==='previous')?'block':'none';if(v==='previous')renderTmpl();hideErr('tmplErr');};
+function renderTmpl(){
+  const ags=AX.get().agents;
+  document.getElementById('tmplList').innerHTML=ags.length?ags.map(a=>`
+    <div class="tmpl ${tmplId===a.id?'sel':''}" onclick="pickTmpl('${a.id}')">
+      <div class="tt">${E(a.role)}</div><div class="ts">&#128205; ${E(a.location)}</div>
+    </div>`).join(''):'<div class="setup-hint">No previous agents yet.</div>';
 }
-
-document.getElementById('launch').onclick=function(){
-  this.disabled=true;this.innerHTML='Launching…';
-  const id='a'+Date.now().toString(36);
-  AX.add({id,role:roleEl.value.trim(),location:document.getElementById('loc').value.trim()||'—',status:'sourcing',jd:jdEl.value.trim(),musthaves:mh.map(x=>x.trim()).filter(Boolean),interviewers:interviewers.slice(),availability:avail,awaiting:0,confirmed:0,interviewed:0,candidates:[]});
-  setTimeout(()=>{location.href='index.html';},700);
+window.pickTmpl=function(id){tmplId=id;const a=AX.agent(id);renderTmpl();
+  document.getElementById('jobTitle').value=a.role;
+  document.getElementById('jobLoc').value=(a.location||'').replace(/ · Remote OK| \(US\)/,'');
+  hideErr('tmplErr');hideErr('titleErr');
 };
-chk();
+
+/* job title combobox */
+window.filterTitles=function(v){
+  const list=document.getElementById('titleList');
+  const q=v.trim().toLowerCase();
+  const matches=TITLES.filter(t=>t.toLowerCase().includes(q)).slice(0,8);
+  if(!matches.length){list.classList.remove('show');return;}
+  list.innerHTML=matches.map(t=>`<div class="ci" onmousedown="pickTitle('${t.replace(/'/g,"\\'")}')">${E(t)}</div>`).join('');
+  list.classList.add('show');
+};
+window.pickTitle=function(t){document.getElementById('jobTitle').value=t;document.getElementById('titleList').classList.remove('show');hideErr('titleErr');};
+document.addEventListener('click',e=>{if(!e.target.closest('.combo'))document.getElementById('titleList').classList.remove('show');});
+
+/* location type */
+window.onLocType=function(){
+  const t=document.getElementById('locType').value;
+  document.getElementById('fLoc').style.display=(t==='inperson'||t==='hybrid')?'block':'none';
+  document.getElementById('fRemote').style.display=(t==='remote')?'block':'none';
+  document.getElementById('fRoad').style.display=(t==='road')?'block':'none';
+};
+window.toggleReside=function(on){document.getElementById('fReside').style.display=on?'block':'none';};
+window.toggleStart=function(on){document.getElementById('fStart').style.display=on?'block':'none';};
+
+function showErr(id){document.getElementById(id).classList.add('show');}
+function hideErr(id){document.getElementById(id).classList.remove('show');}
+
+window.onContinue=function(){
+  let ok=true;
+  ['tmplErr','titleErr','locErr','resideErr','startErr'].forEach(hideErr);
+  if(src==='previous' && !tmplId){showErr('tmplErr');ok=false;}
+  const title=document.getElementById('jobTitle').value.trim();
+  if(!title){showErr('titleErr');ok=false;}
+  const t=document.getElementById('locType').value;
+  let locationStr='';
+  if(t==='inperson'||t==='hybrid'){
+    const v=document.getElementById('jobLoc').value.trim();
+    if(!v){showErr('locErr');ok=false;} else locationStr=(t==='hybrid'?'Hybrid · ':'')+v;
+  }else if(t==='remote'){
+    const reside=document.querySelector('input[name=reside]:checked').value;
+    if(reside==='yes'){const v=document.getElementById('resideLoc').value.trim();if(!v){showErr('resideErr');ok=false;}else locationStr='Remote · '+v;}
+    else locationStr='Fully remote (US)';
+  }else if(t==='road'){
+    const start=document.querySelector('input[name=start]:checked').value;
+    if(start==='yes'){const v=document.getElementById('startLoc').value.trim();if(!v){showErr('startErr');ok=false;}else locationStr='On the road · from '+v;}
+    else locationStr='On the road';
+  }
+  if(!ok)return;
+  // STOPGAP: until Step 2 is built, create the agent and return to Agents.
+  const btn=document.getElementById('continue');btn.disabled=true;btn.textContent='Saving…';
+  const id='a'+Date.now().toString(36);
+  AX.add({id,role:title,location:locationStr||'—',locationType:t,status:'sourcing',
+    jd:'',musthaves:[],interviewers:['you'],availability:AX.defAvail(),
+    awaiting:0,confirmed:0,interviewed:0,candidates:[]});
+  setTimeout(()=>{location.href='index.html';},600);
+};
 </script>
 </body>
 </html>
