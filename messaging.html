@@ -50,6 +50,7 @@ h3{font-size:16px;font-weight:700;margin:0}
 .btn-line:hover{border-color:#9a9a9a}
 /* page head */
 .head-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:28px 32px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.head-card .co{font-size:24px;font-weight:700;color:var(--text);line-height:1.2}
 .page-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;gap:16px}
 .page-head .co{font-size:24px;font-weight:700}
 /* tabs (pill) */
@@ -223,9 +224,19 @@ textarea{resize:vertical;min-height:130px;line-height:1.55}
 /* banner state pill (matches BANNER 1 2) */
 .bpill{display:inline-flex;align-items:center;gap:4px;background:var(--text);border-radius:22px;padding:6px 8px}
 .bpill .bl{color:rgba(255,255,255,.65);font-size:12px;font-weight:700;letter-spacing:.06em;padding:0 8px}
-.bpill .bn{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:rgba(255,255,255,.7);cursor:pointer;border:none;background:transparent}
+.bpill .bn{min-width:26px;height:26px;padding:0 10px;border-radius:13px;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:rgba(255,255,255,.7);cursor:pointer;border:none;background:transparent}
 .bpill .bn.on{background:#fff;color:var(--text)}
 .bcenter{display:flex;justify-content:center;margin-top:26px}
+
+/* sidebar collapse */
+.sb-collapse .xi-open{display:none}
+.app.collapsed .sidebar{width:66px;flex:0 0 66px;padding:18px 10px}
+.app.collapsed .sb-collapse{justify-content:center;gap:0}
+.app.collapsed .sb-collapse .cl-label{display:none}
+.app.collapsed .sb-collapse .xi-close{display:none}
+.app.collapsed .sb-collapse .xi-open{display:inline}
+.app.collapsed .sb-nav a{justify-content:center;padding:14px 0;gap:0}
+.app.collapsed .sb-nav .lbl{display:none}
 
 </style>
 </head>
@@ -302,11 +313,11 @@ const AX=(function(){
   function ini(n){return n.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();}
   function sidebar(active){
     return `<aside class="sidebar">
-      <div class="sb-collapse"><span class="xi">&times;</span>Collapse</div>
+      <div class="sb-collapse" onclick="document.querySelector('.app').classList.toggle('collapsed')"><span class="xi xi-close">&times;</span><span class="xi xi-open">&#9776;</span><span class="cl-label">Collapse</span></div>
       <nav class="sb-nav">
-        <a href="index.html" class="${active==='dashboard'?'active':''}"><span class="ic">&#9638;</span>Dashboard</a>
-        <a href="interviews.html" class="${active==='interviews'?'active':''}"><span class="ic">&#128101;</span>Interviews</a>
-        <a href="messaging.html" class="${active==='messaging'?'active':''}"><span class="ic">&#128172;</span>Messaging</a>
+        <a href="index.html" class="${active==='dashboard'?'active':''}"><span class="ic">&#9638;</span><span class="lbl">Dashboard</span></a>
+        <a href="interviews.html" class="${active==='interviews'?'active':''}"><span class="ic">&#128101;</span><span class="lbl">Interviews</span></a>
+        <a href="messaging.html" class="${active==='messaging'?'active':''}"><span class="ic">&#128172;</span><span class="lbl">Messaging</span></a>
       </nav>
     </aside>`;
   }
