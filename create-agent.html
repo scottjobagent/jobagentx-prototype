@@ -280,6 +280,63 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
 .btn-lg{padding:14px 32px;font-size:16px}
 .setup-foot{display:flex;justify-content:flex-end;margin-top:36px}
 
+/* ===== Create Agent flow — additional step components ===== */
+.setup-progress{display:flex;align-items:center;gap:0;margin:2px 0 30px;flex-wrap:wrap}
+.pstep{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px;font-weight:600}
+.pstep .pn{width:24px;height:24px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:12px;background:#fff}
+.pstep.active{color:var(--text)}.pstep.active .pn{background:var(--blue);border-color:var(--blue);color:#fff}
+.pstep.done{color:var(--text)}.pstep.done .pn{background:var(--green);border-color:var(--green);color:#fff}
+.pline{width:26px;height:2px;background:var(--line);margin:0 10px}
+.section-err{color:#991b1b;font-size:14px;margin:4px 0 10px;display:none}
+.section-err.show{display:block}
+/* checkbox/radio option grids */
+.optgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 24px;margin-top:4px}
+.optgrid.one{grid-template-columns:1fr}
+.checkopt{display:flex;align-items:center;gap:11px;cursor:pointer;font-size:15px;padding:6px 0}
+.checkopt input{appearance:none;-webkit-appearance:none;width:20px;height:20px;border:2px solid #a8a8a8;border-radius:5px;flex:0 0 20px;cursor:pointer;position:relative}
+.checkopt input:checked{background:var(--blue);border-color:var(--blue)}
+.checkopt input:checked:after{content:'';position:absolute;left:6px;top:2px;width:5px;height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+/* pay */
+.pay-row{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end}
+.pay-col{flex:1;min-width:150px}
+.pay-amt{position:relative}
+.pay-amt .dollar{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.pay-amt input{padding-left:30px}
+/* AI description */
+.jd-tool{display:flex;gap:6px;border:2px solid #a8a8a8;border-bottom:none;border-radius:10px 10px 0 0;padding:8px 12px;background:#faf8f3}
+.jd-tool b,.jd-tool i{width:30px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:5px;cursor:pointer;font-size:15px}
+.jd-tool b:hover,.jd-tool i:hover{background:#ece8e0}
+.jd-area{border:2px solid #a8a8a8;border-radius:0 0 10px 10px;padding:16px 18px;min-height:220px;font-size:15px;line-height:1.6;outline:none}
+.jd-area:focus{border-color:var(--blue)}
+.jd-area h4{font-size:15px;margin:14px 0 6px}
+.ai-note{font-size:12.5px;color:var(--muted);margin-top:10px;font-style:italic}
+.notice{background:#fdf6e3;border:1px solid #f0e2b8;border-radius:10px;padding:16px 18px;margin-top:20px;font-size:13.5px;color:#5a4a1a;line-height:1.55}
+.notice b{color:#3d2c1e}
+.ack{display:flex;align-items:flex-start;gap:11px;margin-top:14px;font-size:14px;cursor:pointer}
+.ack input{appearance:none;-webkit-appearance:none;width:20px;height:20px;border:2px solid #a8a8a8;border-radius:5px;flex:0 0 20px;cursor:pointer;position:relative;margin-top:1px}
+.ack input:checked{background:var(--blue);border-color:var(--blue)}
+.ack input:checked:after{content:'';position:absolute;left:6px;top:2px;width:5px;height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+/* review tables */
+.rev-table{width:100%;border-collapse:collapse;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.rev-table td{padding:14px 18px;border-bottom:1px solid var(--line-soft);font-size:14px;vertical-align:top}
+.rev-table tr:last-child td{border-bottom:none}
+.rev-table td.k{width:200px;color:var(--muted);font-weight:600;background:var(--th-bg)}
+.rev-h{font-size:18px;font-weight:700;margin:0 0 14px}
+/* interview settings rows */
+.iset{border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin-bottom:14px}
+.iset .it{font-weight:700;font-size:15px;margin-bottom:4px}
+.iset .id{font-size:13px;color:var(--muted);margin-bottom:12px}
+.iset-row{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.email-chips{display:flex;flex-wrap:wrap;gap:9px;margin:8px 0}
+.email-chip{display:flex;align-items:center;gap:9px;background:#f5f4f1;border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:13.5px}
+.email-chip .x{color:var(--muted);cursor:pointer}.email-chip .x:hover{color:#991b1b}
+.estimate{background:#eef3fb;border:1px solid #cfdcf0;border-radius:8px;padding:11px 14px;font-size:13.5px;color:var(--ink-2);margin-top:8px}
+/* screening empty */
+.screen-empty{border:1px dashed var(--line);border-radius:10px;padding:24px;text-align:center;color:var(--muted)}
+.screen-job{border:1px solid var(--line);border-radius:10px;padding:16px 18px;display:flex;justify-content:space-between;align-items:center}
+.modal select.setup-input,.modal input.setup-input{font-size:15px;padding:11px 14px;border-width:1px;border-radius:8px}
+.modal .setup-field{margin-bottom:16px}
+
 </style>
 </head>
 <body>
@@ -288,89 +345,265 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
   <main class="main">
     <div id="top"></div>
     <div class="wrap setup-wrap">
-      <a class="back" href="index.html">&larr; Agents</a>
-      <h1 class="setup-h1">Create an Agent</h1>
+      <a class="back" href="index.html" id="topback">&larr; Agents</a>
 
-      <!-- source -->
-      <div class="setup-q">How would you like to create your agent?<span class="req">*</span></div>
-      <label class="opt"><input type="radio" name="src" value="previous" onclick="setSrc('previous')">
-        <span class="ot">Use a previous agent as a template<br><span class="save-badge">Save time</span></span></label>
-      <label class="opt"><input type="radio" name="src" value="new" checked onclick="setSrc('new')">
-        <span class="ot">Create a brand new agent</span></label>
-
-      <div id="tmplWrap" style="display:none;margin-top:10px">
-        <div class="tmpl-list" id="tmplList"></div>
-        <div class="err" id="tmplErr">Please select an agent to use as a template.</div>
-      </div>
-
-      <hr class="setup-divider">
-
-      <!-- job title -->
-      <div class="setup-field">
-        <label class="setup-label">Job title<span class="req">*</span></label>
-        <div class="combo">
-          <input class="setup-input" type="text" id="jobTitle" autocomplete="off" placeholder="" oninput="filterTitles(this.value)" onfocus="filterTitles(this.value)">
-          <div class="combo-list" id="titleList"></div>
+      <!-- ===================== STEP 1: THE ROLE ===================== -->
+      <section class="step-pane" id="s1">
+        <h1 class="setup-h1">Create an Agent</h1>
+        <div class="setup-q">How would you like to create your agent?<span class="req">*</span></div>
+        <label class="opt"><input type="radio" name="src" value="previous" onclick="setSrc('previous')">
+          <span class="ot">Use a previous agent as a template<br><span class="save-badge">Save time</span></span></label>
+        <label class="opt"><input type="radio" name="src" value="new" checked onclick="setSrc('new')">
+          <span class="ot">Create a brand new agent</span></label>
+        <div id="tmplWrap" style="display:none;margin-top:10px">
+          <div class="tmpl-list" id="tmplList"></div>
+          <div class="err" id="tmplErr">Please select an agent to use as a template.</div>
         </div>
-        <div class="err" id="titleErr">Add a job title.</div>
-      </div>
-
-      <!-- location type -->
-      <div class="setup-field">
-        <label class="setup-label">Job location type<span class="req">*</span></label>
-        <div class="setup-selectwrap">
-          <select class="setup-input" id="locType" onchange="onLocType()">
-            <option value="inperson">In person</option>
-            <option value="remote">Fully remote: no on-site work required</option>
-            <option value="hybrid">Hybrid: some on-site work required</option>
-            <option value="road">On the road</option>
-          </select>
-          <span class="chev">&#9662;</span>
-        </div>
-      </div>
-
-      <!-- conditional: in person / hybrid -->
-      <div class="setup-field" id="fLoc">
-        <label class="setup-label">What is the job location?<span class="req">*</span></label>
-        <div class="setup-hint">Enter a street address or ZIP code</div>
-        <input class="setup-input" type="text" id="jobLoc">
-        <div class="err" id="locErr">Add a job location.</div>
-      </div>
-
-      <!-- conditional: remote -->
-      <div id="fRemote" style="display:none">
+        <hr class="setup-divider">
         <div class="setup-field">
-          <label class="setup-label">Are employees required to reside in a specific location?</label>
-          <label class="opt"><input type="radio" name="reside" value="yes" onclick="toggleReside(true)"><span class="ot">Yes</span></label>
-          <label class="opt"><input type="radio" name="reside" value="no" checked onclick="toggleReside(false)"><span class="ot">No</span></label>
+          <label class="setup-label">Job title<span class="req">*</span></label>
+          <div class="combo">
+            <input class="setup-input" type="text" id="jobTitle" autocomplete="off" oninput="filterTitles(this.value)" onfocus="filterTitles(this.value)">
+            <div class="combo-list" id="titleList"></div>
+          </div>
+          <div class="err" id="titleErr">Add a job title.</div>
         </div>
-        <div class="setup-field" id="fReside" style="display:none">
-          <label class="setup-label">In what location must employees reside?<span class="req">*</span></label>
-          <input class="setup-input" type="text" id="resideLoc">
-          <div class="err" id="resideErr">Add a location.</div>
-        </div>
-      </div>
-
-      <!-- conditional: on the road -->
-      <div id="fRoad" style="display:none">
         <div class="setup-field">
-          <label class="setup-label">Does this job have a consistent starting location?</label>
-          <label class="opt"><input type="radio" name="start" value="yes" onclick="toggleStart(true)"><span class="ot">Yes</span></label>
-          <label class="opt"><input type="radio" name="start" value="no" checked onclick="toggleStart(false)"><span class="ot">No</span></label>
+          <label class="setup-label">Job location type<span class="req">*</span></label>
+          <div class="setup-selectwrap">
+            <select class="setup-input" id="locType" onchange="onLocType()">
+              <option value="inperson">In person</option>
+              <option value="remote">Fully remote: no on-site work required</option>
+              <option value="hybrid">Hybrid: some on-site work required</option>
+              <option value="road">On the road</option>
+            </select><span class="chev">&#9662;</span>
+          </div>
         </div>
-        <div class="setup-field" id="fStart" style="display:none">
-          <label class="setup-label">Enter the street address of the starting location<span class="req">*</span></label>
-          <input class="setup-input" type="text" id="startLoc">
-          <div class="err" id="startErr">Add an address.</div>
+        <div class="setup-field" id="fLoc">
+          <label class="setup-label">What is the job location?<span class="req">*</span></label>
+          <div class="setup-hint">Enter a street address or ZIP code</div>
+          <input class="setup-input" type="text" id="jobLoc">
+          <div class="err" id="locErr">Add a job location.</div>
         </div>
-      </div>
+        <div id="fRemote" style="display:none">
+          <div class="setup-field">
+            <label class="setup-label">Are employees required to reside in a specific location?</label>
+            <label class="opt"><input type="radio" name="reside" value="yes" onclick="toggleReside(true)"><span class="ot">Yes</span></label>
+            <label class="opt"><input type="radio" name="reside" value="no" checked onclick="toggleReside(false)"><span class="ot">No</span></label>
+          </div>
+          <div class="setup-field" id="fReside" style="display:none">
+            <label class="setup-label">In what location must employees reside?<span class="req">*</span></label>
+            <input class="setup-input" type="text" id="resideLoc"><div class="err" id="resideErr">Add a location.</div>
+          </div>
+        </div>
+        <div id="fRoad" style="display:none">
+          <div class="setup-field">
+            <label class="setup-label">Does this job have a consistent starting location?</label>
+            <label class="opt"><input type="radio" name="start" value="yes" onclick="toggleStart(true)"><span class="ot">Yes</span></label>
+            <label class="opt"><input type="radio" name="start" value="no" checked onclick="toggleStart(false)"><span class="ot">No</span></label>
+          </div>
+          <div class="setup-field" id="fStart" style="display:none">
+            <label class="setup-label">Enter the street address of the starting location<span class="req">*</span></label>
+            <input class="setup-input" type="text" id="startLoc"><div class="err" id="startErr">Add an address.</div>
+          </div>
+        </div>
+        <div class="setup-foot"><button class="btn btn-primary btn-lg" onclick="goStep(2)">Continue &rarr;</button></div>
+      </section>
 
-      <div class="setup-foot">
-        <button class="btn btn-primary btn-lg" id="continue" onclick="onContinue()">Continue &rarr;</button>
-      </div>
+      <!-- ===================== STEP 2: AGENT DETAILS ===================== -->
+      <section class="step-pane" id="s2" style="display:none">
+        <h1 class="setup-h1">Add agent details</h1>
+        <div class="setup-field"><label class="setup-label">Job title</label><div id="d_title" class="strong" style="font-size:16px"></div></div>
+
+        <div class="setup-field">
+          <label class="setup-label">Job type<span class="req">*</span></label>
+          <div class="section-err" id="typeErr">Please select at least one job type.</div>
+          <div class="optgrid" id="jobType"></div>
+        </div>
+
+        <div class="setup-field">
+          <label class="setup-label">Pay<span class="req">*</span></label>
+          <div class="setup-hint">Review the pay and adjust as needed. Check your local minimum wage.</div>
+          <div class="setup-selectwrap" style="max-width:280px;margin-bottom:14px">
+            <select class="setup-input" id="payBy" onchange="onPayBy()">
+              <option value="range">Range</option><option value="starting">Starting amount</option>
+              <option value="max">Maximum amount</option><option value="exact">Exact amount</option>
+            </select><span class="chev">&#9662;</span>
+          </div>
+          <div class="pay-row">
+            <div class="pay-col" id="payMinWrap"><label class="setup-hint">Minimum</label><div class="pay-amt"><span class="dollar">$</span><input class="setup-input" type="text" id="payMin" value="22.63"></div></div>
+            <div class="pay-col" id="payToWrap" style="flex:0;align-self:center;color:var(--muted);padding-bottom:12px">to</div>
+            <div class="pay-col" id="payMaxWrap"><label class="setup-hint">Maximum</label><div class="pay-amt"><span class="dollar">$</span><input class="setup-input" type="text" id="payMax" value="27.25"></div></div>
+            <div class="pay-col"><label class="setup-hint">Rate</label>
+              <div class="setup-selectwrap"><select class="setup-input" id="payRate">
+                <option>per hour</option><option>per day</option><option>per week</option><option>per month</option><option>per year</option>
+              </select><span class="chev">&#9662;</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="setup-field">
+          <label class="setup-label">Benefits<span class="req">*</span></label>
+          <div class="section-err" id="benErr">Please select at least one benefit.</div>
+          <div class="optgrid" id="benefits"></div>
+        </div>
+
+        <div class="setup-field">
+          <label class="setup-label">Standard shift<span class="req">*</span></label>
+          <div class="section-err" id="shiftErr">Please select at least one shift.</div>
+          <div class="optgrid" id="shift"></div>
+        </div>
+
+        <div class="setup-field">
+          <label class="setup-label">Weekly schedule<span class="req">*</span></label>
+          <div class="section-err" id="schedErr">Please select at least one schedule.</div>
+          <div class="optgrid" id="sched"></div>
+        </div>
+
+        <div class="setup-field">
+          <label class="setup-label">Job description<span class="req">*</span></label>
+          <div class="setup-hint">This is an AI-powered job description. You can edit or replace it.</div>
+          <div class="jd-tool"><b onclick="document.execCommand('bold')">B</b><i onclick="document.execCommand('italic')" style="font-style:italic">I</i></div>
+          <div class="jd-area" id="jd" contenteditable="true"></div>
+          <div class="ai-note">This AI-powered description uses the job title and your location. By using it, you adopt it as your own and are responsible for its accuracy.</div>
+          <div class="notice"><b>Important:</b> each time you change your agent, our AI marketing to attract candidates restarts. Continuous edits may reduce the interviews you receive, so please make sure everything is accurate now.</div>
+          <label class="ack"><input type="checkbox" id="ack"><span>I have read and understand the impact of editing the agent.</span></label>
+          <div class="err" id="ackErr">Please acknowledge the important notice above.</div>
+        </div>
+
+        <div class="setup-foot" style="justify-content:space-between">
+          <button class="btn btn-ghost btn-lg" onclick="goStep(1)">&larr; Back</button>
+          <button class="btn btn-primary btn-lg" onclick="goStep(3)">Continue &rarr;</button>
+        </div>
+      </section>
+
+      <!-- ===================== STEP 3: REVIEW DETAILS ===================== -->
+      <section class="step-pane" id="s3" style="display:none">
+        <h1 class="setup-h1">Review agent details</h1>
+        <div class="rev-h">Agent details</div>
+        <table class="rev-table"><tbody id="rev1"></tbody></table>
+        <div class="setup-foot" style="justify-content:space-between">
+          <button class="btn btn-ghost btn-lg" onclick="goStep(2)">&larr; Back</button>
+          <button class="btn btn-primary btn-lg" onclick="goStep(4)">Confirm</button>
+        </div>
+      </section>
+
+      <!-- ===================== STEP 4: INTERVIEW SETTINGS ===================== -->
+      <section class="step-pane" id="s4" style="display:none">
+        <h1 class="setup-h1">Interview settings</h1>
+
+        <div class="iset">
+          <div class="it">Interview time slot duration<span class="req">*</span></div>
+          <div class="id">This lets candidates choose from multiple scheduling options.</div>
+          <div class="setup-selectwrap" style="max-width:220px"><select class="setup-input" id="slotDur" onchange="updEstimate()">
+            <option value="15">15 minutes</option><option value="30" selected>30 minutes</option><option value="60">60 minutes</option>
+          </select><span class="chev">&#9662;</span></div>
+        </div>
+
+        <div class="iset">
+          <div class="it">How many interviews can your team conduct per time slot?<span class="req">*</span></div>
+          <div class="id">This cap helps distribute interviews across slots.</div>
+          <div class="setup-selectwrap" style="max-width:140px"><select class="setup-input" id="perSlot" onchange="updEstimate()">
+            <option>1</option><option selected>3</option><option>5</option><option>10</option>
+          </select><span class="chev">&#9662;</span></div>
+          <div class="estimate" id="estimate"></div>
+        </div>
+
+        <div class="iset">
+          <div class="iset-row"><div><div class="it">Auto-accept interviews<span class="req">*</span></div>
+            <div class="id" style="margin:0">Candidates are confirmed instantly when they pick a slot. Pauses when full.</div></div>
+            <label class="toggle"><input type="checkbox" id="autoAccept"><span class="tk"></span></label></div>
+        </div>
+
+        <div class="iset">
+          <div class="iset-row"><div><div class="it">Require a resume<span class="req">*</span></div>
+            <div class="id" style="margin:0">Require candidates to include a resume.</div></div>
+            <label class="toggle"><input type="checkbox" id="reqResume" checked><span class="tk"></span></label></div>
+        </div>
+
+        <div class="iset">
+          <div class="it">Who will be interviewing candidates?</div>
+          <div class="id">Your team conducts the interviews. Add as many as you need.</div>
+          <div class="email-chips" id="ivChips"></div>
+          <div class="pay-row"><div class="pay-col"><input class="setup-input" id="ivEmail" placeholder="interviewer@company.com"></div>
+            <button class="btn btn-dark btn-sm" onclick="addIv()" style="align-self:center">Add</button></div>
+        </div>
+
+        <div class="iset">
+          <div class="it">Who needs to receive updates?<span class="req">*</span></div>
+          <div class="id">Email addresses for those who should get updates.</div>
+          <div class="email-chips" id="updChips"></div>
+          <div class="pay-row"><div class="pay-col"><input class="setup-input" id="updEmail" placeholder="name@company.com"></div>
+            <button class="btn btn-dark btn-sm" onclick="addUpd()" style="align-self:center">Add</button></div>
+          <div class="err" id="updErr">Add at least one recipient.</div>
+        </div>
+
+        <div class="setup-foot" style="justify-content:space-between">
+          <button class="btn btn-ghost btn-lg" onclick="goStep(3)">&larr; Back</button>
+          <button class="btn btn-primary btn-lg" onclick="goStep(5)">Continue &rarr;</button>
+        </div>
+      </section>
+
+      <!-- ===================== STEP 5: SCREENING ===================== -->
+      <section class="step-pane" id="s5" style="display:none">
+        <h1 class="setup-h1">Candidate screening</h1>
+        <p class="setup-hint" style="margin-bottom:18px">Candidates answer your screening questions before applying and are filtered out based on your requirements.</p>
+        <div class="screen-job">
+          <div><div class="strong" id="scr_title"></div><div class="small" id="scrCount">No screening added</div></div>
+          <button class="btn btn-ghost btn-sm" onclick="openScreener()">&#43; Add screening</button>
+        </div>
+        <div id="scrList" style="margin-top:14px"></div>
+        <div class="setup-foot" style="justify-content:space-between">
+          <button class="btn btn-ghost btn-lg" onclick="goStep(4)">&larr; Back</button>
+          <button class="btn btn-primary btn-lg" onclick="goStep(6)">Continue &rarr;</button>
+        </div>
+      </section>
+
+      <!-- ===================== STEP 6: REVIEW & SUBMIT ===================== -->
+      <section class="step-pane" id="s6" style="display:none">
+        <h1 class="setup-h1">Review &amp; launch</h1>
+        <div class="rev-h">Interview settings</div>
+        <table class="rev-table" style="margin-bottom:24px"><tbody id="rev2"></tbody></table>
+        <div class="rev-h">Screening</div>
+        <table class="rev-table" style="margin-bottom:24px"><tbody id="rev3"></tbody></table>
+        <div class="rev-h">Custom messaging</div>
+        <div class="screen-job" style="margin-bottom:24px">
+          <div><div class="strong">Welcome message</div><div class="small" id="cmState">Custom messaging is off</div></div>
+          <button class="btn btn-ghost btn-sm" onclick="openMsg()">Edit message</button>
+        </div>
+        <div class="setup-foot" style="justify-content:space-between">
+          <button class="btn btn-ghost btn-lg" onclick="goStep(5)">&larr; Back</button>
+          <button class="btn btn-primary btn-lg" id="launchBtn" onclick="launch()">&#9654; Launch Agent</button>
+        </div>
+      </section>
     </div>
   </main>
 </div>
+
+<!-- ===== Screener question modal ===== -->
+<div class="overlay" id="scrModal"><div class="modal">
+  <h3>Add screener question</h3>
+  <div class="setup-field"><label class="setup-label">Question text</label><input class="setup-input" id="qText" placeholder="e.g. Do you have an active RN license?"></div>
+  <div class="setup-field"><label class="setup-label">Response type</label>
+    <div class="setup-selectwrap"><select class="setup-input" id="qType" onchange="qTypeChange()"><option value="">Select response type</option><option value="yesno">Yes/No</option><option value="numeric">Numeric</option></select><span class="chev">&#9662;</span></div></div>
+  <div class="setup-field"><label class="setup-label">Must-have qualification?</label>
+    <div class="setup-selectwrap"><select class="setup-input" id="qMust"><option value="no">No</option><option value="yes">Yes</option></select><span class="chev">&#9662;</span></div></div>
+  <div class="setup-field" id="qReqWrap" style="display:none"><label class="setup-label">Required response</label>
+    <div class="setup-selectwrap"><select class="setup-input" id="qReq"><option>Yes</option><option>No</option></select><span class="chev">&#9662;</span></div></div>
+  <div class="setup-field" id="qMinWrap" style="display:none"><label class="setup-label">Required minimum</label>
+    <div class="setup-selectwrap"><select class="setup-input" id="qMin"><option>1</option><option>2</option><option>3</option><option>5</option><option>10</option></select><span class="chev">&#9662;</span></div></div>
+  <div class="modal-foot"><button class="btn btn-ghost btn-sm" onclick="closeModal('scrModal')">Cancel</button><button class="btn btn-primary btn-sm" onclick="saveScreener()">Save</button></div>
+</div></div>
+
+<!-- ===== Custom messaging modal ===== -->
+<div class="overlay" id="msgModal"><div class="modal" style="max-width:520px">
+  <h3>Custom messaging</h3>
+  <p>Send a custom message to candidates when you accept their interview.</p>
+  <div class="setup-field"><label class="setup-label">Your name<span class="req">*</span></label><input class="setup-input" id="cmName"></div>
+  <div class="setup-field"><label class="setup-label">Your role at the company<span class="req">*</span></label><input class="setup-input" id="cmRole"></div>
+  <div class="setup-field"><label class="setup-label">Message</label><textarea class="setup-input" id="cmMsg" rows="4" style="border-radius:10px">Looking forward to connecting with you about this role!</textarea></div>
+  <div class="modal-foot"><button class="btn btn-ghost btn-sm" onclick="closeModal('msgModal')">Cancel</button><button class="btn btn-primary btn-sm" onclick="saveMsg()">Save</button></div>
+</div></div>
 
 <script>
 /* JobAgentX — shared mock data + helpers (sessionStorage) */
@@ -438,81 +671,192 @@ const AX=(function(){
 
 </script>
 <script>
+/* Create Agent — multi-step flow controller */
 document.getElementById('side').innerHTML=AX.sidebar('dashboard');
 document.getElementById('top').innerHTML=AX.topbar();
 const E=AX.esc;
+let cur=1;
+
 const TITLES=['Registered Nurse','Sales Associate','Full Stack Developer','Customer Service Representative','Marketing Manager','Data Analyst','Project Manager','Accountant','Graphic Designer','Human Resources Coordinator','Warehouse Associate','Bilingual Call Center Rep','Medical Assistant'];
+const JOBTYPES=['Full-time','Part-time','Contract','Temporary','Internship'];
+const BENEFITS=['Health insurance','Paid time off','Dental insurance','401(k)','Vision insurance','Flexible schedule','Tuition reimbursement','Life insurance','401(k) matching','Retirement plan','Referral program','Employee discount','Flexible spending account','Health savings account','Relocation assistance','Parental leave','Professional development assistance','Employee assistance program','Other'];
+const SHIFTS=['Day shift','Night shift','Evening shift','Overnight shift','Other','None'];
+const SCHEDULES=['Weekly as needed','Monday to Friday','Rotating weekends','Every weekend','No weekends','Choose your own hours','3×12','5×8','4×10','4×12','Other','None'];
+
 let src='new', tmplId=null;
+let interviewers=['demo@jobfairx.com (you)'];
+let recipients=[];
+let screeners=[];
+let customMsg=null;
 
-/* source toggle */
+/* ---------- render option grids ---------- */
+function chk(id,arr,cols){document.getElementById(id).className='optgrid'+(cols===1?' one':'');document.getElementById(id).innerHTML=arr.map((t,i)=>`<label class="checkopt"><input type="checkbox" value="${E(t)}"><span>${E(t)}</span></label>`).join('');}
+chk('jobType',JOBTYPES); chk('benefits',BENEFITS); chk('shift',SHIFTS); chk('sched',SCHEDULES);
+// default-check Full-time + a couple benefits for a realistic prefill
+document.querySelector('#jobType input[value="Full-time"]').checked=true;
+['Health insurance','Paid time off'].forEach(b=>{const el=document.querySelector('#benefits input[value="'+b+'"]');if(el)el.checked=true;});
+document.querySelector('#shift input[value="Day shift"]').checked=true;
+document.querySelector('#sched input[value="Monday to Friday"]').checked=true;
+
+/* ---------- step 1 ---------- */
 window.setSrc=function(v){src=v;document.getElementById('tmplWrap').style.display=(v==='previous')?'block':'none';if(v==='previous')renderTmpl();hideErr('tmplErr');};
-function renderTmpl(){
-  const ags=AX.get().agents;
-  document.getElementById('tmplList').innerHTML=ags.length?ags.map(a=>`
-    <div class="tmpl ${tmplId===a.id?'sel':''}" onclick="pickTmpl('${a.id}')">
-      <div class="tt">${E(a.role)}</div><div class="ts">&#128205; ${E(a.location)}</div>
-    </div>`).join(''):'<div class="setup-hint">No previous agents yet.</div>';
-}
-window.pickTmpl=function(id){tmplId=id;const a=AX.agent(id);renderTmpl();
-  document.getElementById('jobTitle').value=a.role;
-  document.getElementById('jobLoc').value=(a.location||'').replace(/ · Remote OK| \(US\)/,'');
-  hideErr('tmplErr');hideErr('titleErr');
-};
-
-/* job title combobox */
-window.filterTitles=function(v){
-  const list=document.getElementById('titleList');
-  const q=v.trim().toLowerCase();
-  const matches=TITLES.filter(t=>t.toLowerCase().includes(q)).slice(0,8);
-  if(!matches.length){list.classList.remove('show');return;}
-  list.innerHTML=matches.map(t=>`<div class="ci" onmousedown="pickTitle('${t.replace(/'/g,"\\'")}')">${E(t)}</div>`).join('');
-  list.classList.add('show');
-};
+function renderTmpl(){const ags=AX.get().agents;document.getElementById('tmplList').innerHTML=ags.length?ags.map(a=>`<div class="tmpl ${tmplId===a.id?'sel':''}" onclick="pickTmpl('${a.id}')"><div class="tt">${E(a.role)}</div><div class="ts">&#128205; ${E(a.location)}</div></div>`).join(''):'<div class="setup-hint">No previous agents yet.</div>';}
+window.pickTmpl=function(id){tmplId=id;const a=AX.agent(id);renderTmpl();document.getElementById('jobTitle').value=a.role;document.getElementById('jobLoc').value=(a.location||'').replace(/ · Remote OK| \(US\)/,'');hideErr('tmplErr');hideErr('titleErr');};
+window.filterTitles=function(v){const list=document.getElementById('titleList');const q=v.trim().toLowerCase();const m=TITLES.filter(t=>t.toLowerCase().includes(q)).slice(0,8);if(!m.length){list.classList.remove('show');return;}list.innerHTML=m.map(t=>`<div class="ci" onmousedown="pickTitle('${t.replace(/'/g,"\\'")}')">${E(t)}</div>`).join('');list.classList.add('show');};
 window.pickTitle=function(t){document.getElementById('jobTitle').value=t;document.getElementById('titleList').classList.remove('show');hideErr('titleErr');};
-document.addEventListener('click',e=>{if(!e.target.closest('.combo'))document.getElementById('titleList').classList.remove('show');});
-
-/* location type */
-window.onLocType=function(){
-  const t=document.getElementById('locType').value;
-  document.getElementById('fLoc').style.display=(t==='inperson'||t==='hybrid')?'block':'none';
-  document.getElementById('fRemote').style.display=(t==='remote')?'block':'none';
-  document.getElementById('fRoad').style.display=(t==='road')?'block':'none';
-};
+document.addEventListener('click',e=>{if(!e.target.closest('.combo')){const l=document.getElementById('titleList');if(l)l.classList.remove('show');}});
+window.onLocType=function(){const t=document.getElementById('locType').value;document.getElementById('fLoc').style.display=(t==='inperson'||t==='hybrid')?'block':'none';document.getElementById('fRemote').style.display=(t==='remote')?'block':'none';document.getElementById('fRoad').style.display=(t==='road')?'block':'none';};
 window.toggleReside=function(on){document.getElementById('fReside').style.display=on?'block':'none';};
 window.toggleStart=function(on){document.getElementById('fStart').style.display=on?'block':'none';};
 
-function showErr(id){document.getElementById(id).classList.add('show');}
-function hideErr(id){document.getElementById(id).classList.remove('show');}
+function showErr(id){const e=document.getElementById(id);if(e)e.classList.add('show');}
+function hideErr(id){const e=document.getElementById(id);if(e)e.classList.remove('show');}
+function checked(id){return [...document.querySelectorAll('#'+id+' input:checked')].map(x=>x.value);}
 
-window.onContinue=function(){
-  let ok=true;
-  ['tmplErr','titleErr','locErr','resideErr','startErr'].forEach(hideErr);
-  if(src==='previous' && !tmplId){showErr('tmplErr');ok=false;}
-  const title=document.getElementById('jobTitle').value.trim();
-  if(!title){showErr('titleErr');ok=false;}
+function locationStr(){
   const t=document.getElementById('locType').value;
-  let locationStr='';
-  if(t==='inperson'||t==='hybrid'){
-    const v=document.getElementById('jobLoc').value.trim();
-    if(!v){showErr('locErr');ok=false;} else locationStr=(t==='hybrid'?'Hybrid · ':'')+v;
-  }else if(t==='remote'){
-    const reside=document.querySelector('input[name=reside]:checked').value;
-    if(reside==='yes'){const v=document.getElementById('resideLoc').value.trim();if(!v){showErr('resideErr');ok=false;}else locationStr='Remote · '+v;}
-    else locationStr='Fully remote (US)';
-  }else if(t==='road'){
-    const start=document.querySelector('input[name=start]:checked').value;
-    if(start==='yes'){const v=document.getElementById('startLoc').value.trim();if(!v){showErr('startErr');ok=false;}else locationStr='On the road · from '+v;}
-    else locationStr='On the road';
+  if(t==='inperson')return document.getElementById('jobLoc').value.trim();
+  if(t==='hybrid')return 'Hybrid · '+document.getElementById('jobLoc').value.trim();
+  if(t==='remote'){const r=document.querySelector('input[name=reside]:checked').value;return r==='yes'?('Remote · '+document.getElementById('resideLoc').value.trim()):'Fully remote (US)';}
+  if(t==='road'){const s=document.querySelector('input[name=start]:checked').value;return s==='yes'?('On the road · from '+document.getElementById('startLoc').value.trim()):'On the road';}
+  return '';
+}
+function locTypeLabel(){return document.querySelector('#locType option:checked').textContent;}
+
+function validate(step){
+  let ok=true;
+  if(step===1){
+    ['tmplErr','titleErr','locErr','resideErr','startErr'].forEach(hideErr);
+    if(src==='previous'&&!tmplId){showErr('tmplErr');ok=false;}
+    if(!document.getElementById('jobTitle').value.trim()){showErr('titleErr');ok=false;}
+    const t=document.getElementById('locType').value;
+    if((t==='inperson'||t==='hybrid')&&!document.getElementById('jobLoc').value.trim()){showErr('locErr');ok=false;}
+    if(t==='remote'&&document.querySelector('input[name=reside]:checked').value==='yes'&&!document.getElementById('resideLoc').value.trim()){showErr('resideErr');ok=false;}
+    if(t==='road'&&document.querySelector('input[name=start]:checked').value==='yes'&&!document.getElementById('startLoc').value.trim()){showErr('startErr');ok=false;}
   }
-  if(!ok)return;
-  // STOPGAP: until Step 2 is built, create the agent and return to Agents.
-  const btn=document.getElementById('continue');btn.disabled=true;btn.textContent='Saving…';
+  if(step===2){
+    ['typeErr','benErr','shiftErr','schedErr','ackErr'].forEach(hideErr);
+    if(!checked('jobType').length){showErr('typeErr');ok=false;}
+    if(!checked('benefits').length){showErr('benErr');ok=false;}
+    if(!checked('shift').length){showErr('shiftErr');ok=false;}
+    if(!checked('sched').length){showErr('schedErr');ok=false;}
+    if(!document.getElementById('ack').checked){showErr('ackErr');ok=false;}
+  }
+  if(step===4){
+    hideErr('updErr');
+    if(!recipients.length){showErr('updErr');ok=false;}
+  }
+  return ok;
+}
+
+/* ---------- step navigation ---------- */
+window.goStep=function(target){
+  if(target>cur && !validate(cur)){return;}
+  cur=target;
+  for(let i=1;i<=6;i++)document.getElementById('s'+i).style.display=(i===target)?'block':'none';
+  document.getElementById('topback').style.display=(target===1)?'inline-flex':'none';
+  if(target===2)enterStep2();
+  if(target===3)renderReview1();
+  if(target===4){renderEmail();updEstimate();}
+  if(target===5)enterStep5();
+  if(target===6)renderReview2();
+  window.scrollTo(0,0);
+};
+
+/* ---------- step 2 ---------- */
+function enterStep2(){
+  const title=document.getElementById('jobTitle').value.trim();
+  document.getElementById('d_title').textContent=title;
+  if(!document.getElementById('jd').innerHTML.trim()){
+    document.getElementById('jd').innerHTML=`<h4>Job Summary</h4><p>Join our team as a ${E(title)}. In this role you'll bring reliability, care, and a customer-focused mindset to everything you do, contributing to a positive and productive environment. This is a paid position with room to grow.</p><h4>Duties</h4><p>Carry out the core responsibilities of the role with consistency and attention to detail. Collaborate with teammates, communicate clearly, and follow through on commitments. Maintain a professional, positive presence with everyone you work with.</p>`;
+  }
+}
+window.onPayBy=function(){
+  const v=document.getElementById('payBy').value;
+  const min=document.getElementById('payMinWrap'),to=document.getElementById('payToWrap'),max=document.getElementById('payMaxWrap');
+  if(v==='range'){min.style.display='';to.style.display='';max.style.display='';min.querySelector('label').textContent='Minimum';max.querySelector('label').textContent='Maximum';}
+  else if(v==='starting'){min.style.display='';to.style.display='none';max.style.display='none';min.querySelector('label').textContent='Starting amount';}
+  else if(v==='max'){min.style.display='none';to.style.display='none';max.style.display='';max.querySelector('label').textContent='Maximum amount';}
+  else{min.style.display='';to.style.display='none';max.style.display='none';min.querySelector('label').textContent='Amount';}
+};
+function payStr(){
+  const v=document.getElementById('payBy').value, rate=document.getElementById('payRate').value;
+  const mn=document.getElementById('payMin').value, mx=document.getElementById('payMax').value;
+  if(v==='range')return `${mn} - ${mx} ${rate}`;
+  if(v==='starting')return `From ${mn} ${rate}`;
+  if(v==='max')return `Up to ${mx} ${rate}`;
+  return `${mn} ${rate}`;
+}
+
+/* ---------- step 3 ---------- */
+function renderReview1(){
+  const rows=[['Job title',document.getElementById('jobTitle').value.trim()],
+    ['Location',locTypeLabel()+(locationStr()&&!/remote|road/i.test(locationStr())?' · '+locationStr():(/·/.test(locationStr())?' · '+locationStr().split('· ')[1]:''))],
+    ['Job type',checked('jobType').join(', ')||'—'],
+    ['Pay',payStr()],
+    ['Benefits',checked('benefits').join(', ')||'—'],
+    ['Standard shift',checked('shift').join(', ')||'—'],
+    ['Weekly schedule',checked('sched').join(', ')||'—'],
+    ['Job description','<a class="link" href="#" onclick="goStep(2);return false;">Show full description</a>']];
+  document.getElementById('rev1').innerHTML=rows.map(r=>`<tr><td class="k">${r[0]}</td><td>${r[1]}</td></tr>`).join('');
+}
+
+/* ---------- step 4 ---------- */
+window.updEstimate=function(){const per=document.getElementById('perSlot').value;document.getElementById('estimate').innerHTML=`Based on your selection, plan for <b>${per}</b> candidate${per==1?'':'s'} per time slot. We recommend 1 interviewer per expected candidate.`;};
+function renderEmail(){
+  document.getElementById('ivChips').innerHTML=interviewers.map((e,i)=>`<div class="email-chip">${E(e)}${i>0?`<span class="x" onclick="rmIv(${i})">&times;</span>`:''}</div>`).join('');
+  document.getElementById('updChips').innerHTML=recipients.map((e,i)=>`<div class="email-chip">${E(e)}<span class="x" onclick="rmUpd(${i})">&times;</span></div>`).join('')||'<span class="setup-hint">No recipients added yet.</span>';
+}
+window.addIv=function(){const v=document.getElementById('ivEmail').value.trim();if(!/.+@.+\..+/.test(v))return;interviewers.push(v);document.getElementById('ivEmail').value='';renderEmail();};
+window.rmIv=function(i){interviewers.splice(i,1);renderEmail();};
+window.addUpd=function(){const v=document.getElementById('updEmail').value.trim();if(!/.+@.+\..+/.test(v))return;recipients.push(v);document.getElementById('updEmail').value='';hideErr('updErr');renderEmail();};
+window.rmUpd=function(i){recipients.splice(i,1);renderEmail();};
+
+/* ---------- step 5 (screening) ---------- */
+function enterStep5(){document.getElementById('scr_title').textContent=document.getElementById('jobTitle').value.trim();renderScreeners();}
+window.openScreener=function(){document.getElementById('qText').value='';document.getElementById('qType').value='';document.getElementById('qMust').value='no';qTypeChange();openModal('scrModal');};
+window.qTypeChange=function(){const t=document.getElementById('qType').value;document.getElementById('qReqWrap').style.display=(t==='yesno')?'block':'none';document.getElementById('qMinWrap').style.display=(t==='numeric')?'block':'none';};
+window.saveScreener=function(){const q=document.getElementById('qText').value.trim();const t=document.getElementById('qType').value;if(!q||!t)return;screeners.push({q,t,must:document.getElementById('qMust').value,req:t==='yesno'?document.getElementById('qReq').value:document.getElementById('qMin').value});closeModal('scrModal');renderScreeners();};
+function renderScreeners(){
+  document.getElementById('scrCount').textContent=screeners.length?(screeners.length+' question'+(screeners.length>1?'s':'')+' added'):'No screening added';
+  document.getElementById('scrList').innerHTML=screeners.map((s,i)=>`<div class="screen-job" style="margin-top:10px"><div><div class="strong">${E(s.q)}</div><div class="small">${s.t==='yesno'?'Yes/No':'Numeric'} · ${s.must==='yes'?'Must-have':'Optional'}</div></div><span class="x email-chip" style="cursor:pointer" onclick="rmScr(${i})">Remove</span></div>`).join('');
+}
+window.rmScr=function(i){screeners.splice(i,1);renderScreeners();};
+
+/* ---------- step 6 ---------- */
+function renderReview2(){
+  document.getElementById('rev2').innerHTML=[
+    ['Interviewers',interviewers.join(', ')],
+    ['Daily updates',recipients.length?recipients.join(', '):'No recipients added'],
+    ['Time slot',document.getElementById('slotDur').value+' minutes'],
+    ['Interviews per slot',document.getElementById('perSlot').value],
+    ['Auto-accept',document.getElementById('autoAccept').checked?'On':'Off'],
+    ['Resume',document.getElementById('reqResume').checked?'Required':'Optional']
+  ].map(r=>`<tr><td class="k">${r[0]}</td><td>${E(r[1])}</td></tr>`).join('');
+  document.getElementById('rev3').innerHTML=screeners.length?screeners.map(s=>`<tr><td class="k">${E(s.q)}</td><td>${s.t==='yesno'?'Yes/No':'Numeric'} · ${s.must==='yes'?'Must-have':'Optional'}</td></tr>`).join(''):'<tr><td colspan="2" class="setup-hint" style="padding:14px 18px">No screening added</td></tr>';
+  document.getElementById('cmState').textContent=customMsg?('From '+customMsg.name+' · '+customMsg.role):'Custom messaging is off';
+}
+window.openMsg=function(){openModal('msgModal');};
+window.saveMsg=function(){const n=document.getElementById('cmName').value.trim(),r=document.getElementById('cmRole').value.trim();if(!n||!r)return;customMsg={name:n,role:r,msg:document.getElementById('cmMsg').value.trim()};closeModal('msgModal');renderReview2();};
+
+window.launch=function(){
+  const btn=document.getElementById('launchBtn');btn.disabled=true;btn.textContent='Launching…';
   const id='a'+Date.now().toString(36);
-  AX.add({id,role:title,location:locationStr||'—',locationType:t,status:'sourcing',
-    jd:'',musthaves:[],interviewers:['you'],availability:AX.defAvail(),
-    awaiting:0,confirmed:0,interviewed:0,candidates:[]});
+  AX.add({id,role:document.getElementById('jobTitle').value.trim(),location:locationStr()||locTypeLabel(),locationType:document.getElementById('locType').value,
+    status:'sourcing',jd:(document.getElementById('jd').textContent||'').trim(),
+    jobType:checked('jobType'),pay:payStr(),benefits:checked('benefits'),shift:checked('shift'),schedule:checked('sched'),
+    interviewers:interviewers.slice(),recipients:recipients.slice(),screeners:screeners.slice(),
+    slotDur:document.getElementById('slotDur').value,perSlot:document.getElementById('perSlot').value,
+    autoAccept:document.getElementById('autoAccept').checked,reqResume:document.getElementById('reqResume').checked,
+    customMsg,availability:AX.defAvail(),awaiting:0,confirmed:0,interviewed:0,candidates:[]});
   setTimeout(()=>{location.href='index.html';},600);
 };
+
+/* ---------- modals ---------- */
+window.openModal=function(id){document.getElementById(id).classList.add('show');};
+window.closeModal=function(id){document.getElementById(id).classList.remove('show');};
+[...document.querySelectorAll('.overlay')].forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('show');}));
+
 </script>
 </body>
 </html>
