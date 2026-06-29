@@ -403,6 +403,54 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
 .tl .dot{width:9px;height:9px;border-radius:50%;background:var(--blue);margin-top:5px;flex:0 0 9px}
 .tl .tt{font-size:13.5px}.tl .tm{font-size:12px;color:var(--muted)}
 
+/* ===== Interviews lobby ===== */
+.lobby-bar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:14px 0 20px;border-bottom:1px solid var(--line);margin-bottom:0}
+.avail{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600}
+.avail .seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.avail .seg button{border:none;background:#fff;font-family:inherit;font-size:13px;font-weight:600;padding:7px 14px;cursor:pointer;color:var(--muted)}
+.avail .seg button.on{background:var(--green-bg);color:var(--green)}
+.avail .seg button.on.away{background:#eee9e0;color:var(--muted)}
+.lobby-link{color:var(--blue);font-weight:600;font-size:13.5px;cursor:pointer;background:none;border:none;font-family:inherit}
+.lobby-link:hover{text-decoration:underline}
+.lobby-spacer{flex:1}
+.room-sec{margin-top:22px}
+.room-sec-h{font-size:15px;font-weight:700;color:var(--ink);margin:0 0 10px}
+.st{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px}
+.st.ready{background:var(--green-bg);color:var(--green)}
+.st.entering{background:#e6eef5;color:var(--ink-2)}
+.st.await{background:#fdf6e3;color:var(--amber)}
+.start-cta{background:#f7faff;border:1px solid #cfdcf0;border-radius:12px;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:6px}
+.start-cta .t{font-weight:700;font-size:15px}
+.start-cta .s{font-size:13px;color:var(--muted);margin-top:2px}
+.lobby-empty{text-align:center;padding:48px 24px}
+.lobby-empty .h{font-size:18px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.lobby-empty .s{color:var(--muted);font-size:14px;max-width:480px;margin:0 auto}
+.fb{display:inline-flex;align-items:center;gap:6px}
+.fb .cur{font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px}
+.fb .cur.Yes{background:var(--green-bg);color:var(--green)}
+.fb .cur.No{background:#fcebeb;color:#a32d2d}
+.fb .cur.Maybe{background:#fdf6e3;color:var(--amber)}
+.fb .cur.No-show{background:#eee9e0;color:var(--muted)}
+.linkbtns{display:flex;gap:14px;flex-wrap:wrap}
+.linkbtns a{color:var(--blue);font-size:13px;font-weight:600;cursor:pointer}
+.tinylink{color:var(--blue);font-size:12.5px;cursor:pointer}
+.proposed{font-size:12.5px;color:var(--amber);font-weight:600}
+/* video test modal */
+.vt-preview{background:#1a1a1a;border-radius:12px;height:240px;display:flex;align-items:center;justify-content:center;color:#8ba0b3;font-size:13px;margin-bottom:16px;position:relative;overflow:hidden}
+.vt-preview .cam{width:84px;height:84px;border-radius:50%;background:#2f4a60;display:flex;align-items:center;justify-content:center;font-size:30px;color:#cbd9e5;font-family:'Noto Sans'}
+.vt-row{display:flex;gap:14px;margin-bottom:14px}.vt-row>div{flex:1}
+.bg-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin-top:8px}
+.bg-swatch{width:100%;aspect-ratio:1;border-radius:8px;border:2px solid transparent;cursor:pointer}
+.bg-swatch.sel{border-color:var(--blue)}
+.bg-swatch.none{background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.chk-row{display:flex;align-items:center;gap:10px;font-size:14px;margin:8px 0}
+.net-note{background:#fdf6e3;border:1px solid #f0e2b8;border-radius:10px;padding:12px 14px;font-size:13px;color:#5a4a1a;line-height:1.5;margin-top:10px}
+.modal.wide{max-width:560px}
+.rec-opts{display:flex;gap:10px;margin:6px 0}
+.rec-opts label{flex:1;border:1px solid var(--line);border-radius:10px;padding:12px;text-align:center;font-weight:600;font-size:14px;cursor:pointer}
+.rec-opts input{display:none}
+.rec-opts label:has(input:checked){border-color:var(--blue);background:#f5f8ff;color:var(--blue)}
+
 </style>
 </head>
 <body>
@@ -411,18 +459,54 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
   <main class="main">
     <div id="top"></div>
     <div class="wrap">
-      <div class="page-head"><h1>Interviews</h1>
-        <div class="select" id="agentFilter">All agents <span class="ca">&#9662;</span></div>
+      <div class="page-head" style="margin-bottom:6px"><h1 style="color:var(--ink)">Interviews</h1>
+        <div class="bpill"><span class="bl">Preview</span>
+          <button class="bn on" data-st="active" onclick="setState('active')">Active</button>
+          <button class="bn" data-st="empty" onclick="setState('empty')">Empty</button>
+          <button class="bn" data-st="live" onclick="setState('live')">Live</button>
+          <button class="bn" data-st="liveempty" onclick="setState('liveempty')">Live empty</button>
+          <button class="bn" data-st="ended" onclick="setState('ended')">Ended</button>
+        </div>
       </div>
-      <div class="subtabs">
-        <div class="subtab active" onclick="go('upcoming')" id="t-upcoming">Upcoming <span class="cnt" id="c-upcoming">0</span></div>
-        <div class="subtab" onclick="go('pending')" id="t-pending">Pending <span class="cnt" id="c-pending">0</span></div>
-        <div class="subtab" onclick="go('past')" id="t-past">Past <span class="cnt" id="c-past">0</span></div>
+      <div class="lobby-bar">
+        <span class="avail">Your status:
+          <span class="seg"><button id="av-on" class="on" onclick="setAvail(true)">Available</button><button id="av-off" class="away" onclick="setAvail(false)">Away</button></span>
+        </span>
+        <button class="lobby-link" onclick="openM('ivModal')">Add interviewers</button>
+        <button class="lobby-link" onclick="openM('nameModal')">Update display name</button>
+        <button class="lobby-link" onclick="openM('vtModal')">Test video and audio</button>
+        <span class="lobby-spacer"></span>
       </div>
-      <div class="panel" style="border-top-left-radius:0;border-top-right-radius:0;border-top:none" id="tbl"></div>
+      <div class="subtabs" id="tabs"></div>
+      <div class="panel" style="border-top-left-radius:0;border-top-right-radius:0;border-top:none;padding:0" id="content"></div>
     </div>
   </main>
 </div>
+
+<!-- modals -->
+<div class="overlay" id="declineModal"><div class="modal"><h3>Decline interview</h3><p>Are you sure you want to decline the interview request from <b id="d_name">this candidate</b>? This can’t be undone and the candidate will be removed from your list.</p><label class="chk-row"><input type="checkbox"> Don’t show this message when I decline</label><div class="modal-foot"><button class="btn btn-ghost btn-sm" onclick="closeM('declineModal')">Cancel</button><button class="btn btn-danger btn-sm" onclick="closeM('declineModal')">Decline</button></div></div></div>
+<div class="overlay" id="cancelModal"><div class="modal"><h3>Cancel proposed interview</h3><p>Cancel your interview time request for <b id="c_name">this candidate</b>? The candidate will be notified and the original requested time restored.</p><label class="chk-row"><input type="checkbox"> Don’t show this message when I cancel</label><div class="modal-foot"><button class="btn btn-ghost btn-sm" onclick="closeM('cancelModal')">Keep request</button><button class="btn btn-danger btn-sm" onclick="closeM('cancelModal')">Cancel request</button></div></div></div>
+<div class="overlay" id="schedModal"><div class="modal"><h3>Schedule with candidate</h3><div class="setup-field"><label class="setup-label">Propose a time</label><input class="setup-input" type="text" placeholder="e.g. Thu 10:00 AM - 10:30 AM"></div><button class="tinylink" style="margin-bottom:12px">＋ Suggest multiple times</button><div class="setup-field"><label class="setup-label">Message to candidate</label><textarea class="setup-input" rows="3" style="border-radius:10px"></textarea></div><div class="modal-foot"><button class="btn btn-ghost btn-sm" onclick="closeM('schedModal')">Cancel</button><button class="btn btn-primary btn-sm" onclick="closeM('schedModal')">Send</button></div></div></div>
+<div class="overlay" id="endModal"><div class="modal"><h3>Have you finished interviewing <span id="e_name">this candidate</span>?</h3><p>Yes — they’ll be marked as interviewed. No — they return to the front of the interview line and can join again.</p><div class="modal-foot"><button class="btn btn-ghost btn-sm" onclick="closeM('endModal')">No, return to line</button><button class="btn btn-primary btn-sm" onclick="endThenRecommend()">Yes, mark interviewed</button></div></div></div>
+<div class="overlay" id="recModal"><div class="modal"><h3>Would you recommend moving forward with <span id="r_name">this candidate</span>?</h3><p>Optional — this stays internal to your team.</p><div class="rec-opts"><label><input type="radio" name="rec">Yes</label><label><input type="radio" name="rec">Maybe</label><label><input type="radio" name="rec">No</label></div><div class="setup-field" style="margin-top:12px"><label class="setup-label">Notes (optional)</label><textarea class="setup-input" rows="3" style="border-radius:10px"></textarea></div><div class="modal-foot"><button class="btn btn-primary btn-sm" onclick="closeM('recModal')">Done</button></div></div></div>
+<div class="overlay" id="notesModal"><div class="modal"><h3>Notes for <span id="n_name">this candidate</span></h3><textarea class="setup-input" rows="5" style="border-radius:10px" placeholder="Add your notes…"></textarea><div class="modal-foot"><button class="btn btn-ghost btn-sm" onclick="closeM('notesModal')">Cancel</button><button class="btn btn-primary btn-sm" onclick="closeM('notesModal')">Save</button></div></div></div>
+<div class="overlay" id="msgModal"><div class="modal wide"><h3>Custom messaging</h3><p>Send a custom message to candidates when you accept their interview.</p><div class="setup-field"><label class="setup-label">Your name<span class="req">*</span></label><input class="setup-input"></div><div class="setup-field"><label class="setup-label">Your role at the company<span class="req">*</span></label><input class="setup-input"></div><div class="setup-field"><label class="setup-label">Message</label><textarea class="setup-input" rows="4" style="border-radius:10px">Looking forward to connecting with you about this role!</textarea></div><div class="modal-foot"><button class="btn btn-ghost btn-sm" onclick="closeM('msgModal')">Close</button><button class="btn btn-primary btn-sm" onclick="closeM('msgModal')">Save</button></div></div></div>
+<div class="overlay" id="nameModal"><div class="modal"><h3>Update display name</h3><p>Enter your name as you’d like candidates to see it. This is used across all interviews you conduct.</p><div class="setup-field"><label class="setup-label">Name<span class="req">*</span></label><input class="setup-input" value="Scott"></div><div class="modal-foot"><button class="btn btn-ghost btn-sm" onclick="closeM('nameModal')">Cancel</button><button class="btn btn-primary btn-sm" onclick="closeM('nameModal')">Save</button></div></div></div>
+<div class="overlay" id="ivModal"><div class="modal"><h3>Interview settings</h3><p>Who will be interviewing candidates? Add as many as you need.</p><div class="email-chips" id="ivchips"></div><div class="pay-row"><div class="pay-col"><input class="setup-input" id="ivEmail" placeholder="interviewer@company.com"></div><button class="btn btn-dark btn-sm" onclick="addIv()" style="align-self:center">Add</button></div><div class="modal-foot"><button class="btn btn-ghost btn-sm" onclick="closeM('ivModal')">Done</button></div></div></div>
+<div class="overlay" id="micModal"><div class="modal"><h3>Allow microphone access</h3><p>For others to hear you, your browser will request access to your microphone.</p><div class="modal-foot"><button class="btn btn-ghost btn-sm" onclick="closeM('micModal')">Not now</button><button class="btn btn-primary btn-sm" onclick="closeM('micModal')">Give access</button></div></div></div>
+<div class="overlay" id="netModal"><div class="modal wide"><h3>IT network allow list</h3><p>If your company uses a restrictive network or firewall, your IT team may need to update the allow list for smooth video interviews.</p><div class="net-note">Placeholder: detailed IT instructions (domains, ports, and protocols to allow) will be provided here.</div><div class="modal-foot"><button class="btn btn-primary btn-sm" onclick="closeM('netModal')">Close</button></div></div></div>
+<div class="overlay" id="vtModal"><div class="modal wide"><h3>Test video and audio</h3><p>Checking your connection helps ensure a smooth interview.</p>
+  <div class="vt-preview"><div class="cam">SC</div></div>
+  <div class="vt-row"><div><label class="setup-hint">Microphone</label><div class="setup-selectwrap"><select class="setup-input"><option>Default — MacBook Pro Mic</option><option>External Microphone</option></select><span class="chev">&#9662;</span></div></div>
+    <div><label class="setup-hint">Speaker</label><div class="setup-selectwrap"><select class="setup-input"><option>Default — MacBook Pro Speakers</option><option>External Speakers</option></select><span class="chev">&#9662;</span></div></div></div>
+  <div class="vt-row"><div><label class="setup-hint">Camera</label><div class="setup-selectwrap"><select class="setup-input"><option>MacBook Pro Camera</option><option>External Camera</option></select><span class="chev">&#9662;</span></div></div></div>
+  <label class="chk-row"><input type="checkbox"> Suppress background noise</label>
+  <label class="chk-row"><input type="checkbox"> Mirror my video</label>
+  <label class="setup-label" style="margin-top:10px">Virtual background</label>
+  <div class="bg-grid" id="bgGrid"></div>
+  <div class="net-note">Restrictive network? Ask IT to update your allow list. <button class="tinylink" onclick="closeM('vtModal');openM('netModal')">View instructions</button></div>
+  <div class="modal-foot"><button class="btn btn-primary btn-sm" onclick="closeM('vtModal')">Done</button></div></div></div>
+
 <script>
 /* JobAgentX — shared mock data + helpers (sessionStorage) */
 const AX=(function(){
@@ -550,40 +634,89 @@ const AX=(function(){
 <script>
 document.getElementById('side').innerHTML=AX.sidebar('interviews');
 document.getElementById('top').innerHTML=AX.topbar();
-const E=AX.esc;let tab='upcoming',filter='all';
-const s=AX.get();
-function all(){
-  let list=[];
-  s.agents.forEach(a=>{if(filter!=='all'&&a.id!==filter)return;(a.candidates||[]).forEach(c=>list.push({...c,agent:a.role,role:c.role}));});
-  return list;
-}
-function bucket(st){const m={upcoming:'upcoming',pending:'awaiting',past:'interviewed'};return all().filter(c=>c.status===m[st]);}
-function nameCell(x){return `<div class="namecell"><div class="ava-c">${E(AX.ini(x.name))}</div><div><div class="nm">${E(x.name)}</div><div class="links"><a href="#" onclick="return rsm()">View resume</a><a href="messaging.html">Message</a></div></div></div>`;}
+const E=AX.esc;
+let state='active', tab='waiting';
+const ROOMS=[{n:'Aisha Rahman',j:'Registered Nurse',l:'Remote',t:'11:00 AM - 11:30 AM',w:'2 minutes'},{n:'James Cooper',j:'Physical Therapist',l:'Dallas, TX',t:'11:00 AM - 11:30 AM',w:'1 minute'},{n:'Sofia Martinez',j:'Medical Assistant',l:'Remote',t:'11:30 AM - 12:00 PM',w:'0 minutes'}];
+const WAIT=[{n:'Derek Washington',j:'Dental Hygienist',l:'Remote',t:'11:30 AM - 12:00 PM',w:'3 minutes',s:'entering',st:'Entering interview room'},{n:'Marcus Johnson',j:'Web Developer',l:'Remote',t:'11:30 AM - 12:00 PM',w:'1 minute',s:'await',st:'Awaiting available interviewer'},{n:'Priya Patel',j:'Frontend Developer',l:'Dallas, TX',t:'12:00 PM - 12:30 PM',w:'0 minutes',s:'await',st:'Awaiting available interviewer'}];
+const PROG=[{n:'Aisha Rahman',j:'Registered Nurse',l:'Remote',t:'11:00 AM - 11:30 AM',d:'13m 2s',iv:'Emily Chen'},{n:'James Cooper',j:'Physical Therapist',l:'Dallas, TX',t:'11:00 AM - 11:30 AM',d:'4m 13s',iv:'Maria Lopez'},{n:'Sofia Martinez',j:'Medical Assistant',l:'Remote',t:'11:30 AM - 12:00 PM',d:'0m 47s',iv:'David Park'}];
+const DONE=[{n:'Marcus Thompson',j:'Registered Nurse',l:'Remote',t:'11:00 AM',fb:'No',iv:'Emily Chen'},{n:'Priya Sharma',j:'Physical Therapist',l:'Dallas, TX',t:'11:40 AM',fb:'Yes',iv:'Maria Lopez'},{n:'David Kim',j:'Medical Assistant',l:'Remote',t:'12:03 PM',fb:'Maybe',iv:'David Park'},{n:'Rachel Foster',j:'Registered Nurse',l:'Houston, TX',t:'11:56 AM',fb:'Yes',iv:'Emily Chen'},{n:'Tyler Washington',j:'Physical Therapist',l:'Remote',t:'12:05 PM',fb:'Maybe',iv:'Maria Lopez'}];
+const AWAIT=[{n:'Tamara Williams',j:'Registered Nurse',l:'Dallas, TX',r:'9:00 AM - 9:30 AM',p:false},{n:'Marcus Johnson',j:'Web Developer',l:'Remote',r:'9:30 AM - 10:00 AM',p:false},{n:'Aisha Mohammed',j:'Registered Nurse',l:'Dallas, TX',r:'11:30 AM - 12:00 PM',p:false},{n:'Ryan Cooper',j:'Frontend Developer',l:'Remote',r:'12:00 PM - 12:30 PM',p:false},{n:'Priya Patel',j:'Frontend Developer',l:'Remote',r:'2:00 PM - 2:30 PM',p:true},{n:'Jordan Lee',j:'Registered Nurse',l:'Dallas, TX',r:'3:00 PM - 3:30 PM',p:true}];
+const UP=[{n:'Michael Sanchez Reyes',j:'Web Developer',l:'Remote',t:'10:30 AM - 11:00 AM'},{n:'Babar Nawaz',j:'Web Developer',l:'Remote',t:'10:30 AM - 11:00 AM'},{n:'Jonathan Kleve',j:'Registered Nurse',l:'Dallas, TX',t:'11:00 AM - 11:30 AM'},{n:'Andy Pham',j:'Frontend Developer',l:'Remote',t:'11:30 AM - 12:00 PM'},{n:'Sarah Kim',j:'Frontend Developer',l:'Remote',t:'12:00 PM - 12:30 PM'},{n:'David Chen',j:'Frontend Developer',l:'Remote',t:'12:00 PM - 12:30 PM'},{n:'Rachel Torres',j:'Full Stack Developer',l:'Remote',t:'12:30 PM - 1:00 PM'},{n:'Dayo Awobeku',j:'Medical Assistant',l:'Remote',t:'1:00 PM - 1:30 PM'}];
+const MISS=[{n:'Tamara Williams',j:'Registered Nurse',l:'Dallas, TX',t:'9:00 AM - 9:30 AM'},{n:'Marcus Johnson',j:'Web Developer',l:'Remote',t:'9:30 AM - 10:00 AM'},{n:'Priya Patel',j:'Frontend Developer',l:'Remote',t:'10:00 AM - 10:30 AM'},{n:'Jordan Lee',j:'Registered Nurse',l:'Dallas, TX',t:'10:00 AM - 10:30 AM'},{n:'Keisha Brown',j:'Full Stack Developer',l:'Remote',t:'10:30 AM - 11:00 AM'},{n:'Daniel Ortiz',j:'Web Developer',l:'Remote',t:'11:00 AM - 11:30 AM'},{n:'Aisha Mohammed',j:'Registered Nurse',l:'Dallas, TX',t:'11:30 AM - 12:00 PM'},{n:'Ryan Cooper',j:'Frontend Developer',l:'Remote',t:'12:00 PM - 12:30 PM'},{n:'Sofia Ramirez',j:'Medical Assistant',l:'Houston, TX',t:'1:00 PM - 1:30 PM'},{n:'James Mitchell',j:'Physical Therapist',l:'Dallas, TX',t:'1:30 PM - 2:00 PM'}];
 
-function counts(){['upcoming','pending','past'].forEach(t=>document.getElementById('c-'+t).textContent=bucket(t).length);}
-function render(){
-  counts();
-  ['upcoming','pending','past'].forEach(t=>document.getElementById('t-'+t).className='subtab'+(t===tab?' active':''));
-  const rows=bucket(tab);
-  const tbl=document.getElementById('tbl');
-  if(!rows.length){tbl.innerHTML=`<div class="empty">You don't have ${tab} interviews. ${tab==='upcoming'?'All scheduled interviews will show up here.':''}</div>`;return;}
-  if(tab==='pending'){
-    tbl.innerHTML=`<table><thead><tr><th>Name</th><th>Role</th><th>Requested time</th><th style="width:320px">Action</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${nameCell(x)}</td><td>${E(x.role)}</td><td>${E(x.time)} PDT</td><td><div class="row2" style="gap:8px;max-width:310px"><button class="btn btn-accept btn-xs">Accept</button><button class="btn btn-line btn-xs">Reschedule</button><button class="btn btn-line btn-xs">Decline</button></div></td></tr>`).join('')}</tbody></table>`;
-  }else if(tab==='upcoming'){
-    tbl.innerHTML=`<table><thead><tr><th>Name</th><th>Role</th><th>Interview time</th><th style="width:250px">Action</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${nameCell(x)}</td><td>${E(x.role)}</td><td>${E(x.time)} PDT</td><td><div class="row2" style="gap:8px;max-width:240px"><button class="btn btn-line btn-xs">Reschedule</button><button class="btn btn-line btn-xs">Cancel</button></div></td></tr>`).join('')}</tbody></table>`;
-  }else{
-    tbl.innerHTML=`<table><thead><tr><th>Name</th><th>Role</th><th>Interview</th><th>Feedback</th><th style="width:150px">Action</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${nameCell(x)}</td><td>${E(x.role)}</td><td>${E(x.time)} PDT</td><td><span class="chip ${x.feedback==='Yes'?'active':'sourcing'}"><span class="dot"></span>${E(x.feedback||'Review')}</span></td><td><a class="link" href="messaging.html">Follow up</a></td></tr>`).join('')}</tbody></table>`;
-  }
+function counts(){
+  if(state==='live')return {waiting:ROOMS.length+WAIT.length,interviewing:PROG.length,interviewed:DONE.length,notyet:AWAIT.length+UP.length};
+  if(state==='active')return {waiting:0,interviewing:0,interviewed:0,notyet:AWAIT.length+UP.length};
+  if(state==='ended')return {waiting:0,interviewing:0,interviewed:DONE.length,notyet:MISS.length};
+  return {waiting:0,interviewing:0,interviewed:0,notyet:0};
 }
-window.go=function(t){tab=t;render();};
-window.rsm=function(){alert('Resume preview is mocked in this prototype.');return false;};
-// agent filter dropdown (simple cycle)
-document.getElementById('agentFilter').onclick=function(){
-  const ids=['all',...s.agents.map(a=>a.id)];
-  const i=ids.indexOf(filter);filter=ids[(i+1)%ids.length];
-  const label=filter==='all'?'All agents':AX.agent(filter).role;
-  this.innerHTML=E(label)+' <span class="ca">&#9662;</span>';render();
-};
+function nameCell(n){return `<div class="namecell"><div class="ava-c">${E(AX.ini(n))}</div><div><div class="nm">${E(n)}</div><div class="links"><a onclick="rsm()">View resume</a><a href="messaging.html">Message</a></div></div></div>`;}
+function emptyBlock(h,s){return `<div class="lobby-empty"><div class="h">${h}</div><div class="s">${s}</div></div>`;}
+
+function renderTabs(){const c=counts();const T=[['waiting','Waiting to interview',c.waiting],['interviewing','Interviewing',c.interviewing],['interviewed','Interviewed',c.interviewed],['notyet','Not yet interviewed',c.notyet]];
+  document.getElementById('tabs').innerHTML=T.map(t=>`<div class="subtab ${tab===t[0]?'active':''}" onclick="setTab('${t[0]}')">${t[1]} <span class="cnt">${t[2]}</span></div>`).join('');}
+
+function startCta(){return `<div class="start-cta" style="margin:18px"><div><div class="t">Ready to start interviewing?</div><div class="s">Update your status and we’ll notify candidates when it’s their time to interview.</div></div><button class="btn btn-primary btn-sm" onclick="setAvail(true)">Start interviewing</button></div>`;}
+function pad(html){return `<div style="padding:18px">${html}</div>`;}
+
+function tbl(head,rows){return `<table><thead><tr>${head.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table>`;}
+
+function render(){
+  renderTabs();
+  const c=document.getElementById('content');let h='';
+  if(tab==='waiting'){
+    if(state==='active'||state==='empty'){h=emptyBlock('Interviewing has not begun','Candidates will appear here once they start the interview and are waiting for you to join.');}
+    else if(state==='ended'){h=emptyBlock('Interviewing has ended','You can schedule follow-up interviews, review feedback, and update notes in your completed report.');}
+    else{ /* live / liveempty */
+      const live=state==='live';
+      const rr=live?ROOMS.map(x=>`<tr><td>${nameCell(x.n)}</td><td>${E(x.j)}</td><td>${E(x.l)}</td><td>${E(x.t)}</td><td>${E(x.w)}</td><td><span class="st ready">&#9679; Ready</span></td><td><button class="btn btn-accept btn-xs" onclick="openM('micModal')">Start interview</button></td></tr>`).join(''):`<tr><td colspan="7" class="sub" style="padding:18px">Candidates will show up here when they are ready to interview.</td></tr>`;
+      const wr=live?WAIT.map(x=>`<tr><td>${nameCell(x.n)}</td><td>${E(x.j)}</td><td>${E(x.l)}</td><td>${E(x.t)}</td><td>${E(x.w)}</td><td><span class="st ${x.s}">&#9679; ${E(x.st)}</span></td></tr>`).join(''):`<tr><td colspan="6" class="sub" style="padding:18px">No one is in the waiting room right now.</td></tr>`;
+      h=startCta()+`<div class="room-sec" style="padding:0 18px 18px"><div class="room-sec-h">Interview rooms (${live?ROOMS.length:0})</div>${tbl(['Name','Desired job','Desired location','Interview time','Wait time','Status','Action'],rr)}</div>
+        <div class="room-sec" style="padding:0 18px 18px"><div class="room-sec-h">Waiting rooms (${live?WAIT.length:0})</div>${tbl(['Name','Desired job','Desired location','Interview time','Wait time','Status'],wr)}</div>`;
+    }
+  }else if(tab==='interviewing'){
+    if(state==='live'){h=pad(`<div class="room-sec-h">Interviews in progress (${PROG.length})</div>`)+`<div style="padding:0 18px 18px">${tbl(['Name','Desired job','Desired location','Interview time','Duration','Interviewer','Action'],PROG.map(x=>`<tr><td>${nameCell(x.n)}</td><td>${E(x.j)}</td><td>${E(x.l)}</td><td>${E(x.t)}</td><td>${E(x.d)}</td><td>${E(x.iv)}</td><td><div class="linkbtns"><a onclick="openM('micModal')">Rejoin</a><a onclick="endCall('${E(x.n)}')">End</a></div></td></tr>`).join(''))}</div>`;}
+    else if(state==='liveempty'){h=pad(`<div class="room-sec-h">Interviews in progress (0)</div><div class="sub">No interviews are in progress right now.</div>`);}
+    else if(state==='ended'){h=emptyBlock('Interviewing has ended','Live interviews have wrapped up. Review feedback in the Interviewed tab.');}
+    else{h=emptyBlock('Interviewing has not begun','Live interviews will appear here once they start.');}
+  }else if(tab==='interviewed'){
+    if(state==='live'||state==='ended'){h=pad(`<div class="room-sec-h">Interviewed candidates (${DONE.length})</div>`)+`<div style="padding:0 18px 18px">${tbl(['Name','Desired job','Desired location','Interview','Feedback','Interviewer','Notes','Action'],DONE.map(x=>`<tr><td>${nameCell(x.n)}</td><td>${E(x.j)}</td><td>${E(x.l)}</td><td>${E(x.t)}</td><td><div class="fb"><span class="cur ${x.fb.replace(' ','-')}">${E(x.fb)}</span> <a class="tinylink" onclick="recommend('${E(x.n)}')">Update</a></div></td><td>${E(x.iv)}</td><td><a class="tinylink" onclick="notes('${E(x.n)}')">Notes</a></td><td><div class="linkbtns"><a onclick="sched('${E(x.n)}')">Schedule follow-up</a><a href="messaging.html">Send a message</a></div></td></tr>`).join(''))}</div>`;}
+    else{h=emptyBlock('No one has been interviewed yet','Candidates you’ve interviewed will appear here with feedback and notes.');}
+  }else{ /* notyet */
+    if(state==='ended'){h=pad(`<div class="room-sec-h">${MISS.length} candidates couldn’t make the interview</div><div class="sub" style="margin-bottom:6px">They’re interested in your company and the role.</div>`)+`<div style="padding:0 18px 18px">${tbl(['Name','Desired job','Desired location','Interview time','Action'],MISS.map(x=>`<tr><td>${nameCell(x.n)}</td><td>${E(x.j)}</td><td>${E(x.l)}</td><td>${E(x.t)}</td><td><div class="linkbtns"><a onclick="sched('${E(x.n)}')">Schedule follow-up</a><a href="messaging.html">Send a message</a></div></td></tr>`).join(''))}</div>`;}
+    else if(state==='active'||state==='live'){
+      const aw=AWAIT.map(x=>`<tr><td>${nameCell(x.n)}</td><td>${E(x.j)}</td><td>${E(x.l)}</td><td>${E(x.r)}</td><td>${x.p?`<div><span class="proposed">Proposed · awaiting candidate</span> <a class="tinylink" onclick="cancelP('${E(x.n)}')">Cancel</a></div>`:`<div class="linkbtns"><a onclick="accept(this)">Accept</a><a onclick="decline('${E(x.n)}')">Decline</a><a onclick="sched('${E(x.n)}')">Reschedule</a></div>`}</td></tr>`).join('');
+      const up=UP.map(x=>`<tr><td>${nameCell(x.n)}</td><td>${E(x.j)}</td><td>${E(x.l)}</td><td>${E(x.t)}</td><td><div class="linkbtns"><a onclick="sched('${E(x.n)}')">Reschedule</a><a onclick="cancelP('${E(x.n)}')">Cancel</a></div></td></tr>`).join('');
+      h=pad(`<div class="room-sec-h">Candidates awaiting your response (${AWAIT.length})</div>`)+`<div style="padding:0 18px 18px">${tbl(['Name','Desired job','Desired location','Requested time','Action'],aw)}</div>`+pad(`<div class="room-sec-h">Candidates with upcoming interviews (${UP.length})</div>`)+`<div style="padding:0 18px 18px">${tbl(['Name','Desired job','Desired location','Interview time','Action'],up)}</div>`;
+    }else{h=emptyBlock('No candidates awaiting your response','When candidates request interviews, they’ll appear here for you to accept, decline, or reschedule.');}
+  }
+  c.innerHTML=h;
+}
+window.setState=function(s){state=s;document.querySelectorAll('.bpill .bn').forEach(b=>b.classList.toggle('on',b.dataset.st===s));render();};
+window.setTab=function(t){tab=t;render();};
+window.setAvail=function(on){document.getElementById('av-on').classList.toggle('on',on);document.getElementById('av-off').classList.toggle('on',!on);};
+window.rsm=function(){alert('Resume preview is mocked.');};
+/* modal openers with name binding */
+window.openM=function(id){if(id==='ivModal')renderIv();if(id==='vtModal')renderBg();document.getElementById(id).classList.add('show');};
+window.closeM=function(id){document.getElementById(id).classList.remove('show');};
+window.decline=function(n){document.getElementById('d_name').textContent=n;openM('declineModal');};
+window.cancelP=function(n){document.getElementById('c_name').textContent=n;openM('cancelModal');};
+window.sched=function(n){openM('schedModal');};
+window.endCall=function(n){document.getElementById('e_name').textContent=n;document.getElementById('r_name').textContent=n;openM('endModal');};
+window.endThenRecommend=function(){closeM('endModal');openM('recModal');};
+window.recommend=function(n){document.getElementById('r_name').textContent=n;openM('recModal');};
+window.notes=function(n){document.getElementById('n_name').textContent=n;openM('notesModal');};
+window.accept=function(el){const tr=el.closest('tr');tr.querySelector('td:last-child').innerHTML='<span class="st ready">&#9679; Accepted</span>';};
+/* interviewers modal */
+let ivs=['demo@jobfairx.com (you)'];
+function renderIv(){document.getElementById('ivchips').innerHTML=ivs.map((iv,i)=>`<div class="email-chip">${E(iv)}${i>0?`<span class="x" onclick="rmIv(${i})">&times;</span>`:''}</div>`).join('');}
+window.addIv=function(){const v=document.getElementById('ivEmail').value.trim();if(!/.+@.+\..+/.test(v))return;ivs.push(v);document.getElementById('ivEmail').value='';renderIv();};
+window.rmIv=function(i){ivs.splice(i,1);renderIv();};
+/* virtual backgrounds */
+const BGS=['Blur','#bcd4ef','#1f3a8a','#f7c5d4','#e24b4a','#1d9e75','#3a3a3a','#cdb4f6','#9aa9ef','#f6e7bd','#ef9f27','#d3d1c7'];
+function renderBg(){document.getElementById('bgGrid').innerHTML='<div class="bg-swatch none sel" title="None">\u2298</div>'+BGS.map(b=>'<div class="bg-swatch" style="background:'+(b==='Blur'?'#e7e5e1':b)+'" title="'+b+'" onclick="pickBg(this)"></div>').join('');}
+window.pickBg=function(el){document.querySelectorAll('.bg-swatch').forEach(s=>s.classList.remove('sel'));el.classList.add('sel');};
+[...document.querySelectorAll('.overlay')].forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('show');}));
 render();
 </script>
 </body>
