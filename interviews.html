@@ -451,6 +451,30 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
 .rec-opts input{display:none}
 .rec-opts label:has(input:checked){border-color:var(--blue);background:#f5f8ff;color:var(--blue)}
 
+/* ===== Lobby exact (from lobby-v3) ===== */
+.ltabs-wrap{border-bottom:3px solid #d4d2d0;margin-top:4px}
+.ltabs{display:flex}
+.ltab{flex:1 1 0;padding:20px 16px;text-align:center;font-size:16px;font-weight:400;color:#595959;cursor:pointer;border:none;border-bottom:4px solid transparent;margin-bottom:-3px;background:none;font-family:inherit}
+.ltab:hover{color:#2d2d2d}
+.ltab.active{color:#2d2d2d;border-bottom-color:#2d2d2d;font-weight:700}
+.lpanel{background:#f3f2ef;padding:24px 0 0}
+.status-card{background:#fff;border-radius:16px;padding:32px 36px;display:flex;align-items:center;justify-content:space-between;gap:24px;border:1px solid #b0aeab}
+.status-card-text h3{font-size:24px;font-weight:700;color:#2d2d2d;margin-bottom:6px}
+.status-card-text p{font-size:16px;font-weight:400;color:#595959;line-height:1.5;margin:0}
+.status-card-illustration{flex-shrink:0;width:140px;height:100px}
+.prep-card{background:#fff;border-radius:16px;overflow:hidden;margin-top:24px}
+.prep-card-header{padding:32px 36px 0;font-size:22px;font-weight:800;color:#2d2d2d}
+.prep-row{display:flex;align-items:center;gap:24px;padding:28px 36px;border-bottom:1px solid #ebebeb}
+.prep-row:last-child{border-bottom:none}
+.prep-illustration{flex-shrink:0;width:120px;height:90px}
+.prep-text{flex:1 1 0}
+.prep-title{font-size:16px;font-weight:700;color:#2d2d2d}
+.prep-desc{font-size:14px;color:#767676;margin-top:4px}
+.prep-action{display:inline-block;font-size:16px;color:#0044b3;font-weight:700;cursor:pointer;white-space:nowrap;padding:10px 20px;border:2px solid #0044b3;border-radius:8px;background:#fff}
+.prep-action:hover{background:#f0f5ff}
+.lcard{background:#fff;border-radius:16px;border:1px solid #ebebeb;padding:24px 28px;margin-bottom:18px}
+.lcard .room-sec-h{margin:0 0 14px}
+
 </style>
 </head>
 <body>
@@ -475,15 +499,13 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
         <button class="lobby-link" onclick="openM('ivModal')">Add interviewers</button>
         <button class="lobby-link" onclick="openM('nameModal')">Update display name</button>
         <button class="lobby-link" onclick="openM('vtModal')">Test video and audio</button>
-        <span class="lobby-spacer"></span>
       </div>
-      <div class="subtabs" id="tabs"></div>
-      <div class="panel" style="border-top-left-radius:0;border-top-right-radius:0;border-top:none;padding:0" id="content"></div>
+      <div class="ltabs-wrap"><div class="ltabs" id="tabs"></div></div>
+      <div class="lpanel" id="content"></div>
     </div>
   </main>
 </div>
 
-<!-- modals -->
 <div class="overlay" id="declineModal"><div class="modal"><h3>Decline interview</h3><p>Are you sure you want to decline the interview request from <b id="d_name">this candidate</b>? This can’t be undone and the candidate will be removed from your list.</p><label class="chk-row"><input type="checkbox"> Don’t show this message when I decline</label><div class="modal-foot"><button class="btn btn-ghost btn-sm" onclick="closeM('declineModal')">Cancel</button><button class="btn btn-danger btn-sm" onclick="closeM('declineModal')">Decline</button></div></div></div>
 <div class="overlay" id="cancelModal"><div class="modal"><h3>Cancel proposed interview</h3><p>Cancel your interview time request for <b id="c_name">this candidate</b>? The candidate will be notified and the original requested time restored.</p><label class="chk-row"><input type="checkbox"> Don’t show this message when I cancel</label><div class="modal-foot"><button class="btn btn-ghost btn-sm" onclick="closeM('cancelModal')">Keep request</button><button class="btn btn-danger btn-sm" onclick="closeM('cancelModal')">Cancel request</button></div></div></div>
 <div class="overlay" id="schedModal"><div class="modal"><h3>Schedule with candidate</h3><div class="setup-field"><label class="setup-label">Propose a time</label><input class="setup-input" type="text" placeholder="e.g. Thu 10:00 AM - 10:30 AM"></div><button class="tinylink" style="margin-bottom:12px">＋ Suggest multiple times</button><div class="setup-field"><label class="setup-label">Message to candidate</label><textarea class="setup-input" rows="3" style="border-radius:10px"></textarea></div><div class="modal-foot"><button class="btn btn-ghost btn-sm" onclick="closeM('schedModal')">Cancel</button><button class="btn btn-primary btn-sm" onclick="closeM('schedModal')">Send</button></div></div></div>
@@ -634,8 +656,17 @@ const AX=(function(){
 <script>
 document.getElementById('side').innerHTML=AX.sidebar('interviews');
 document.getElementById('top').innerHTML=AX.topbar();
-const E=AX.esc;
-let state='active', tab='waiting';
+const E=AX.esc;let state='active',tab='waiting';
+const SVG_EMPTY='<svg class="status-card-illustration" viewBox="0 0 140 100" fill="none"><circle cx="55" cy="35" r="10" fill="#8fbc8f" opacity="0.7"></circle><circle cx="62" cy="28" r="8" fill="#7da67d" opacity="0.8"></circle><circle cx="50" cy="28" r="7" fill="#a8d5a8" opacity="0.6"></circle><rect x="54" y="44" width="4" height="16" rx="2" fill="#c17f59"></rect><rect x="48" y="58" width="16" height="8" rx="3" fill="#d4956b" opacity="0.5"></rect><rect x="80" y="38" width="28" height="4" rx="2" fill="#d4956b"></rect><rect x="104" y="30" width="4" height="36" rx="2" fill="#c17f59"></rect><rect x="80" y="42" width="4" height="24" rx="2" fill="#c17f59"></rect><rect x="96" y="42" width="4" height="24" rx="2" fill="#c17f59" opacity="0.6"></rect><rect x="108" y="30" width="4" height="12" rx="2" fill="#d4956b" opacity="0.7"></rect><rect x="70" y="66" width="50" height="6" rx="3" fill="#f0ebe4"></rect><rect x="78" y="72" width="4" height="14" rx="2" fill="#e0d6ca"></rect><rect x="108" y="72" width="4" height="14" rx="2" fill="#e0d6ca"></rect><circle cx="30" cy="55" r="8" fill="#e8ddd0" opacity="0.5"></circle><rect x="22" y="64" width="16" height="20" rx="4" fill="#e8ddd0" opacity="0.4"></rect></svg>';
+const SVG_REVIEW='<svg class="prep-illustration" viewBox="0 0 120 90" fill="none"><rect x="10" y="50" width="70" height="6" rx="3" fill="#e8e0d4"></rect><rect x="14" y="56" width="4" height="20" rx="2" fill="#d4c8b8"></rect><rect x="72" y="56" width="4" height="20" rx="2" fill="#d4c8b8"></rect><rect x="22" y="16" width="46" height="34" rx="4" fill="#d6e4f7"></rect><rect x="26" y="20" width="38" height="26" rx="2" fill="#fff"></rect><rect x="42" y="50" width="6" height="4" fill="#c4b8a8"></rect><text x="45" y="38" font-size="18" font-weight="700" fill="#0044B3" text-anchor="middle" font-family="sans-serif">?</text><circle cx="95" cy="30" r="10" fill="#e8a87c"></circle><rect x="85" y="42" width="20" height="24" rx="6" fill="#4a90d9"></rect><rect x="72" y="46" width="16" height="5" rx="2.5" fill="#e8a87c"></rect></svg>';
+const SVG_IV='<svg class="prep-illustration" viewBox="0 0 120 90" fill="none"><circle cx="35" cy="25" r="10" fill="#e8a87c"></circle><rect x="25" y="37" width="20" height="22" rx="6" fill="#d4956b"></rect><circle cx="65" cy="25" r="10" fill="#c9a87c"></circle><rect x="55" y="37" width="20" height="22" rx="6" fill="#4a90d9"></rect><circle cx="50" cy="18" r="8" fill="#a8c5a8" opacity="0.7"></circle><rect x="42" y="28" width="16" height="18" rx="5" fill="#7da67d" opacity="0.6"></rect><circle cx="95" cy="35" r="14" fill="#f0f5ff" stroke="#0044B3" stroke-width="2"></circle><rect x="93" y="27" width="4" height="16" rx="2" fill="#0044B3"></rect><rect x="87" y="33" width="16" height="4" rx="2" fill="#0044B3"></rect></svg>';
+const SVG_MSG='<svg class="prep-illustration" viewBox="0 0 120 90" fill="none"><rect x="15" y="10" width="60" height="45" rx="5" fill="#d6e4f7"></rect><rect x="20" y="15" width="50" height="35" rx="3" fill="#fff"></rect><rect x="40" y="55" width="10" height="6" fill="#c4b8a8"></rect><rect x="30" y="60" width="30" height="4" rx="2" fill="#d4c8b8"></rect><rect x="26" y="22" width="38" height="14" rx="4" fill="#e8f4e8"></rect><rect x="28" y="25" width="20" height="2.5" rx="1" fill="#7da67d"></rect><rect x="28" y="30" width="14" height="2.5" rx="1" fill="#7da67d" opacity="0.6"></rect><circle cx="95" cy="35" r="18" fill="#fef3e2" opacity="0.6"></circle><circle cx="100" cy="45" r="12" fill="#fde8d0" opacity="0.5"></circle></svg>';
+function statusCard(h,s){return `<div class="status-card"><div class="status-card-text"><h3>${h}</h3><p>${s}</p></div>${SVG_EMPTY}</div>`;}
+function prepCard(){return `<div class="prep-card"><div class="prep-card-header">Prepare for your interview</div>
+  <div class="prep-row">${SVG_REVIEW}<div class="prep-text"><div class="prep-title">Review your candidates</div><div class="prep-desc">You have 10 candidates to review.</div></div><a class="prep-action" onclick="setTab('notyet')">View candidates</a></div>
+  <div class="prep-row">${SVG_IV}<div class="prep-text"><div class="prep-title">Add interviewers</div><div class="prep-desc">You added 1 interviewer.</div></div><a class="prep-action" onclick="openM('ivModal')">Add interviewers</a></div>
+  <div class="prep-row">${SVG_MSG}<div class="prep-text"><div class="prep-title">Update custom messaging</div><div class="prep-desc">When you accept a candidate’s interview request, this message is sent automatically to start the conversation.</div></div><a class="prep-action" onclick="openM('msgModal')">Edit custom message</a></div></div>`;}
+
 const ROOMS=[{n:'Aisha Rahman',j:'Registered Nurse',l:'Remote',t:'11:00 AM - 11:30 AM',w:'2 minutes'},{n:'James Cooper',j:'Physical Therapist',l:'Dallas, TX',t:'11:00 AM - 11:30 AM',w:'1 minute'},{n:'Sofia Martinez',j:'Medical Assistant',l:'Remote',t:'11:30 AM - 12:00 PM',w:'0 minutes'}];
 const WAIT=[{n:'Derek Washington',j:'Dental Hygienist',l:'Remote',t:'11:30 AM - 12:00 PM',w:'3 minutes',s:'entering',st:'Entering interview room'},{n:'Marcus Johnson',j:'Web Developer',l:'Remote',t:'11:30 AM - 12:00 PM',w:'1 minute',s:'await',st:'Awaiting available interviewer'},{n:'Priya Patel',j:'Frontend Developer',l:'Dallas, TX',t:'12:00 PM - 12:30 PM',w:'0 minutes',s:'await',st:'Awaiting available interviewer'}];
 const PROG=[{n:'Aisha Rahman',j:'Registered Nurse',l:'Remote',t:'11:00 AM - 11:30 AM',d:'13m 2s',iv:'Emily Chen'},{n:'James Cooper',j:'Physical Therapist',l:'Dallas, TX',t:'11:00 AM - 11:30 AM',d:'4m 13s',iv:'Maria Lopez'},{n:'Sofia Martinez',j:'Medical Assistant',l:'Remote',t:'11:30 AM - 12:00 PM',d:'0m 47s',iv:'David Park'}];
@@ -644,59 +675,41 @@ const AWAIT=[{n:'Tamara Williams',j:'Registered Nurse',l:'Dallas, TX',r:'9:00 AM
 const UP=[{n:'Michael Sanchez Reyes',j:'Web Developer',l:'Remote',t:'10:30 AM - 11:00 AM'},{n:'Babar Nawaz',j:'Web Developer',l:'Remote',t:'10:30 AM - 11:00 AM'},{n:'Jonathan Kleve',j:'Registered Nurse',l:'Dallas, TX',t:'11:00 AM - 11:30 AM'},{n:'Andy Pham',j:'Frontend Developer',l:'Remote',t:'11:30 AM - 12:00 PM'},{n:'Sarah Kim',j:'Frontend Developer',l:'Remote',t:'12:00 PM - 12:30 PM'},{n:'David Chen',j:'Frontend Developer',l:'Remote',t:'12:00 PM - 12:30 PM'},{n:'Rachel Torres',j:'Full Stack Developer',l:'Remote',t:'12:30 PM - 1:00 PM'},{n:'Dayo Awobeku',j:'Medical Assistant',l:'Remote',t:'1:00 PM - 1:30 PM'}];
 const MISS=[{n:'Tamara Williams',j:'Registered Nurse',l:'Dallas, TX',t:'9:00 AM - 9:30 AM'},{n:'Marcus Johnson',j:'Web Developer',l:'Remote',t:'9:30 AM - 10:00 AM'},{n:'Priya Patel',j:'Frontend Developer',l:'Remote',t:'10:00 AM - 10:30 AM'},{n:'Jordan Lee',j:'Registered Nurse',l:'Dallas, TX',t:'10:00 AM - 10:30 AM'},{n:'Keisha Brown',j:'Full Stack Developer',l:'Remote',t:'10:30 AM - 11:00 AM'},{n:'Daniel Ortiz',j:'Web Developer',l:'Remote',t:'11:00 AM - 11:30 AM'},{n:'Aisha Mohammed',j:'Registered Nurse',l:'Dallas, TX',t:'11:30 AM - 12:00 PM'},{n:'Ryan Cooper',j:'Frontend Developer',l:'Remote',t:'12:00 PM - 12:30 PM'},{n:'Sofia Ramirez',j:'Medical Assistant',l:'Houston, TX',t:'1:00 PM - 1:30 PM'},{n:'James Mitchell',j:'Physical Therapist',l:'Dallas, TX',t:'1:30 PM - 2:00 PM'}];
 
-function counts(){
-  if(state==='live')return {waiting:ROOMS.length+WAIT.length,interviewing:PROG.length,interviewed:DONE.length,notyet:AWAIT.length+UP.length};
-  if(state==='active')return {waiting:0,interviewing:0,interviewed:0,notyet:AWAIT.length+UP.length};
-  if(state==='ended')return {waiting:0,interviewing:0,interviewed:DONE.length,notyet:MISS.length};
-  return {waiting:0,interviewing:0,interviewed:0,notyet:0};
-}
+function counts(){if(state==='live')return{waiting:ROOMS.length+WAIT.length,interviewing:PROG.length,interviewed:DONE.length,notyet:AWAIT.length+UP.length};if(state==='active')return{waiting:0,interviewing:0,interviewed:0,notyet:AWAIT.length+UP.length};if(state==='ended')return{waiting:0,interviewing:0,interviewed:DONE.length,notyet:MISS.length};return{waiting:0,interviewing:0,interviewed:0,notyet:0};}
 function nameCell(n){return `<div class="namecell"><div class="ava-c">${E(AX.ini(n))}</div><div><div class="nm">${E(n)}</div><div class="links"><a onclick="rsm()">View resume</a><a href="messaging.html">Message</a></div></div></div>`;}
-function emptyBlock(h,s){return `<div class="lobby-empty"><div class="h">${h}</div><div class="s">${s}</div></div>`;}
-
-function renderTabs(){const c=counts();const T=[['waiting','Waiting to interview',c.waiting],['interviewing','Interviewing',c.interviewing],['interviewed','Interviewed',c.interviewed],['notyet','Not yet interviewed',c.notyet]];
-  document.getElementById('tabs').innerHTML=T.map(t=>`<div class="subtab ${tab===t[0]?'active':''}" onclick="setTab('${t[0]}')">${t[1]} <span class="cnt">${t[2]}</span></div>`).join('');}
-
-function startCta(){return `<div class="start-cta" style="margin:18px"><div><div class="t">Ready to start interviewing?</div><div class="s">Update your status and we’ll notify candidates when it’s their time to interview.</div></div><button class="btn btn-primary btn-sm" onclick="setAvail(true)">Start interviewing</button></div>`;}
-function pad(html){return `<div style="padding:18px">${html}</div>`;}
-
 function tbl(head,rows){return `<table><thead><tr>${head.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table>`;}
+function card(inner){return `<div class="lcard">${inner}</div>`;}
+function renderTabs(){const c=counts();const T=[['waiting','Waiting to interview',c.waiting],['interviewing','Interviewing',c.interviewing],['interviewed','Interviewed',c.interviewed],['notyet','Not yet interviewed',c.notyet]];document.getElementById('tabs').innerHTML=T.map(t=>`<button class="ltab ${tab===t[0]?'active':''}" onclick="setTab('${t[0]}')">${t[1]} (${t[2]})</button>`).join('');}
+function startCta(){return `<div class="start-cta"><div><div class="t">Ready to start interviewing?</div><div class="s">Update your status and we’ll notify candidates when it’s their time to interview.</div></div><button class="btn btn-primary btn-sm" onclick="setAvail(true)">Start interviewing</button></div>`;}
 
 function render(){
-  renderTabs();
-  const c=document.getElementById('content');let h='';
+  renderTabs();let h='';const C=document.getElementById('content');
   if(tab==='waiting'){
-    if(state==='active'||state==='empty'){h=emptyBlock('Interviewing has not begun','Candidates will appear here once they start the interview and are waiting for you to join.');}
-    else if(state==='ended'){h=emptyBlock('Interviewing has ended','You can schedule follow-up interviews, review feedback, and update notes in your completed report.');}
-    else{ /* live / liveempty */
-      const live=state==='live';
-      const rr=live?ROOMS.map(x=>`<tr><td>${nameCell(x.n)}</td><td>${E(x.j)}</td><td>${E(x.l)}</td><td>${E(x.t)}</td><td>${E(x.w)}</td><td><span class="st ready">&#9679; Ready</span></td><td><button class="btn btn-accept btn-xs" onclick="openM('micModal')">Start interview</button></td></tr>`).join(''):`<tr><td colspan="7" class="sub" style="padding:18px">Candidates will show up here when they are ready to interview.</td></tr>`;
-      const wr=live?WAIT.map(x=>`<tr><td>${nameCell(x.n)}</td><td>${E(x.j)}</td><td>${E(x.l)}</td><td>${E(x.t)}</td><td>${E(x.w)}</td><td><span class="st ${x.s}">&#9679; ${E(x.st)}</span></td></tr>`).join(''):`<tr><td colspan="6" class="sub" style="padding:18px">No one is in the waiting room right now.</td></tr>`;
-      h=startCta()+`<div class="room-sec" style="padding:0 18px 18px"><div class="room-sec-h">Interview rooms (${live?ROOMS.length:0})</div>${tbl(['Name','Desired job','Desired location','Interview time','Wait time','Status','Action'],rr)}</div>
-        <div class="room-sec" style="padding:0 18px 18px"><div class="room-sec-h">Waiting rooms (${live?WAIT.length:0})</div>${tbl(['Name','Desired job','Desired location','Interview time','Wait time','Status'],wr)}</div>`;
-    }
+    if(state==='active'||state==='empty')h=statusCard('Interviewing has not begun','Candidates will appear here once they start the interview and are waiting for you to join.')+prepCard();
+    else if(state==='ended')h=statusCard('Interviewing has ended','You can schedule follow-up interviews, review feedback, and update notes in your completed report.');
+    else{const live=state==='live';
+      const rr=live?ROOMS.map(x=>`<tr><td>${nameCell(x.n)}</td><td>${E(x.j)}</td><td>${E(x.l)}</td><td>${E(x.t)}</td><td>${E(x.w)}</td><td><span class="st ready">&#9679; Ready</span></td><td><button class="btn btn-accept btn-xs" onclick="openM('micModal')">Start interview</button></td></tr>`).join(''):'<tr><td colspan="7" class="sub" style="padding:14px 0">Candidates will show up here when they are ready to interview.</td></tr>';
+      const wr=live?WAIT.map(x=>`<tr><td>${nameCell(x.n)}</td><td>${E(x.j)}</td><td>${E(x.l)}</td><td>${E(x.t)}</td><td>${E(x.w)}</td><td><span class="st ${x.s}">&#9679; ${E(x.st)}</span></td></tr>`).join(''):'<tr><td colspan="6" class="sub" style="padding:14px 0">No one is in the waiting room right now.</td></tr>';
+      h=startCta()+card(`<div class="room-sec-h">Interview rooms (${live?ROOMS.length:0})</div>`+tbl(['Name','Desired job','Desired location','Interview time','Wait time','Status','Action'],rr))+card(`<div class="room-sec-h">Waiting rooms (${live?WAIT.length:0})</div>`+tbl(['Name','Desired job','Desired location','Interview time','Wait time','Status'],wr));}
   }else if(tab==='interviewing'){
-    if(state==='live'){h=pad(`<div class="room-sec-h">Interviews in progress (${PROG.length})</div>`)+`<div style="padding:0 18px 18px">${tbl(['Name','Desired job','Desired location','Interview time','Duration','Interviewer','Action'],PROG.map(x=>`<tr><td>${nameCell(x.n)}</td><td>${E(x.j)}</td><td>${E(x.l)}</td><td>${E(x.t)}</td><td>${E(x.d)}</td><td>${E(x.iv)}</td><td><div class="linkbtns"><a onclick="openM('micModal')">Rejoin</a><a onclick="endCall('${E(x.n)}')">End</a></div></td></tr>`).join(''))}</div>`;}
-    else if(state==='liveempty'){h=pad(`<div class="room-sec-h">Interviews in progress (0)</div><div class="sub">No interviews are in progress right now.</div>`);}
-    else if(state==='ended'){h=emptyBlock('Interviewing has ended','Live interviews have wrapped up. Review feedback in the Interviewed tab.');}
-    else{h=emptyBlock('Interviewing has not begun','Live interviews will appear here once they start.');}
+    if(state==='active'||state==='empty')h=statusCard('Interviewing has not begun','Live interviews will appear here once they start.')+prepCard();
+    else if(state==='live')h=card(`<div class="room-sec-h">Interviews in progress (${PROG.length})</div>`+tbl(['Name','Desired job','Desired location','Interview time','Duration','Interviewer','Action'],PROG.map(x=>`<tr><td>${nameCell(x.n)}</td><td>${E(x.j)}</td><td>${E(x.l)}</td><td>${E(x.t)}</td><td>${E(x.d)}</td><td>${E(x.iv)}</td><td><div class="linkbtns"><a onclick="openM('micModal')">Rejoin</a><a onclick="endCall('${E(x.n)}')">End</a></div></td></tr>`).join('')));
+    else if(state==='liveempty')h=card('<div class="room-sec-h">Interviews in progress (0)</div><div class="sub">No interviews are in progress right now.</div>');
+    else h=statusCard('Interviewing has ended','Live interviews have wrapped up. Review feedback in the Interviewed tab.');
   }else if(tab==='interviewed'){
-    if(state==='live'||state==='ended'){h=pad(`<div class="room-sec-h">Interviewed candidates (${DONE.length})</div>`)+`<div style="padding:0 18px 18px">${tbl(['Name','Desired job','Desired location','Interview','Feedback','Interviewer','Notes','Action'],DONE.map(x=>`<tr><td>${nameCell(x.n)}</td><td>${E(x.j)}</td><td>${E(x.l)}</td><td>${E(x.t)}</td><td><div class="fb"><span class="cur ${x.fb.replace(' ','-')}">${E(x.fb)}</span> <a class="tinylink" onclick="recommend('${E(x.n)}')">Update</a></div></td><td>${E(x.iv)}</td><td><a class="tinylink" onclick="notes('${E(x.n)}')">Notes</a></td><td><div class="linkbtns"><a onclick="sched('${E(x.n)}')">Schedule follow-up</a><a href="messaging.html">Send a message</a></div></td></tr>`).join(''))}</div>`;}
-    else{h=emptyBlock('No one has been interviewed yet','Candidates you’ve interviewed will appear here with feedback and notes.');}
-  }else{ /* notyet */
-    if(state==='ended'){h=pad(`<div class="room-sec-h">${MISS.length} candidates couldn’t make the interview</div><div class="sub" style="margin-bottom:6px">They’re interested in your company and the role.</div>`)+`<div style="padding:0 18px 18px">${tbl(['Name','Desired job','Desired location','Interview time','Action'],MISS.map(x=>`<tr><td>${nameCell(x.n)}</td><td>${E(x.j)}</td><td>${E(x.l)}</td><td>${E(x.t)}</td><td><div class="linkbtns"><a onclick="sched('${E(x.n)}')">Schedule follow-up</a><a href="messaging.html">Send a message</a></div></td></tr>`).join(''))}</div>`;}
-    else if(state==='active'||state==='live'){
-      const aw=AWAIT.map(x=>`<tr><td>${nameCell(x.n)}</td><td>${E(x.j)}</td><td>${E(x.l)}</td><td>${E(x.r)}</td><td>${x.p?`<div><span class="proposed">Proposed · awaiting candidate</span> <a class="tinylink" onclick="cancelP('${E(x.n)}')">Cancel</a></div>`:`<div class="linkbtns"><a onclick="accept(this)">Accept</a><a onclick="decline('${E(x.n)}')">Decline</a><a onclick="sched('${E(x.n)}')">Reschedule</a></div>`}</td></tr>`).join('');
-      const up=UP.map(x=>`<tr><td>${nameCell(x.n)}</td><td>${E(x.j)}</td><td>${E(x.l)}</td><td>${E(x.t)}</td><td><div class="linkbtns"><a onclick="sched('${E(x.n)}')">Reschedule</a><a onclick="cancelP('${E(x.n)}')">Cancel</a></div></td></tr>`).join('');
-      h=pad(`<div class="room-sec-h">Candidates awaiting your response (${AWAIT.length})</div>`)+`<div style="padding:0 18px 18px">${tbl(['Name','Desired job','Desired location','Requested time','Action'],aw)}</div>`+pad(`<div class="room-sec-h">Candidates with upcoming interviews (${UP.length})</div>`)+`<div style="padding:0 18px 18px">${tbl(['Name','Desired job','Desired location','Interview time','Action'],up)}</div>`;
-    }else{h=emptyBlock('No candidates awaiting your response','When candidates request interviews, they’ll appear here for you to accept, decline, or reschedule.');}
+    if(state==='live'||state==='ended')h=card(`<div class="room-sec-h">Interviewed candidates (${DONE.length})</div>`+tbl(['Name','Desired job','Desired location','Interview','Feedback','Interviewer','Notes','Action'],DONE.map(x=>`<tr><td>${nameCell(x.n)}</td><td>${E(x.j)}</td><td>${E(x.l)}</td><td>${E(x.t)}</td><td><div class="fb"><span class="cur ${x.fb.replace(' ','-')}">${E(x.fb)}</span> <a class="tinylink" onclick="recommend('${E(x.n)}')">Update</a></div></td><td>${E(x.iv)}</td><td><a class="tinylink" onclick="notes('${E(x.n)}')">Notes</a></td><td><div class="linkbtns"><a onclick="sched('${E(x.n)}')">Schedule follow-up</a><a href="messaging.html">Send a message</a></div></td></tr>`).join('')));
+    else h=statusCard('No one has been interviewed yet','Candidates you’ve interviewed will appear here with feedback and notes.');
+  }else{
+    if(state==='ended')h=card(`<div class="room-sec-h">${MISS.length} candidates couldn’t make the interview</div><div class="sub" style="margin:-6px 0 12px">They’re interested in your company and the role.</div>`+tbl(['Name','Desired job','Desired location','Interview time','Action'],MISS.map(x=>`<tr><td>${nameCell(x.n)}</td><td>${E(x.j)}</td><td>${E(x.l)}</td><td>${E(x.t)}</td><td><div class="linkbtns"><a onclick="sched('${E(x.n)}')">Schedule follow-up</a><a href="messaging.html">Send a message</a></div></td></tr>`).join('')));
+    else if(state==='active'||state==='live')h=card(`<div class="room-sec-h">Candidates awaiting your response (${AWAIT.length})</div>`+tbl(['Name','Desired job','Desired location','Requested time','Action'],AWAIT.map(x=>`<tr><td>${nameCell(x.n)}</td><td>${E(x.j)}</td><td>${E(x.l)}</td><td>${E(x.r)}</td><td>${x.p?`<span class="proposed">Proposed · awaiting candidate</span> <a class="tinylink" onclick="cancelP('${E(x.n)}')">Cancel</a>`:`<div class="linkbtns"><a onclick="accept(this)">Accept</a><a onclick="decline('${E(x.n)}')">Decline</a><a onclick="sched('${E(x.n)}')">Reschedule</a></div>`}</td></tr>`).join('')))+card(`<div class="room-sec-h">Candidates with upcoming interviews (${UP.length})</div>`+tbl(['Name','Desired job','Desired location','Interview time','Action'],UP.map(x=>`<tr><td>${nameCell(x.n)}</td><td>${E(x.j)}</td><td>${E(x.l)}</td><td>${E(x.t)}</td><td><div class="linkbtns"><a onclick="sched('${E(x.n)}')">Reschedule</a><a onclick="cancelP('${E(x.n)}')">Cancel</a></div></td></tr>`).join('')));
+    else h=card('<div class="room-sec-h">Candidates awaiting your response (0)</div><div class="sub">No candidates are awaiting your response.</div>')+card('<div class="room-sec-h">Candidates with upcoming interviews (0)</div><div class="sub">No upcoming interviews scheduled.</div>');
   }
-  c.innerHTML=h;
+  C.innerHTML=h;
 }
 window.setState=function(s){state=s;document.querySelectorAll('.bpill .bn').forEach(b=>b.classList.toggle('on',b.dataset.st===s));render();};
 window.setTab=function(t){tab=t;render();};
 window.setAvail=function(on){document.getElementById('av-on').classList.toggle('on',on);document.getElementById('av-off').classList.toggle('on',!on);};
 window.rsm=function(){alert('Resume preview is mocked.');};
-/* modal openers with name binding */
 window.openM=function(id){if(id==='ivModal')renderIv();if(id==='vtModal')renderBg();document.getElementById(id).classList.add('show');};
 window.closeM=function(id){document.getElementById(id).classList.remove('show');};
 window.decline=function(n){document.getElementById('d_name').textContent=n;openM('declineModal');};
@@ -706,15 +719,13 @@ window.endCall=function(n){document.getElementById('e_name').textContent=n;docum
 window.endThenRecommend=function(){closeM('endModal');openM('recModal');};
 window.recommend=function(n){document.getElementById('r_name').textContent=n;openM('recModal');};
 window.notes=function(n){document.getElementById('n_name').textContent=n;openM('notesModal');};
-window.accept=function(el){const tr=el.closest('tr');tr.querySelector('td:last-child').innerHTML='<span class="st ready">&#9679; Accepted</span>';};
-/* interviewers modal */
+window.accept=function(el){el.closest('td').innerHTML='<span class="st ready">&#9679; Accepted</span>';};
 let ivs=['demo@jobfairx.com (you)'];
 function renderIv(){document.getElementById('ivchips').innerHTML=ivs.map((iv,i)=>`<div class="email-chip">${E(iv)}${i>0?`<span class="x" onclick="rmIv(${i})">&times;</span>`:''}</div>`).join('');}
 window.addIv=function(){const v=document.getElementById('ivEmail').value.trim();if(!/.+@.+\..+/.test(v))return;ivs.push(v);document.getElementById('ivEmail').value='';renderIv();};
 window.rmIv=function(i){ivs.splice(i,1);renderIv();};
-/* virtual backgrounds */
 const BGS=['Blur','#bcd4ef','#1f3a8a','#f7c5d4','#e24b4a','#1d9e75','#3a3a3a','#cdb4f6','#9aa9ef','#f6e7bd','#ef9f27','#d3d1c7'];
-function renderBg(){document.getElementById('bgGrid').innerHTML='<div class="bg-swatch none sel" title="None">\u2298</div>'+BGS.map(b=>'<div class="bg-swatch" style="background:'+(b==='Blur'?'#e7e5e1':b)+'" title="'+b+'" onclick="pickBg(this)"></div>').join('');}
+function renderBg(){document.getElementById('bgGrid').innerHTML='<div class="bg-swatch none sel" title="None">⊘</div>'+BGS.map(b=>'<div class="bg-swatch" style="background:'+(b==='Blur'?'#e7e5e1':b)+'" title="'+b+'" onclick="pickBg(this)"></div>').join('');}
 window.pickBg=function(el){document.querySelectorAll('.bg-swatch').forEach(s=>s.classList.remove('sel'));el.classList.add('sel');};
 [...document.querySelectorAll('.overlay')].forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('show');}));
 render();
