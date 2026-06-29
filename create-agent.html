@@ -337,6 +337,74 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
 .modal select.setup-input,.modal input.setup-input{font-size:15px;padding:11px 14px;border-width:1px;border-radius:8px}
 .modal .setup-field{margin-bottom:16px}
 
+/* ===== Activity feed, nudges, overview, candidate detail ===== */
+/* per-agent nudge row on roster */
+.nudge-row td{padding:0 22px 16px!important;border-bottom:1px solid var(--line-soft)}
+.nudge{display:flex;align-items:center;gap:12px;border-radius:10px;padding:11px 14px;font-size:13.5px}
+.nudge.accent{background:#eef3fb;border:1px solid #cfdcf0}
+.nudge.muted{background:var(--th-bg);border:1px solid var(--line-soft);color:var(--muted)}
+.nudge .nb{color:var(--blue);font-size:18px;flex:0 0 auto}
+.nudge .nt{flex:1}.nudge.accent .nt b{color:var(--ink-3)}
+.nudge .ns{color:var(--muted);font-size:12.5px}
+.nudge a.act{color:var(--blue);font-weight:700;white-space:nowrap}
+.nudge .btn{flex:0 0 auto}
+/* activity feed */
+.feed-h{font-size:13px;color:var(--muted);margin:0 0 6px;font-weight:600}
+.feed{display:flex;flex-direction:column}
+.feed-item{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--line-soft)}
+.feed-item:last-child{border-bottom:none}
+.feed-ic{width:30px;height:30px;border-radius:50%;flex:0 0 30px;display:flex;align-items:center;justify-content:center;background:var(--th-bg);color:var(--muted);font-size:15px}
+.feed-ic.accent{background:#eef3fb;color:var(--blue)}
+.feed-tx{flex:1;min-width:0}
+.feed-tx .ft{font-size:14px}
+.feed-tx .fs{font-size:12px;color:var(--muted);margin-top:1px}
+.feed-time{font-size:12px;color:var(--muted);white-space:nowrap}
+.feed-agent{font-size:12px;color:var(--blue);font-weight:600}
+/* overview */
+.ov-section{margin-bottom:30px}
+.ov-h{font-size:18px;font-weight:700;color:var(--ink);margin:0 0 14px}
+.needs{display:flex;flex-direction:column;gap:10px}
+.need{display:flex;align-items:center;gap:13px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px}
+.need.accent{border-color:#cfdcf0;background:#f7faff}
+.need .ni{width:38px;height:38px;border-radius:10px;flex:0 0 38px;display:flex;align-items:center;justify-content:center;font-size:19px}
+.need .ni.blue{background:#eef3fb;color:var(--blue)}
+.need .ni.amber{background:#fdf6e3;color:var(--amber)}
+.need .nx{flex:1}
+.need .nx .t{font-weight:700;font-size:14.5px}
+.need .nx .s{font-size:12.5px;color:var(--muted);margin-top:1px}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:30px}
+.mini-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.mini{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;cursor:pointer;transition:.13s}
+.mini:hover{border-color:#d8cdbb;box-shadow:0 6px 20px -14px rgba(31,58,82,.3)}
+.mini .top{display:flex;justify-content:space-between;align-items:flex-start}
+.mini .role{font-weight:700;font-size:16px;color:var(--ink)}
+.mini .loc{font-size:12.5px;color:var(--muted);margin-top:2px}
+.mini .stats{display:flex;gap:18px;margin-top:14px}
+.mini .stat .n{font-family:inherit;font-size:20px;font-weight:800;color:var(--ink)}
+.mini .stat .l{font-size:11.5px;color:var(--muted)}
+.mini .mininudge{margin-top:14px;font-size:12.5px;display:flex;align-items:center;gap:8px;color:var(--blue);font-weight:600}
+.mini .mininudge.muted{color:var(--muted);font-weight:400}
+.empty-hero{text-align:center;padding:70px 24px;background:#fff;border:1px dashed var(--line);border-radius:16px}
+.empty-hero .eh{font-size:24px;font-weight:700;color:var(--ink);margin-bottom:8px}
+.empty-hero .es{color:var(--muted);max-width:420px;margin:0 auto 22px}
+/* candidate detail */
+.cd-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:22px;align-items:start}
+.cd-head{display:flex;align-items:center;gap:15px;margin-bottom:6px}
+.cd-head .ava-c{width:54px;height:54px;font-size:19px;flex-basis:54px}
+.cd-name{font-size:21px;font-weight:700;color:var(--ink)}
+.cd-sub{font-size:13.5px;color:var(--muted)}
+.cd-section{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700;margin:20px 0 10px}
+.cd-exp{padding:12px 0;border-bottom:1px solid var(--line-soft)}
+.cd-exp:last-child{border-bottom:none}
+.cd-exp .r{font-weight:700}.cd-exp .o{font-size:13px;color:var(--muted);margin:1px 0 4px}.cd-exp .n{font-size:13.5px}
+.cd-scr{display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1px solid var(--line-soft);font-size:13.5px}
+.cd-scr:last-child{border-bottom:none}
+.cd-scr .a{color:var(--ink);font-weight:600;text-align:right}
+.timeline{display:flex;flex-direction:column}
+.tl{display:flex;gap:11px;padding:8px 0}
+.tl .dot{width:9px;height:9px;border-radius:50%;background:var(--blue);margin-top:5px;flex:0 0 9px}
+.tl .tt{font-size:13.5px}.tl .tm{font-size:12px;color:var(--muted)}
+
 </style>
 </head>
 <body>
@@ -608,40 +676,86 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
 <script>
 /* JobAgentX — shared mock data + helpers (sessionStorage) */
 const AX=(function(){
-  const KEY='jobagentx_v1';
+  const KEY='jobagentx_v2';
   function defAvail(){const d=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];const o={};d.forEach((x,i)=>o[x]={on:i<5,start:'09:00',end:'17:00'});return o;}
-  function cand(name,role,loc,time,status){return {id:'c'+Math.random().toString(36).slice(2,8),name,role,location:loc,time,status,resume:name.toLowerCase().replace(/[^a-z]+/g,'_')+'.pdf',messages:[]};}
+  function cand(o){return Object.assign({score:80,skills:[],experience:[],screening:[],activity:[],messages:[],resume:(o.name||'candidate').toLowerCase().replace(/[^a-z]+/g,'_')+'.pdf'},o);}
   function seed(){
     return {
       company:'Northwind Co',
-      bannerMode:1, // 1=single, 2-5 = multiple agents waiting
       agents:[
         {id:'a1',role:'Registered Nurse',location:'Houston, TX · Remote OK',status:'active',
-         jd:'We are seeking compassionate Registered Nurses to deliver patient-centered care, administer treatments, and collaborate with the care team. Full-time, competitive pay, strong benefits.',
+         jd:'We are seeking compassionate Registered Nurses to deliver patient-centered care, administer treatments, and collaborate with the care team.',
          musthaves:['Active RN license','BLS/ACLS certification','1+ year clinical experience'],
-         interviewers:['you','emily.chen@northwind.co'],availability:defAvail(),
-         awaiting:3,confirmed:16,interviewed:5,
+         interviewers:['demo@jobfairx.com (you)','emily.chen@northwind.co'],availability:defAvail(),
+         awaiting:3,confirmed:16,interviewed:5,hires:2,
+         activity:[
+           {mins:12,icon:'ti-calendar-check',accent:true,t:'Booked an interview with Maya Delgado',s:'Thu 10:00 AM · she self-scheduled'},
+           {mins:40,icon:'ti-mail',t:'Messaged James Okoro about availability',s:'Auto follow-up #2'},
+           {mins:120,icon:'ti-user-search',t:'Sourced 6 new candidates',s:'Matched must-haves: CNA/RN, 1+ yr care'},
+           {mins:180,icon:'ti-checks',t:'Pre-qualified 4 candidates',s:'Passed screening: license, transfers, CPR'},
+           {mins:300,icon:'ti-user-x',t:'Screened out 2 candidates',s:'Below must-have requirements'},
+           {mins:1440,icon:'ti-player-play',t:'Started sourcing for this role',s:'Agent launched'}
+         ],
          candidates:[
-           cand('Tamara Williams','Registered Nurse','Dallas, TX','9:00 AM - 9:30 AM','awaiting'),
-           cand('Marcus Johnson','Registered Nurse','Remote','9:30 AM - 10:00 AM','awaiting'),
-           cand('Aisha Mohammed','Registered Nurse','Dallas, TX','11:30 AM - 12:00 PM','awaiting'),
-           cand('Michael Sanchez','Registered Nurse','Remote','10:30 AM - 11:00 AM','upcoming'),
-           cand('Jonathan Kleve','Registered Nurse','Dallas, TX','11:00 AM - 11:30 AM','upcoming'),
-           cand('Rachel Foster','Registered Nurse','Houston, TX','Apr 22, 11:56 AM','interviewed')
+           cand({id:'c1',name:'Maya Delgado',score:94,status:'upcoming',time:'Thu 10:00 AM',location:'Houston, TX',
+             skills:['CNA Certified','Patient Transfers','Med Reminders','Dementia Care','CPR'],
+             experience:[{role:'Care Aide',org:'Sunrise Senior Living',years:'2021–Present',note:'Lead aide on a 14-resident memory-care wing.'},{role:'Home Health Aide',org:'Comfort Keepers',years:'2019–2021',note:'In-home support for 6 recurring clients.'}],
+             screening:[{q:'Do you have an active RN/CNA license?',a:'Yes — CNA'},{q:'1+ year of direct care experience?',a:'Yes — 4 years'}],
+             activity:[{t:'Self-scheduled interview for Thu 10:00 AM',time:'12m ago'},{t:'Replied to follow-up message',time:'1h ago'},{t:'Pre-qualified by agent',time:'3h ago'},{t:'Sourced by agent',time:'1d ago'}],
+             messages:[{from:'recruiter',text:'Hi Maya — your memory-care experience is a strong fit. Open to a short interview this week?'},{from:'candidate',text:'Yes! Mornings work best.'}]}),
+           cand({id:'c2',name:'James Okoro',score:88,status:'awaiting',time:'9:30 AM - 10:00 AM',location:'Houston, TX',
+             skills:['Personal Care','Mobility Support','CPR','Meal Prep'],
+             experience:[{role:'Caregiver',org:'BrightStar Care',years:'2020–Present',note:'One-on-one client care, 12-hr shifts.'}],
+             screening:[{q:'Do you have an active RN/CNA license?',a:'Working toward CNA'},{q:'1+ year of direct care experience?',a:'Yes — 3 years'}],
+             activity:[{t:'Requested an interview',time:'35m ago'},{t:'Pre-qualified by agent',time:'2h ago'},{t:'Sourced by agent',time:'1d ago'}],
+             messages:[{from:'recruiter',text:'Hi James — are you certified as a CNA, or working toward it?'}]}),
+           cand({id:'c3',name:'Tasha Nguyen',score:81,status:'awaiting',time:'11:30 AM - 12:00 PM',location:'Houston, TX',
+             skills:['Medication Aide','Vitals','Documentation'],
+             experience:[{role:'Medication Aide',org:'Brookdale',years:'2022–Present',note:'Administers meds across two wings.'}],
+             screening:[{q:'Do you have an active RN/CNA license?',a:'Med Aide cert'},{q:'1+ year of direct care experience?',a:'Yes — 2 years'}],
+             activity:[{t:'Requested an interview',time:'1h ago'},{t:'Sourced by agent',time:'1d ago'}]}),
+           cand({id:'c4',name:'Aisha Mohammed',score:79,status:'awaiting',time:'1:00 PM - 1:30 PM',location:'Remote',
+             skills:['Telehealth','Triage','EMR'],
+             experience:[{role:'RN (Telehealth)',org:'Teladoc',years:'2021–Present',note:'Remote triage and patient education.'}],
+             screening:[{q:'Do you have an active RN/CNA license?',a:'Yes — RN'},{q:'1+ year of direct care experience?',a:'Yes — 4 years'}],
+             activity:[{t:'Requested an interview',time:'2h ago'},{t:'Sourced by agent',time:'1d ago'}]}),
+           cand({id:'c5',name:'Rachel Foster',score:90,status:'interviewed',time:'Yesterday 2:00 PM',location:'Houston, TX',feedback:'Yes',
+             skills:['ICU','ACLS','Charge Nurse'],
+             experience:[{role:'ICU RN',org:'Memorial Hermann',years:'2018–Present',note:'Charge nurse, 6 years ICU.'}],
+             screening:[{q:'Do you have an active RN/CNA license?',a:'Yes — RN'},{q:'1+ year of direct care experience?',a:'Yes — 6 years'}],
+             activity:[{t:'Interviewed by Emily Chen',time:'1d ago'},{t:'Self-scheduled interview',time:'2d ago'},{t:'Sourced by agent',time:'3d ago'}]})
          ]},
         {id:'a2',role:'Warehouse Associate',location:'Dallas, TX',status:'sourcing',
-         jd:'Pick, pack, and ship orders in a fast-paced distribution center. Operate scanners, keep your zone organized, hit daily targets.',
+         jd:'Pick, pack, and ship orders in a fast-paced distribution center.',
          musthaves:['Able to lift 50 lbs','Available for early shifts','Forklift cert a plus'],
-         interviewers:['you'],availability:defAvail(),
-         awaiting:0,confirmed:0,interviewed:0,candidates:[]},
+         interviewers:['demo@jobfairx.com (you)'],availability:defAvail(),
+         awaiting:0,confirmed:0,interviewed:0,hires:0,
+         activity:[{mins:30,icon:'ti-user-search',t:'Scanning the candidate pool',s:'Matching your must-haves'},{mins:60,icon:'ti-player-play',t:'Started sourcing for this role',s:'Agent launched'}],
+         candidates:[]},
         {id:'a3',role:'Bilingual Call Center Rep',location:'Remote (US)',status:'active',
-         jd:'Handle inbound customer calls in English and Spanish for a healthcare services line. Resolve billing and scheduling questions with empathy.',
+         jd:'Handle inbound customer calls in English and Spanish for a healthcare services line.',
          musthaves:['Fluent English + Spanish','Quiet home workspace','Customer service background'],
-         interviewers:['you','maria.lopez@northwind.co','david.park@northwind.co'],availability:defAvail(),
-         awaiting:7,confirmed:9,interviewed:2,
+         interviewers:['demo@jobfairx.com (you)','maria.lopez@northwind.co','david.park@northwind.co'],availability:defAvail(),
+         awaiting:7,confirmed:9,interviewed:2,hires:1,
+         activity:[
+           {mins:25,icon:'ti-calendar-check',accent:true,t:'Booked an interview with Daniel Cho',s:'Thu 11:00 AM · he self-scheduled'},
+           {mins:90,icon:'ti-user-search',t:'Sourced 9 new candidates',s:'Bilingual, healthcare CS background'},
+           {mins:150,icon:'ti-mail',t:'Messaged Sofía Ramírez',s:'Intro message sent'},
+           {mins:2880,icon:'ti-player-play',t:'Started sourcing for this role',s:'Agent launched'}
+         ],
          candidates:[
-           cand('Sofía Ramírez','Bilingual Call Center Rep','Remote · Austin, TX','10:00 AM - 10:30 AM','awaiting'),
-           cand('Daniel Cho','Bilingual Call Center Rep','Remote · Phoenix, AZ','12:00 PM - 12:30 PM','upcoming')
+           cand({id:'c6',name:'Sofía Ramírez',score:91,status:'awaiting',time:'10:00 AM - 10:30 AM',location:'Remote · Austin, TX',
+             skills:['English/Spanish','Billing Support','Zendesk','De-escalation'],
+             experience:[{role:'Customer Service Rep',org:'Teleperformance',years:'2021–Present',note:'Bilingual healthcare queue, 95% CSAT.'}],
+             screening:[{q:'Fluent in English and Spanish?',a:'Yes — both native'},{q:'Quiet home workspace?',a:'Yes'}],
+             activity:[{t:'Requested an interview',time:'50m ago'},{t:'Pre-qualified by agent',time:'2h ago'},{t:'Sourced by agent',time:'1d ago'}],
+             messages:[{from:'recruiter',text:'Hola Sofía — your bilingual healthcare background is a great fit. Free for a quick interview?'}]}),
+           cand({id:'c7',name:'Daniel Cho',score:79,status:'upcoming',time:'Thu 11:00 AM',location:'Remote · Phoenix, AZ',
+             skills:['English/Spanish','Inbound Calls','CRM'],
+             experience:[{role:'Support Agent',org:'Concentrix',years:'2020–2023',note:'60+ inbound calls/day.'}],
+             screening:[{q:'Fluent in English and Spanish?',a:'Yes'},{q:'Quiet home workspace?',a:'Yes'}],
+             activity:[{t:'Self-scheduled interview',time:'25m ago'},{t:'Sourced by agent',time:'1d ago'}],
+             messages:[{from:'recruiter',text:'Hi Daniel — you’re booked for Thursday at 11:00 AM. Talk soon!'}]})
          ]}
       ]
     };
@@ -651,28 +765,41 @@ const AX=(function(){
   function reset(){sessionStorage.removeItem(KEY);}
   function agent(id){return get().agents.find(a=>a.id===id);}
   function update(id,patch){const s=get();const a=s.agents.find(x=>x.id===id);if(a)Object.assign(a,patch);save(s);return a;}
+  function candidate(aid,cid){return (agent(aid).candidates||[]).find(c=>c.id===cid);}
+  function updateCandidate(aid,cid,patch){const s=get();const a=s.agents.find(x=>x.id===aid);const c=(a.candidates||[]).find(x=>x.id===cid);if(c)Object.assign(c,patch);save(s);return c;}
   function add(a){const s=get();s.agents.push(a);save(s);return a;}
   function qs(k){return new URLSearchParams(location.search).get(k);}
   function esc(t){return (t==null?'':String(t)).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
   function ini(n){return n.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();}
+  /* next best action for an agent */
+  function nudge(a){
+    if(a.awaiting>0)return {text:`${a.awaiting} candidate${a.awaiting>1?'s are':' is'} waiting on your response`,sub:'Replying within 24h keeps show-rates high',label:`Review ${a.awaiting}`,target:`interview-room.html?a=${a.id}`,tone:'accent'};
+    if(a.status==='sourcing')return {text:'Sourcing first candidates — nothing needed yet',tone:'muted'};
+    const up=(a.candidates||[]).filter(c=>c.status==='upcoming').length;
+    if(up>0)return {text:`${up} interview${up>1?'s':''} scheduled — you're all set`,tone:'muted'};
+    return {text:'All caught up',tone:'muted'};
+  }
+  function allActivity(){
+    const out=[];get().agents.forEach(a=>(a.activity||[]).forEach(x=>out.push(Object.assign({agent:a.role,aid:a.id},x))));
+    return out.sort((p,q)=>p.mins-q.mins);
+  }
+  function ago(m){if(m<60)return m+'m ago';if(m<1440)return Math.round(m/60)+'h ago';const d=Math.round(m/1440);return d===1?'Yesterday':d+'d ago';}
   function sidebar(active){
+    const nav=[['dashboard','index.html','&#9636;','Dashboard'],['agents','agents.html','&#9638;','Agents'],['interviews','interviews.html','&#128101;','Interviews'],['messaging','messaging.html','&#128172;','Messaging']];
     return `<aside class="sidebar">
       <div class="sb-collapse" onclick="document.querySelector('.app').classList.toggle('collapsed')"><span class="xi xi-close">&times;</span><span class="xi xi-open">&#9776;</span><span class="cl-label">Collapse</span></div>
-      <nav class="sb-nav">
-        <a href="index.html" class="${active==='dashboard'?'active':''}"><span class="ic">&#9638;</span><span class="lbl">Agents</span></a>
-        <a href="interviews.html" class="${active==='interviews'?'active':''}"><span class="ic">&#128101;</span><span class="lbl">Interviews</span></a>
-        <a href="messaging.html" class="${active==='messaging'?'active':''}"><span class="ic">&#128172;</span><span class="lbl">Messaging</span></a>
-      </nav>
+      <nav class="sb-nav">${nav.map(n=>`<a href="${n[1]}" class="${active===n[0]?'active':''}"><span class="ic">${n[2]}</span><span class="lbl">${n[3]}</span></a>`).join('')}</nav>
     </aside>`;
   }
   function topbar(){return `<div class="topbar"><div class="user">demo@jobfairx.com <span style="color:var(--muted)">&#9662;</span></div></div>`;}
-  return {get,save,reset,agent,update,add,qs,esc,ini,sidebar,topbar,defAvail,cand};
+  function icon(n){return ({"ti-calendar-check":"\uD83D\uDCC5","ti-mail":"\u2709\uFE0F","ti-user-search":"\uD83D\uDD0D","ti-checks":"\u2714\uFE0F","ti-user-x":"\u2715","ti-player-play":"\u25B6\uFE0F"})[n]||"\u2022";}
+  return {get,save,reset,agent,update,candidate,updateCandidate,add,qs,esc,ini,nudge,allActivity,ago,icon,sidebar,topbar,defAvail,cand};
 })();
 
 </script>
 <script>
 /* Create Agent — multi-step flow controller */
-document.getElementById('side').innerHTML=AX.sidebar('dashboard');
+document.getElementById('side').innerHTML=AX.sidebar('agents');
 document.getElementById('top').innerHTML=AX.topbar();
 const E=AX.esc;
 let cur=1;

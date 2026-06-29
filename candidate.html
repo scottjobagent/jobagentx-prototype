@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JobAgentX — Interviews</title>
+<title>JobAgentX — Candidate</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -410,19 +410,13 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
   <div id="side"></div>
   <main class="main">
     <div id="top"></div>
-    <div class="wrap">
-      <div class="page-head"><h1>Interviews</h1>
-        <div class="select" id="agentFilter">All agents <span class="ca">&#9662;</span></div>
-      </div>
-      <div class="subtabs">
-        <div class="subtab active" onclick="go('upcoming')" id="t-upcoming">Upcoming <span class="cnt" id="c-upcoming">0</span></div>
-        <div class="subtab" onclick="go('pending')" id="t-pending">Pending <span class="cnt" id="c-pending">0</span></div>
-        <div class="subtab" onclick="go('past')" id="t-past">Past <span class="cnt" id="c-past">0</span></div>
-      </div>
-      <div class="panel" style="border-top-left-radius:0;border-top-right-radius:0;border-top:none" id="tbl"></div>
-    </div>
+    <div class="wrap"><a class="back" id="back" href="#">&larr; Interview Room</a><div id="body"></div></div>
   </main>
 </div>
+<div class="overlay" id="declineModal"><div class="modal">
+  <h3>Decline this candidate?</h3><p id="declineText"></p>
+  <div class="modal-foot"><button class="btn btn-ghost btn-sm" onclick="closeDecline()">Keep candidate</button><button class="btn btn-danger btn-sm" id="confirmDecline">Decline</button></div>
+</div></div>
 <script>
 /* JobAgentX — shared mock data + helpers (sessionStorage) */
 const AX=(function(){
@@ -548,43 +542,58 @@ const AX=(function(){
 
 </script>
 <script>
-document.getElementById('side').innerHTML=AX.sidebar('interviews');
+document.getElementById('side').innerHTML=AX.sidebar('agents');
 document.getElementById('top').innerHTML=AX.topbar();
-const E=AX.esc;let tab='upcoming',filter='all';
-const s=AX.get();
-function all(){
-  let list=[];
-  s.agents.forEach(a=>{if(filter!=='all'&&a.id!==filter)return;(a.candidates||[]).forEach(c=>list.push({...c,agent:a.role,role:c.role}));});
-  return list;
-}
-function bucket(st){const m={upcoming:'upcoming',pending:'awaiting',past:'interviewed'};return all().filter(c=>c.status===m[st]);}
-function nameCell(x){return `<div class="namecell"><div class="ava-c">${E(AX.ini(x.name))}</div><div><div class="nm">${E(x.name)}</div><div class="links"><a href="#" onclick="return rsm()">View resume</a><a href="messaging.html">Message</a></div></div></div>`;}
+const E=AX.esc, aid=AX.qs('a'), cid=AX.qs('c');
+const a=AX.agent(aid);let c=a&&AX.candidate(aid,cid);
+document.getElementById('back').href='interview-room.html?a='+aid;
+if(!a||!c){document.getElementById('body').innerHTML='<div class="empty">Candidate not found. <a class="link" href="agents.html">Back</a></div>';}else render();
 
-function counts(){['upcoming','pending','past'].forEach(t=>document.getElementById('c-'+t).textContent=bucket(t).length);}
 function render(){
-  counts();
-  ['upcoming','pending','past'].forEach(t=>document.getElementById('t-'+t).className='subtab'+(t===tab?' active':''));
-  const rows=bucket(tab);
-  const tbl=document.getElementById('tbl');
-  if(!rows.length){tbl.innerHTML=`<div class="empty">You don't have ${tab} interviews. ${tab==='upcoming'?'All scheduled interviews will show up here.':''}</div>`;return;}
-  if(tab==='pending'){
-    tbl.innerHTML=`<table><thead><tr><th>Name</th><th>Role</th><th>Requested time</th><th style="width:320px">Action</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${nameCell(x)}</td><td>${E(x.role)}</td><td>${E(x.time)} PDT</td><td><div class="row2" style="gap:8px;max-width:310px"><button class="btn btn-accept btn-xs">Accept</button><button class="btn btn-line btn-xs">Reschedule</button><button class="btn btn-line btn-xs">Decline</button></div></td></tr>`).join('')}</tbody></table>`;
-  }else if(tab==='upcoming'){
-    tbl.innerHTML=`<table><thead><tr><th>Name</th><th>Role</th><th>Interview time</th><th style="width:250px">Action</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${nameCell(x)}</td><td>${E(x.role)}</td><td>${E(x.time)} PDT</td><td><div class="row2" style="gap:8px;max-width:240px"><button class="btn btn-line btn-xs">Reschedule</button><button class="btn btn-line btn-xs">Cancel</button></div></td></tr>`).join('')}</tbody></table>`;
-  }else{
-    tbl.innerHTML=`<table><thead><tr><th>Name</th><th>Role</th><th>Interview</th><th>Feedback</th><th style="width:150px">Action</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${nameCell(x)}</td><td>${E(x.role)}</td><td>${E(x.time)} PDT</td><td><span class="chip ${x.feedback==='Yes'?'active':'sourcing'}"><span class="dot"></span>${E(x.feedback||'Review')}</span></td><td><a class="link" href="messaging.html">Follow up</a></td></tr>`).join('')}</tbody></table>`;
-  }
+  c=AX.candidate(aid,cid);
+  let actions='';
+  if(c.status==='awaiting')actions=`<div class="actions-bar" style="display:flex;gap:10px;margin-top:20px"><button class="btn btn-danger" style="flex:1" onclick="openDecline()">Decline</button><button class="btn btn-primary" style="flex:1" onclick="accept()">Accept &amp; schedule</button></div>`;
+  else if(c.status==='upcoming')actions=`<div class="banner-scheduled" style="background:#e6eef5;border:1px solid #cdddea;color:var(--ink-2);border-radius:11px;padding:13px 16px;margin-top:18px;font-weight:500">&#128197; Interview scheduled — ${E(c.time)}</div>`;
+  else if(c.status==='interviewed')actions=`<div class="banner-scheduled" style="background:#dff0e6;border:1px solid #bfe3cd;color:var(--green);border-radius:11px;padding:13px 16px;margin-top:18px;font-weight:500">&#10003; Interviewed${c.feedback?' · '+E(c.feedback):''}</div>`;
+  else if(c.status==='declined')actions=`<div class="banner-scheduled" style="background:#eee9e0;border:1px solid var(--line);color:var(--muted);border-radius:11px;padding:13px 16px;margin-top:18px">This candidate was declined.</div>`;
+
+  document.getElementById('body').innerHTML=`
+  <div class="cd-grid">
+    <div class="card">
+      <div class="cd-head"><div class="ava-c">${E(AX.ini(c.name))}</div>
+        <div style="flex:1"><div class="cd-name">${E(c.name)}</div><div class="cd-sub">${E(c.headline||a.role)} &middot; ${E(c.location||'')}</div></div>
+        <div class="match" style="width:150px;flex:0 0 150px"><div class="mtop"><span>Match</span><b>${c.score}%</b></div><div class="bar"><i style="width:${c.score}%"></i></div></div>
+      </div>
+      <div class="cd-section">Experience</div>
+      ${(c.experience||[]).map(x=>`<div class="cd-exp"><div class="r">${E(x.role)}</div><div class="o">${E(x.org)} &middot; ${E(x.years)}</div><div class="n">${E(x.note||'')}</div></div>`).join('')||'<div class="sub">No experience on file.</div>'}
+      <div class="cd-section">Skills</div><div>${(c.skills||[]).map(sk=>`<span class="tag">${E(sk)}</span>`).join('')||'<span class="sub">—</span>'}</div>
+      <div class="cd-section">Screening answers</div>
+      ${(c.screening||[]).map(sc=>`<div class="cd-scr"><span>${E(sc.q)}</span><span class="a">${E(sc.a)}</span></div>`).join('')||'<div class="sub">No screening answers.</div>'}
+      <div class="cd-section">Resume</div>
+      <div class="resume-file" style="display:flex;align-items:center;gap:11px;background:var(--th-bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px"><div class="fi" style="width:34px;height:34px;border-radius:8px;background:#e9e2d5;display:flex;align-items:center;justify-content:center;color:var(--blue);font-weight:700;font-size:12px">PDF</div><div style="flex:1;font-size:13.5px">${E(c.resume)}</div><a class="link" href="#" onclick="alert('Resume preview is mocked.');return false">View</a></div>
+      ${actions}
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:18px">
+        <div class="cd-section" style="margin-top:0">Agent activity for this candidate</div>
+        <div class="timeline">${(c.activity||[]).map(t=>`<div class="tl"><span class="dot"></span><div><div class="tt">${E(t.t)}</div><div class="tm">${E(t.time)}</div></div></div>`).join('')||'<div class="sub">No activity yet.</div>'}</div>
+      </div>
+      <div class="card">
+        <div class="cd-section" style="margin-top:0">Messages</div>
+        <div class="chat-body" id="chatBody" style="max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:11px;padding:6px 0">${renderMsgs()}</div>
+        <div class="thread-input" style="display:flex;gap:9px;padding-top:13px;border-top:1px solid var(--line-soft)"><input class="setup-input" id="msgInput" placeholder="Write a message…" style="flex:1;padding:10px 13px;font-size:14px" onkeydown="if(event.key==='Enter')sendMsg()"><button class="btn btn-primary btn-sm" onclick="sendMsg()">Send</button></div>
+      </div>
+    </div>
+  </div>`;
+  const cb=document.getElementById('chatBody');if(cb)cb.scrollTop=cb.scrollHeight;
 }
-window.go=function(t){tab=t;render();};
-window.rsm=function(){alert('Resume preview is mocked in this prototype.');return false;};
-// agent filter dropdown (simple cycle)
-document.getElementById('agentFilter').onclick=function(){
-  const ids=['all',...s.agents.map(a=>a.id)];
-  const i=ids.indexOf(filter);filter=ids[(i+1)%ids.length];
-  const label=filter==='all'?'All agents':AX.agent(filter).role;
-  this.innerHTML=E(label)+' <span class="ca">&#9662;</span>';render();
-};
-render();
+function renderMsgs(){if(!c.messages||!c.messages.length)return '<div class="sub" style="text-align:center;margin:auto">No messages yet.</div>';return c.messages.map(m=>`<div class="bub ${m.from==='recruiter'?'me':'them'}" style="max-width:80%;padding:10px 14px;border-radius:14px;font-size:14px;${m.from==='recruiter'?'align-self:flex-end;background:var(--blue);color:#fff;border-bottom-right-radius:4px':'align-self:flex-start;background:#f0eee9;border-bottom-left-radius:4px'}">${E(m.text)}</div>`).join('');}
+window.sendMsg=function(){const i=document.getElementById('msgInput');const t=i.value.trim();if(!t)return;c.messages=c.messages||[];c.messages.push({from:'recruiter',text:t});AX.updateCandidate(aid,cid,{messages:c.messages});i.value='';document.getElementById('chatBody').innerHTML=renderMsgs();const b=document.getElementById('chatBody');b.scrollTop=b.scrollHeight;setTimeout(()=>{c.messages.push({from:'candidate',text:'Got it — thanks!'});AX.updateCandidate(aid,cid,{messages:c.messages});document.getElementById('chatBody').innerHTML=renderMsgs();const b2=document.getElementById('chatBody');if(b2)b2.scrollTop=b2.scrollHeight;},1000);};
+window.accept=function(){const rr=AX.agent(aid);AX.updateCandidate(aid,cid,{status:'upcoming'});AX.update(aid,{confirmed:(rr.confirmed||0)+1,awaiting:Math.max(0,(rr.awaiting||0)-1)});render();};
+window.openDecline=function(){document.getElementById('declineText').innerHTML=`<b>${E(c.name)}</b> will be removed from your matches for <b>${E(a.role)}</b>.`;document.getElementById('declineModal').classList.add('show');};
+window.closeDecline=function(){document.getElementById('declineModal').classList.remove('show');};
+document.getElementById('confirmDecline').onclick=function(){AX.updateCandidate(aid,cid,{status:'declined'});const rr=AX.agent(aid);AX.update(aid,{awaiting:Math.max(0,(rr.awaiting||0)-1)});closeDecline();render();};
+document.getElementById('declineModal').addEventListener('click',e=>{if(e.target.id==='declineModal')closeDecline();});
 </script>
 </body>
 </html>

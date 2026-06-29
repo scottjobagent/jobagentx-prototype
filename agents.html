@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JobAgentX — Interviews</title>
+<title>JobAgentX — Agents</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -411,15 +411,19 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
   <main class="main">
     <div id="top"></div>
     <div class="wrap">
-      <div class="page-head"><h1>Interviews</h1>
-        <div class="select" id="agentFilter">All agents <span class="ca">&#9662;</span></div>
+      <div class="head-card">
+        <div class="co" id="co">Northwind Co</div>
+        <a class="btn btn-primary" href="create-agent.html"><span style="font-size:18px;line-height:1">&#65291;</span> Create Agent</a>
       </div>
-      <div class="subtabs">
-        <div class="subtab active" onclick="go('upcoming')" id="t-upcoming">Upcoming <span class="cnt" id="c-upcoming">0</span></div>
-        <div class="subtab" onclick="go('pending')" id="t-pending">Pending <span class="cnt" id="c-pending">0</span></div>
-        <div class="subtab" onclick="go('past')" id="t-past">Past <span class="cnt" id="c-past">0</span></div>
+      <div class="tabs">
+        <button class="tab active">Active agents <span class="cnt" id="activeCnt"></span></button>
+        <button class="tab">Paused <span class="cnt">0</span></button>
+        <div class="spacer"></div>
+        <div class="select">Filter agents <span class="ca">&#9662;</span></div>
       </div>
-      <div class="panel" style="border-top-left-radius:0;border-top-right-radius:0;border-top:none" id="tbl"></div>
+      <div class="panel"><table><thead><tr>
+        <th style="width:130px">Actions</th><th>Agent Details</th><th>Interview Room</th><th>Interview Setup</th><th>Candidates</th>
+      </tr></thead><tbody id="rows"></tbody></table></div>
     </div>
   </main>
 </div>
@@ -548,43 +552,27 @@ const AX=(function(){
 
 </script>
 <script>
-document.getElementById('side').innerHTML=AX.sidebar('interviews');
+document.getElementById('side').innerHTML=AX.sidebar('agents');
 document.getElementById('top').innerHTML=AX.topbar();
-const E=AX.esc;let tab='upcoming',filter='all';
-const s=AX.get();
-function all(){
-  let list=[];
-  s.agents.forEach(a=>{if(filter!=='all'&&a.id!==filter)return;(a.candidates||[]).forEach(c=>list.push({...c,agent:a.role,role:c.role}));});
-  return list;
+const E=AX.esc,s=AX.get();
+document.getElementById('co').textContent=s.company;
+document.getElementById('activeCnt').textContent=s.agents.filter(a=>a.status!=='paused').length;
+function statusLine(a){const m={sourcing:['amber','Sourcing'],paused:['gray','Paused']}[a.status]||['green','Active'];return `<div class="setup-line"><span class="dot ${m[0]}"></span>${m[1]}</div>`;}
+function ivText(a){const n=a.interviewers.length;return `<div class="strong">${n} interviewer${n>1?'s':''}</div><div class="small mt6">${n} of 5 interviewers</div>`;}
+function candCell(a){if(a.status==='sourcing')return '<div class="sub">Sourcing first candidates&hellip;</div>';return `<div class="cand-count"><div class="awaiting"><span class="dot"></span>${a.awaiting} awaiting response</div><div class="mt6">${a.confirmed} confirmed interviews</div><a class="link mt6" style="display:inline-block" href="interview-room.html?a=${a.id}">Manage candidates</a></div>`;}
+function roomCell(a){if(a.status==='sourcing')return '<div class="sub">Opens once sourcing starts</div>';return `<div>Virtual interviews</div><a class="link" href="interview-room.html?a=${a.id}">Open Interview Room</a>`;}
+function nudgeRow(a){
+  const n=AX.nudge(a);
+  if(n.tone==='accent')return `<tr class="nudge-row"><td colspan="5"><div class="nudge accent"><span class="nb">&#128161;</span><span class="nt"><b>Next best action:</b> ${E(n.text)} <span class="ns">· ${E(n.sub)}</span></span><a class="act" href="${n.target}">${E(n.label)} &rarr;</a></div></td></tr>`;
+  return `<tr class="nudge-row"><td colspan="5"><div class="nudge muted"><span class="nb" style="color:var(--muted)">&#9679;</span><span class="nt">${E(n.text)}</span></div></td></tr>`;
 }
-function bucket(st){const m={upcoming:'upcoming',pending:'awaiting',past:'interviewed'};return all().filter(c=>c.status===m[st]);}
-function nameCell(x){return `<div class="namecell"><div class="ava-c">${E(AX.ini(x.name))}</div><div><div class="nm">${E(x.name)}</div><div class="links"><a href="#" onclick="return rsm()">View resume</a><a href="messaging.html">Message</a></div></div></div>`;}
-
-function counts(){['upcoming','pending','past'].forEach(t=>document.getElementById('c-'+t).textContent=bucket(t).length);}
-function render(){
-  counts();
-  ['upcoming','pending','past'].forEach(t=>document.getElementById('t-'+t).className='subtab'+(t===tab?' active':''));
-  const rows=bucket(tab);
-  const tbl=document.getElementById('tbl');
-  if(!rows.length){tbl.innerHTML=`<div class="empty">You don't have ${tab} interviews. ${tab==='upcoming'?'All scheduled interviews will show up here.':''}</div>`;return;}
-  if(tab==='pending'){
-    tbl.innerHTML=`<table><thead><tr><th>Name</th><th>Role</th><th>Requested time</th><th style="width:320px">Action</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${nameCell(x)}</td><td>${E(x.role)}</td><td>${E(x.time)} PDT</td><td><div class="row2" style="gap:8px;max-width:310px"><button class="btn btn-accept btn-xs">Accept</button><button class="btn btn-line btn-xs">Reschedule</button><button class="btn btn-line btn-xs">Decline</button></div></td></tr>`).join('')}</tbody></table>`;
-  }else if(tab==='upcoming'){
-    tbl.innerHTML=`<table><thead><tr><th>Name</th><th>Role</th><th>Interview time</th><th style="width:250px">Action</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${nameCell(x)}</td><td>${E(x.role)}</td><td>${E(x.time)} PDT</td><td><div class="row2" style="gap:8px;max-width:240px"><button class="btn btn-line btn-xs">Reschedule</button><button class="btn btn-line btn-xs">Cancel</button></div></td></tr>`).join('')}</tbody></table>`;
-  }else{
-    tbl.innerHTML=`<table><thead><tr><th>Name</th><th>Role</th><th>Interview</th><th>Feedback</th><th style="width:150px">Action</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${nameCell(x)}</td><td>${E(x.role)}</td><td>${E(x.time)} PDT</td><td><span class="chip ${x.feedback==='Yes'?'active':'sourcing'}"><span class="dot"></span>${E(x.feedback||'Review')}</span></td><td><a class="link" href="messaging.html">Follow up</a></td></tr>`).join('')}</tbody></table>`;
-  }
-}
-window.go=function(t){tab=t;render();};
-window.rsm=function(){alert('Resume preview is mocked in this prototype.');return false;};
-// agent filter dropdown (simple cycle)
-document.getElementById('agentFilter').onclick=function(){
-  const ids=['all',...s.agents.map(a=>a.id)];
-  const i=ids.indexOf(filter);filter=ids[(i+1)%ids.length];
-  const label=filter==='all'?'All agents':AX.agent(filter).role;
-  this.innerHTML=E(label)+' <span class="ca">&#9662;</span>';render();
-};
-render();
+document.getElementById('rows').innerHTML=s.agents.map(a=>`
+  <tr>
+    <td><div class="act"><div class="row"><span class="iconbtn" title="Edit" onclick="location.href='create-agent.html'">&#9998;</span><span class="iconbtn" title="More">&#8943;</span></div>${statusLine(a)}</div></td>
+    <td><div class="strong" style="font-size:15px">${E(a.role)}</div><div class="small mt6">&#128205; ${E(a.location)}</div></td>
+    <td>${roomCell(a)}</td><td>${ivText(a)}</td><td>${candCell(a)}</td>
+  </tr>
+  ${nudgeRow(a)}`).join('');
 </script>
 </body>
 </html>
