@@ -475,6 +475,37 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
 .lcard{background:#fff;border-radius:16px;border:1px solid #ebebeb;padding:24px 28px;margin-bottom:18px}
 .lcard .room-sec-h{margin:0 0 14px}
 
+/* ===== Lobby header controls (dots menu + status dropdown), exact from lobby-v3 ===== */
+.iv-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:6px}
+.iv-actions{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.preview-center{display:flex;justify-content:center;margin:2px 0 14px}
+.bpill.sm{padding:5px 6px}
+.bpill.sm .bn{height:22px;min-width:22px;padding:0 9px;font-size:12px}
+.bpill.sm .bl{font-size:10px;padding:0 6px}
+.dots-btn{width:40px;height:40px;border-radius:8px;border:1px solid #d4d2d0;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s;position:relative;padding:0}
+.dots-btn:hover{background:#f3f2ef;border-color:#0044b3}
+.dots-btn svg{width:20px;height:20px}
+.dots-menu{position:absolute;top:46px;right:0;background:#fff;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.12);border:1px solid #d4d2d0;min-width:300px;z-index:500;display:none;padding:8px 0}
+.dots-menu.open{display:block}
+.dots-menu-item{display:flex;align-items:center;justify-content:space-between;width:100%;padding:16px 24px;font-size:16px;font-weight:400;color:#2d2d2d;background:none;border:none;text-align:left;cursor:pointer;font-family:inherit;transition:background .1s;white-space:nowrap}
+.dots-menu-item:hover{background:#f3f2ef}
+.dots-menu-item .external-icon{width:16px;height:16px;color:#595959;flex-shrink:0}
+.status-dropdown-wrap{position:relative;flex-shrink:0}
+.status-dropdown-btn{display:flex;align-items:center;gap:6px;padding:9px 15px;border-radius:8px;border:2px solid #0044b3;background:#fff;cursor:pointer;font-family:inherit;font-size:14px;transition:.15s}
+.status-dropdown-btn .status-label{color:#595959;font-weight:400}
+.status-dropdown-btn .status-dot,.status-dropdown-option .status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.status-dot.online{background:#16a34a}
+.status-dot.away{background:#999}
+.status-dropdown-btn .status-value{font-weight:700;color:#0044b3}
+.status-dropdown-btn .status-value.away{color:#595959}
+.status-chevron{width:14px;height:14px;color:#595959;transition:transform .15s}
+.status-dropdown-btn.open .status-chevron{transform:rotate(180deg)}
+.status-dropdown-menu{position:absolute;top:calc(100% + 6px);right:0;background:#fff;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.12);border:1px solid #d4d2d0;min-width:180px;z-index:500;display:none;padding:4px 0}
+.status-dropdown-menu.open{display:block}
+.status-dropdown-option{display:flex;align-items:center;gap:8px;width:100%;padding:12px 16px;font-size:15px;font-weight:700;color:#2d2d2d;background:none;border:none;text-align:left;cursor:pointer;font-family:inherit}
+.status-dropdown-option:hover,.status-dropdown-option.selected{background:#f3f2ef}
+.status-dropdown-option .status-check{width:16px;color:#2d2d2d;font-size:16px;text-align:center;flex-shrink:0}
+
 </style>
 </head>
 <body>
@@ -483,23 +514,14 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
   <main class="main">
     <div id="top"></div>
     <div class="wrap">
-      <div class="page-head" style="margin-bottom:6px"><h1 style="color:var(--ink)">Interviews</h1>
-        <div class="bpill"><span class="bl">Preview</span>
-          <button class="bn on" data-st="active" onclick="setState('active')">Active</button>
-          <button class="bn" data-st="empty" onclick="setState('empty')">Empty</button>
-          <button class="bn" data-st="live" onclick="setState('live')">Live</button>
-          <button class="bn" data-st="liveempty" onclick="setState('liveempty')">Live empty</button>
-          <button class="bn" data-st="ended" onclick="setState('ended')">Ended</button>
-        </div>
-      </div>
-      <div class="lobby-bar">
-        <span class="avail">Your status:
-          <span class="seg"><button id="av-on" class="on" onclick="setAvail(true)">Available</button><button id="av-off" class="away" onclick="setAvail(false)">Away</button></span>
-        </span>
-        <button class="lobby-link" onclick="openM('ivModal')">Add interviewers</button>
-        <button class="lobby-link" onclick="openM('nameModal')">Update display name</button>
-        <button class="lobby-link" onclick="openM('vtModal')">Test video and audio</button>
-      </div>
+      <div class="preview-center"><div class="bpill sm"><span class="bl">Preview</span>
+        <button class="bn on" data-st="active" onclick="setState('active')">Active</button>
+        <button class="bn" data-st="empty" onclick="setState('empty')">Empty</button>
+        <button class="bn" data-st="live" onclick="setState('live')">Live</button>
+        <button class="bn" data-st="liveempty" onclick="setState('liveempty')">Live empty</button>
+        <button class="bn" data-st="ended" onclick="setState('ended')">Ended</button>
+      </div></div>
+      <div class="iv-head"><h1 style="color:var(--ink)">Interviews</h1><div class="iv-actions" id="ivActions"></div></div>
       <div class="ltabs-wrap"><div class="ltabs" id="tabs"></div></div>
       <div class="lpanel" id="content"></div>
     </div>
@@ -706,9 +728,20 @@ function render(){
   }
   C.innerHTML=h;
 }
-window.setState=function(s){state=s;document.querySelectorAll('.bpill .bn').forEach(b=>b.classList.toggle('on',b.dataset.st===s));render();};
+window.setState=function(s){state=s;dotsOpen=false;statusOpen=false;document.querySelectorAll('.bpill .bn').forEach(b=>b.classList.toggle('on',b.dataset.st===s));renderActions();render();};
 window.setTab=function(t){tab=t;render();};
-window.setAvail=function(on){document.getElementById('av-on').classList.toggle('on',on);document.getElementById('av-off').classList.toggle('on',!on);};
+const DOTS_SVG='<svg viewBox="0 0 24 24" fill="#0044B3"><circle cx="6" cy="12" r="2.3"></circle><circle cx="12" cy="12" r="2.3"></circle><circle cx="18" cy="12" r="2.3"></circle></svg>';
+const EXT_SVG='<svg class="external-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3h7v7"></path><path d="M10 14L21 3"></path><path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"></path></svg>';
+const CHEV_SVG='<svg class="status-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg>';
+let avail=true,dotsOpen=false,statusOpen=false;
+function statusWrap(){return '<div class="status-dropdown-wrap"><button class="status-dropdown-btn '+(statusOpen?'open':'')+'" onclick="toggleStatus(event)"><span class="status-label">Your status:</span><span class="status-dot '+(avail?'online':'away')+'"></span><span class="status-value '+(avail?'':'away')+'">'+(avail?'Available':'Away')+'</span>'+CHEV_SVG+'</button><div class="status-dropdown-menu '+(statusOpen?'open':'')+'"><button class="status-dropdown-option '+(avail?'selected':'')+'" onclick="setAvail(true)"><span class="status-check">'+(avail?'\u2713':'')+'</span><span class="status-dot online"></span>Available</button><button class="status-dropdown-option '+(avail?'':'selected')+'" onclick="setAvail(false)"><span class="status-check">'+(avail?'':'\u2713')+'</span><span class="status-dot away"></span>Away</button></div></div>';}
+function dotsWrap(){return '<div style="position:relative"><button class="dots-btn" onclick="toggleDots(event)">'+DOTS_SVG+'</button><div class="dots-menu '+(dotsOpen?'open':'')+'"><button class="dots-menu-item" onclick="dmi(\'ivModal\')">Add interviewers</button><button class="dots-menu-item" onclick="dmi(\'nameModal\')">Update display name</button><button class="dots-menu-item" onclick="dmi(\'vtModal\')">Test video and audio '+EXT_SVG+'</button></div></div>';}
+function renderActions(){const live=(state==='live'||state==='liveempty');document.getElementById('ivActions').innerHTML=(live?statusWrap():'')+dotsWrap();}
+window.toggleDots=function(e){e.stopPropagation();dotsOpen=!dotsOpen;statusOpen=false;renderActions();};
+window.toggleStatus=function(e){e.stopPropagation();statusOpen=!statusOpen;dotsOpen=false;renderActions();};
+window.dmi=function(id){dotsOpen=false;renderActions();openM(id);};
+window.setAvail=function(on){avail=on;statusOpen=false;renderActions();};
+document.addEventListener('click',function(){if(dotsOpen||statusOpen){dotsOpen=false;statusOpen=false;renderActions();}});
 window.rsm=function(){alert('Resume preview is mocked.');};
 window.openM=function(id){if(id==='ivModal')renderIv();if(id==='vtModal')renderBg();document.getElementById(id).classList.add('show');};
 window.closeM=function(id){document.getElementById(id).classList.remove('show');};
@@ -728,7 +761,7 @@ const BGS=['Blur','#bcd4ef','#1f3a8a','#f7c5d4','#e24b4a','#1d9e75','#3a3a3a','#
 function renderBg(){document.getElementById('bgGrid').innerHTML='<div class="bg-swatch none sel" title="None">⊘</div>'+BGS.map(b=>'<div class="bg-swatch" style="background:'+(b==='Blur'?'#e7e5e1':b)+'" title="'+b+'" onclick="pickBg(this)"></div>').join('');}
 window.pickBg=function(el){document.querySelectorAll('.bg-swatch').forEach(s=>s.classList.remove('sel'));el.classList.add('sel');};
 [...document.querySelectorAll('.overlay')].forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('show');}));
-render();
+renderActions();render();
 </script>
 </body>
 </html>
